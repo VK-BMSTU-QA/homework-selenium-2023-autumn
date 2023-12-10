@@ -1,4 +1,5 @@
 import time
+from typing import List
 
 import allure
 from selenium.webdriver.remote.webelement import WebElement
@@ -18,7 +19,9 @@ class BasePage(object):
     def is_opened(self, timeout=15):
         started = time.time()
         while time.time() - started < timeout:
-            if self.driver.current_url.startswith(self.url):
+            idx = self.driver.current_url.find('?')
+            url = self.driver.current_url[:idx if idx != -1 else len(self.driver.current_url)]
+            if url == self.url:
                 return True
         raise PageNotOpenedException(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
@@ -31,11 +34,14 @@ class BasePage(object):
             timeout = 5
         return WebDriverWait(self.driver, timeout=timeout)
 
-    def find(self, locator, timeout=None):
+    def find_element(self, locator, timeout=None):
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
 
+    def find_elements(self, locator, timeout=None) -> List[WebElement]:
+        return self.wait(timeout).until(EC.presence_of_all_elements_located(locator))
+
     def click(self, locator, timeout=None) -> WebElement:
-        self.find(locator, timeout=timeout)
+        self.find_element(locator, timeout=timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
         return elem
@@ -46,5 +52,15 @@ class BasePage(object):
         elem.send_keys(text)
         return elem
 
+    def is_visible(self, locator, timeout=None):
+        try:
+            self.wait(timeout).until(EC.visibility_of_element_located(locator))
+            return True
+        except:
+            return False
+
     def check_url(self, url, timeout=None):
         self.wait(timeout).until(EC.url_to_be(url))
+
+    def go_to_cabinet(self):
+        self.click(self.locators.GO_TO_CABINET_BTN)

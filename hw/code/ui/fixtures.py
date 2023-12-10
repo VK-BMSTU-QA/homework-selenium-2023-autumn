@@ -8,8 +8,10 @@ from selenium.webdriver.chrome.service import Service
 
 from ui.pages.audience_page import AudiencePage
 from ui.pages.base_page import BasePage
+from ui.pages.create_cabinet_page import CreateCabinetPage
 from ui.pages.hq_page import HqPage
 from ui.pages.login_page import LoginPage
+from ui.pages.registration_page import RegistrationPage
 
 
 @pytest.fixture()
@@ -65,8 +67,12 @@ def all_drivers(config, request):
 
 
 @pytest.fixture(scope='session')
-def credentials():
+def load_env():
     load_dotenv()
+
+
+@pytest.fixture(scope='session')
+def credentials(load_env):
     return os.getenv("LOGIN"), os.getenv("PASSWORD")
 
 
@@ -82,12 +88,23 @@ def login_page(driver):
 
 
 @pytest.fixture
-def hq_page(login_page, credentials):
-    login_page.login(*credentials)
-    return HqPage(login_page.driver)
+def registration_page(driver):
+    driver.get(RegistrationPage.url)
+    return RegistrationPage(driver=driver)
 
 
 @pytest.fixture
-def audience_page(hq_page):
-    hq_page.driver.get(AudiencePage.url)
-    return AudiencePage(driver=hq_page.driver)
+def create_cabinet_page(registration_page, driver):
+    driver.get(CreateCabinetPage.url)
+    return CreateCabinetPage(driver=driver)
+
+
+@pytest.fixture
+def hq_page(login_page, credentials, driver):
+    return HqPage(driver)
+
+
+@pytest.fixture
+def audience_page(hq_page, driver):
+    driver.get(AudiencePage.url)
+    return AudiencePage(driver=driver)

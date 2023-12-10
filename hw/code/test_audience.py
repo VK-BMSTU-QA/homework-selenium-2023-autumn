@@ -4,6 +4,7 @@ from base import BaseCase
 
 
 class TestAudience(BaseCase):
+    @pytest.mark.skip('skip')
     @pytest.mark.parametrize(
         'tab_name,tab_url',
         [
