@@ -46,3 +46,8 @@ class HqPageLocators(BasePageLocators):
 class AudiencePageLocators(BasePageLocators):
     AUDIENCE_TAB = (By.ID, 'tab_audience')
     USERS_TAB = (By.ID, 'tab_audience.users_list')
+
+
+class SettingsPageLocators(BasePageLocators):
+    DELETE_CABINET_BTN = (By.XPATH, "//button[contains(@class, 'DeleteAccount_button')]")
+    CONFIRM_DELETE_CABINET_BTN = (By.XPATH, "//button[contains(., 'Да, удалить')]")

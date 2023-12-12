@@ -12,6 +12,7 @@ from ui.pages.create_cabinet_page import CreateCabinetPage
 from ui.pages.hq_page import HqPage
 from ui.pages.login_page import LoginPage
 from ui.pages.registration_page import RegistrationPage
+from ui.pages.settings_page import SettingsPage
 
 
 @pytest.fixture()
@@ -94,17 +95,24 @@ def registration_page(driver):
 
 
 @pytest.fixture
-def create_cabinet_page(registration_page, driver):
+def create_cabinet_page(driver):
     driver.get(CreateCabinetPage.url)
     return CreateCabinetPage(driver=driver)
 
 
 @pytest.fixture
-def hq_page(login_page, credentials, driver):
-    return HqPage(driver)
+def hq_page(driver):
+    driver.get(HqPage.url)
+    return HqPage(driver=driver)
 
 
 @pytest.fixture
-def audience_page(hq_page, driver):
+def audience_page(driver):
     driver.get(AudiencePage.url)
     return AudiencePage(driver=driver)
+
+
+@pytest.fixture
+def settings_page(driver):
+    driver.get(SettingsPage.url)
+    return SettingsPage(driver=driver)
