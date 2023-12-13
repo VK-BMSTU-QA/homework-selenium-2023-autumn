@@ -5,12 +5,13 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 from ui.pages.base_page import BasePage
 
+service = Service(executable_path=GeckoDriverManager().install())
+
 
 @pytest.fixture()
 def driver(config):
     browser = config["browser"]
     options = Options()
-    service = Service(executable_path=GeckoDriverManager().install())
     if browser == "chrome":
         driver = webdriver.Chrome(options=options, service=service)
     elif browser == "firefox":
@@ -26,7 +27,6 @@ def driver(config):
 
 def get_driver(browser_name):
     options = Options()
-    service = Service(executable_path=GeckoDriverManager().install())
     if browser_name == "chrome":
         browser = webdriver.Chrome(options=options, service=service)
     elif browser_name == "firefox":

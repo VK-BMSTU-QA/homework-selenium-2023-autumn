@@ -24,6 +24,7 @@ class BaseCase:
             self.driver.close()
         self.driver.switch_to.window(current)
 
+    # Setup driver, config and logger to self. Add base page to self
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, driver, config, logger, request: FixtureRequest):
         self.driver = driver
