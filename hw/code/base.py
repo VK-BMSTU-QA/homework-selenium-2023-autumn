@@ -21,7 +21,10 @@ class BaseCase:
         if self.authorize:
             print("Login...")
             login_page.login(*credentials)
-            RegistrationPage(driver=driver).is_opened()
+            # try:
+            # RegistrationPage(driver=driver).is_opened()
+            # except:
+            CampaignsPage(driver=driver).is_opened()
             print("Login completed.")
 
         if self.create_cabinet:

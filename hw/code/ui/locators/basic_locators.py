@@ -44,8 +44,31 @@ class HqPageLocators(BasePageLocators):
 
 
 class AudiencePageLocators(BasePageLocators):
+    # Navigate
     AUDIENCE_TAB = (By.ID, 'tab_audience')
     USERS_TAB = (By.ID, 'tab_audience.users_list')
+
+    # Create
+    CREATE_AUDIENCE_BTN = BasePageLocators.by_css_selector('data-testid', 'create-audience')
+    AUDIENCE_TITLE_INPUT = (By.XPATH, "//input[contains(@class, 'vkuiInput__el')]")
+    ADD_SRC_BTN = (By.XPATH, "//button[contains(., 'Добавить источник')]")
+    KEYWORDS_INPUT = (By.XPATH, "//*[not(contains(@class, 'KeyPhrases_negationPhrases'))]/*/textarea")
+    NEG_KEYWORDS_INPUT = (By.XPATH, "//*[contains(@class, 'KeyPhrases_row')]/*/textarea")
+    SAVE_AUDIENCE_BTN = (By.XPATH, "//button[contains(., 'Сохранить')]")
+    KEYWORDS_SAVE_BTN = (By.XPATH, "//button[contains(., 'Сохранить')][not(@disabled)]")
+    MODAL_WINDOW = (By.XPATH, "//div[contains(@class, 'ModalRoot_overlay')]")
+
+    # Delete
+    AUDIENCE_OPTION = (By.XPATH, "//label[contains(@data-testid, 'dropdown-item')]")
+    CONFIRM_DELETE_BTN = (By.XPATH, "//button[contains(., 'Удалить')]")
+
+    @staticmethod
+    def src_by_text(text):
+        return By.XPATH, f"//div[contains(@class, 'vkuiSimpleCell')][contains(., '{text}')]"
+
+    @staticmethod
+    def audience_details_btn_by_name(name):
+        return By.XPATH, f"//div[contains(@class, 'NameCell_wrapper')][contains(., '{name}')]//button[contains(@data-testid, 'audience-item-menu')]"
 
 
 class SettingsPageLocators(BasePageLocators):

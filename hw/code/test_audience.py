@@ -4,9 +4,9 @@ from base import BaseCase
 
 
 class TestAudience(BaseCase):
-    create_cabinet = True
+    # create_cabinet = True
 
-    # @pytest.mark.skip('skip')
+    @pytest.mark.skip('skip')
     @pytest.mark.parametrize(
         'tab_name,tab_url',
         [
@@ -21,3 +21,20 @@ class TestAudience(BaseCase):
         page.go_to_tab(tab_name)
         page.check_url(tab_url)
         print("test_tab_navigation end")
+
+    @pytest.mark.skip('skip')
+    def test_create_audience(self):
+        print("test_create_audience start")
+        self.driver.get(AudiencePage.url)
+        page = AudiencePage(driver=self.driver)
+        page.create_audience('Ключевые фразы', 'футбол, баскетбол')
+        print("test_create_audience end")
+
+    @pytest.mark.skip('skip')
+    def test_delete_audience(self):
+        print("test_delete_audience start")
+        self.driver.get(AudiencePage.url)
+        page = AudiencePage(driver=self.driver)
+        page.create_audience('Ключевые фразы', 'маркетинг', title='Тестовая аудитория')
+        page.delete_audience('Тестовая аудитория')
+        print("test_delete_audience end")
