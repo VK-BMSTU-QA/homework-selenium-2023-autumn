@@ -6,4 +6,6 @@
 
 ```
 pytest --verbose -s hw/code
+или
+./runner_tests.sh
 ```
