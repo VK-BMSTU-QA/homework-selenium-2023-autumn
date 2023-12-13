@@ -65,6 +65,9 @@ class BasePage(object):
     def is_invisible(self, locator, timeout=None):
         self.wait(timeout).until(EC.invisibility_of_element_located(locator))
 
+    def is_disabled(self, locator, timeout=None):
+        self.wait(timeout).until(EC.element_attribute_to_include(locator, 'disabled'))
+
     def is_visible(self, locator, timeout=None):
         try:
             self.wait(timeout).until(EC.visibility_of_element_located(locator))

@@ -18,13 +18,15 @@ class AudiencePage(HqPage):
         locator = self.tabs[tab_name]
         self.click(locator)
 
-    def create_audience(self, src_text, keywords, neg_keywords=None, title=None):
+    def create_audience(self, src_text, keywords, title=None, keywords_title=None, neg_keywords=None):
         self.click(self.locators.CREATE_AUDIENCE_BTN)
         if title is not None:
             self.fill(self.locators.AUDIENCE_TITLE_INPUT, title)
         self.click(self.locators.ADD_SRC_BTN)
         self.click(self.locators.src_by_text(src_text))
 
+        if keywords_title is not None:
+            self.fill(self.locators.KEYWORDS_TITLE_INPUT, keywords_title)
         self.fill(self.locators.KEYWORDS_INPUT, keywords)
         if neg_keywords is not None:
             self.fill(self.locators.NEG_KEYWORDS_INPUT, neg_keywords)

@@ -52,11 +52,17 @@ class AudiencePageLocators(BasePageLocators):
     CREATE_AUDIENCE_BTN = BasePageLocators.by_css_selector('data-testid', 'create-audience')
     AUDIENCE_TITLE_INPUT = (By.XPATH, "//input[contains(@class, 'vkuiInput__el')]")
     ADD_SRC_BTN = (By.XPATH, "//button[contains(., 'Добавить источник')]")
+
+    KEYWORDS_TITLE_INPUT = (By.XPATH,
+                            "//div[contains(@class, 'ModalRoot_overlay')][contains(., 'Ключевые фразы')]//input")
     KEYWORDS_INPUT = (By.XPATH, "//*[not(contains(@class, 'KeyPhrases_negationPhrases'))]/*/textarea")
     NEG_KEYWORDS_INPUT = (By.XPATH, "//*[contains(@class, 'KeyPhrases_row')]/*/textarea")
+    KEYWORDS_SAVE_BTN = (By.XPATH,
+                         "//div[contains(@class, 'ModalRoot_overlay')][contains(., 'Ключевые фразы')]//button[contains(., 'Сохранить')]")
     SAVE_AUDIENCE_BTN = (By.XPATH, "//button[contains(., 'Сохранить')]")
-    KEYWORDS_SAVE_BTN = (By.XPATH, "//button[contains(., 'Сохранить')][not(@disabled)]")
     MODAL_WINDOW = (By.XPATH, "//div[contains(@class, 'ModalRoot_overlay')]")
+
+    TITLE_ERROR = (By.XPATH, "//*[contains(@class, 'vkuiFootnote')][text()='Максимальная длина 255 символов']")
 
     # Delete
     AUDIENCE_OPTION = (By.XPATH, "//label[contains(@data-testid, 'dropdown-item')]")
