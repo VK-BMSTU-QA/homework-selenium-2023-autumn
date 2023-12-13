@@ -1,16 +1,24 @@
+import datetime
 from base import BaseCase
 from ui.pages.campaign_page import CampaignPage
+import os
 
 class TestCampaign(BaseCase):
 
-    def test_create_campaign(self):
+    def get_settings(self, repo_root):
+        return dict({
+        'url': 'sub-me.ru',
+        'budget': '100',
+        'region' : 'Москва',
+        'title' : 'название объявления',
+        'summary' : 'краткое описание',
+        'image_path': os.path.abspath(os.path.join(repo_root, '../images/image.jpg')),
+        })
+
+    def test_create_campaign(self, repo_root):
         campaign_page = CampaignPage(self.driver)
+        campaign_page.create_campaign(self.get_settings(repo_root))
+        elem = campaign_page.find(campaign_page.locators.CAMPAIGN_NAME)
+        assert "Кампания " + datetime.datetime.today().strftime("%Y-%m-%d") in elem.text
 
-        create_campaign_page = campaign_page.create_campaign()
-        assert create_campaign_page.is_opened()
-
-        create_group_page = create_campaign_page.configure_company_settings()
-        assert create_group_page.is_opened()
-
-        create_group_page.configure_group_settings('Москва')
 
