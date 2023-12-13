@@ -14,7 +14,7 @@ class PageNotOpenedExeption(Exception):
 class BasePage(object):
     locators = basic_locators.BasePageLocators()
     locators_main = basic_locators.MainPageLocators()
-    url = "https://www.python.org/"
+    url = "https://ads.vk.com/"
 
     # Open url
     def open(self):
