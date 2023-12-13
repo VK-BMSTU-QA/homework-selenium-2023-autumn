@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
 from ui.pages.audience_page import AudiencePage
+from ui.pages.campaign_page import CampaignPage
 from ui.pages.base_page import BasePage
 from ui.pages.create_cabinet_page import CreateCabinetPage
 from ui.pages.hq_page import HqPage
@@ -14,6 +15,8 @@ from ui.pages.login_page import LoginPage
 from ui.pages.registration_page import RegistrationPage
 from ui.pages.settings_notifications_page import SettingsNotificationsPage
 from ui.pages.settings_page import SettingsPage
+from ui.pages.budget_page import BudgetPage
+from ui.pages.sites_page import SitesPage
 
 
 @pytest.fixture()
@@ -23,6 +26,7 @@ def driver(config):
     selenoid = config['selenoid']
     vnc = config['vnc']
     options = Options()
+    #options.add_argument("--headless=new")
 
     if selenoid:
         capabilities = {
@@ -36,7 +40,7 @@ def driver(config):
             options=options
         )
     elif browser == 'chrome':
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=options)
     elif browser == 'firefox':
         driver = webdriver.Firefox()
     else:
@@ -118,8 +122,26 @@ def settings_page(driver):
     driver.get(SettingsPage.url)
     return SettingsPage(driver=driver)
 
-
 @pytest.fixture
 def settings_notifications_page(driver):
     driver.get(SettingsNotificationsPage.url)
     return SettingsNotificationsPage(driver=driver)
+
+def audience_page(hq_page):
+    hq_page.driver.get(AudiencePage.url)
+    return AudiencePage(driver=hq_page.driver)
+
+@pytest.fixture
+def campaign_page(hq_page):
+    hq_page.driver.get(CampaignPage.url)
+    return CampaignPage(driver=hq_page.driver)
+
+@pytest.fixture
+def budget_page(hq_page):
+    hq_page.driver.get(BudgetPage.url)
+    return BudgetPage(driver=hq_page.driver)
+
+@pytest.fixture
+def sites_page(hq_page):
+    hq_page.driver.get(SitesPage.url)
+    return SitesPage(driver=hq_page.driver)

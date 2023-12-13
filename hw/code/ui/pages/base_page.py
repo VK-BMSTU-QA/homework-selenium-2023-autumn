@@ -19,13 +19,8 @@ class BasePage(object):
     url = 'https://ads.vk.com/'
 
     def is_opened(self, timeout=15):
-        started = time.time()
-        while time.time() - started < timeout:
-            idx = self.driver.current_url.find('?')
-            url = self.driver.current_url[:idx if idx != -1 else len(self.driver.current_url)]
-            if url == self.url:
-                return True
-        raise PageNotOpenedException(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
+        if not self.check_url(self.url, timeout):
+            raise PageNotOpenedException(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
     def __init__(self, driver):
         self.driver = driver
@@ -81,8 +76,15 @@ class BasePage(object):
     def is_selected(self, locator, state=True, timeout=None):
         self.wait(timeout).until(EC.element_located_selection_state_to_be(locator, state))
 
-    def check_url(self, url, timeout=None):
-        self.wait(timeout).until(EC.url_to_be(url))
+    def check_url(self, url_for_match, timeout=15):
+        started = time.time()
+        while time.time() - started < timeout:
+            idx = self.driver.current_url.find('?')
+            url = self.driver.current_url[:idx if idx != -1 else len(self.driver.current_url)]
+            if url == url_for_match:
+                return True
+        return False
+
 
     def go_to_cabinet(self):
         self.click(self.locators.GO_TO_CABINET_BTN)

@@ -110,7 +110,6 @@ class SettingsPageLocators(BasePageLocators):
     DELETE_CABINET_BTN = (By.XPATH, "//button[contains(@class, 'DeleteAccount_button')]")
     CONFIRM_DELETE_CABINET_BTN = (By.XPATH, "//button[contains(., 'Да, удалить')]")
 
-
 class SettingsNotificationsPageLocators(BasePageLocators):
     NOTIFICATION_ENABLE_BTN = (By.XPATH, "//*[contains(@class, 'Emails_item')]//*[contains(@class, 'vkuiSwitch')]")
     WARNING_HINT = (By.XPATH, "//*[contains(@class, 'Warning_warning')]")
@@ -124,3 +123,28 @@ class SettingsNotificationsPageLocators(BasePageLocators):
     @staticmethod
     def item_by_name(name):
         return By.XPATH, f"//label[contains(@class, 'vkuiCheckbox')][contains(., '{name}')]"
+
+class CampaignPageLocators:
+    CAMPAIGN_TAB = (By.ID, 'dashboardV2.plans')
+    GROUPS_TAB = (By.ID, 'dashboardV2.groups')
+    ADS_TAB = (By.ID, 'dashboardV2.ads')
+    CAMPAIGN_CREATION_BTN = BasePageLocators.by_css_selector('data-testid', 'create-button')
+    CLOSE_MODAL_BTN = (By.XPATH, "//button[contains(., 'Попробовать позже')]")
+    CLOSE_HINT_BTN = BasePageLocators.by_css_selector('aria-label', 'close')
+
+class BudgetPageLocators:
+    PAY_MODAL_BTN = (By.CLASS_NAME, 'AccountInfo_payButton__i1QFc')
+    PAY_MODAL = (By.ID, '_modal_26')
+    PAY_BTN = (By.XPATH, "//div[contains(@class, 'vkuiFormItem')]//button[contains(string(), 'Пополнить счёт')]")
+    AMOUNT_INPUT = (By.NAME, 'amount')
+    AMOUNT_WITHOUT_VAT_INPUT = (By.NAME, 'amountWithoutVat')
+    MIN_AMOUNT_ERR_MSG = (By.XPATH, "//*[contains(@class, 'vkuiFormItem__bottom') and contains(string(), 'минимальная "
+                                    "сумма 600,00 ₽')]")
+    PAYMENT_METHOD_FORM = (By.XPATH, "//iframe[contains(@title, 'Счёт')]")
+    RANGE_DATA_PICKER_WIDGET = (By.XPATH, "//div[contains(@class, 'RangeDatePicker')]")
+    RANGE_DATA_PICKER_BTN = (By.XPATH, "//button[contains(@class, 'ActionsBlock_simpleButton__gfmux')]")
+
+class SitesPageLocators:
+    ADD_PIXEL_BTN = (By.XPATH, "//span[contains(@class, 'vkuiButton__in')]//span[contains(string(), 'Добавить пиксель')]")
+    ADD_PIXEL_MODAL = (By.ID, '_modal_58')
+
