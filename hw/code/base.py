@@ -5,6 +5,7 @@ import pytest
 from ui.pages.registration_page import RegistrationPage
 from ui.pages.login_page import LoginPage
 from ui.pages.main_page import MainPage
+from ui.pages.campaign_page import CampaignPage
 from ui.pages.base_page import PageNotOpenedExeption
 
 
@@ -65,7 +66,6 @@ class BaseCase:
         return campaign_page
 
     def delete_cabinet(self, campaign_page):
-        campaign_page.move_to('settings')
-
+        campaign_page.open_settings()
         settings_page = SettingsPage(self.driver)
         settings_page.delete_account()

@@ -9,3 +9,8 @@ class TestCampaign(BaseCase):
         create_campaign_page = campaign_page.create_campaign()
         assert create_campaign_page.is_opened()
 
+        create_group_page = create_campaign_page.configure_company_settings()
+        assert create_group_page.is_opened()
+
+        create_group_page.configure_group_settings('Москва')
+
