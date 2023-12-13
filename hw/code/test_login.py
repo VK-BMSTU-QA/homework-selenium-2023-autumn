@@ -2,15 +2,13 @@ from base import BaseCase
 from ui.fixtures import *
 from ui.pages.login_page import LoginPage
 
-
-# @pytest.mark.skip()
 class TestLogin(BaseCase):
     authorize = False
     cabinet_created = False
 
     user_data = {
-        "name": "Иван",
-        "surname": "Стукалов",
+        "name": "Юзер",
+        "surname": "Юзеров",
     }
 
     def test_login(self, credentials):

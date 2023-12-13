@@ -1,9 +1,10 @@
+import os
+from ui.pages.settings_page import SettingsPage
 import allure
 import pytest
 from ui.pages.registration_page import RegistrationPage
 from ui.pages.login_page import LoginPage
 from ui.pages.main_page import MainPage
-# from ui.pages.settings_page import SettingsPage
 from ui.pages.base_page import PageNotOpenedExeption
 
 
@@ -12,7 +13,7 @@ CLICK_RETRY = 3
 class BaseCase:
     driver = None
     authorize = True
-    cabinet_created = True
+    needs_cabinet = True
     accept_cookie = False
 
     @allure.step("Setup")
@@ -38,7 +39,7 @@ class BaseCase:
                     else:
                         raise
 
-        if self.cabinet_created:
+        if self.needs_cabinet:
             self.campaign_page = self.create_cabinet()
             self.campaign_page.close_onboarding()
 
@@ -49,7 +50,7 @@ class BaseCase:
     def teardown(self):
         yield 
 
-        if self.cabinet_created:
+        if self.needs_cabinet:
             self.delete_cabinet(self.campaign_page)
 
         self.logger.debug('Teardown completed')
@@ -58,14 +59,13 @@ class BaseCase:
     def create_cabinet(self):
         registration_page = RegistrationPage(self.driver)
         
-        data = {'email': 'test@mail.ru'}
+        data = {'email': os.getenv('EMAIL_ACCOUNT')}
         campaign_page = registration_page.create_cabinet(data)
         
         return campaign_page
 
-    # @allure.step("deleting cabinet")
-    # def delete_cabinet(self, campaign_page):
-    #     campaign_page.move_to('settings')
+    def delete_cabinet(self, campaign_page):
+        campaign_page.move_to('settings')
 
-    #     settings_page = SettingsPage(self.driver)
-    #     settings_page.delete_account()
+        settings_page = SettingsPage(self.driver)
+        settings_page.delete_account()

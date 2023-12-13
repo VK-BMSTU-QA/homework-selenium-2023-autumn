@@ -1,4 +1,5 @@
 import time
+from ui.pages.campaign_page import CampaignPage
 
 import allure
 from ui.locators import basic_locators
@@ -13,4 +14,13 @@ class RegistrationPage(BasePageAuthorized):
     def get_user_data(self):
         element = self.find(self.locators.SWITCH_ACCOUNT_LOCATOR)
         return element.get_attribute('innerText')
+    
+    @allure.step("Creating cabinet")
+    def create_cabinet(self, data):
+        print('create cabinet..............................')
+        self.click(self.locators.CREATE_CABINET_LOCATOR)
+        self.fill_field(self.locators.EMAIL_LOCATOR, data['email'])
+        self.click(self.locators.SUBMIT_LOCATOR)
+
+        return CampaignPage(self.driver)
 

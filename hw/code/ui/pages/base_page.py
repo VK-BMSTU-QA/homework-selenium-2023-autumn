@@ -25,14 +25,14 @@ class NoNavbarSection:
 
 class BasePage(object):
     url = r'^https:\/\/ads\.vk\.com\/$'
-    locators = basic_locators.BasePageLocators
+    #locators = basic_locators.BasePageLocators
 
     def __init__(self, driver):
         self.driver = driver
         self.logger = logging.getLogger('test')
         self.is_opened()
 
-    def is_opened(self, timeout=15):
+    def is_opened(self, timeout=60):
         started = time.time()
         while time.time() - started < timeout:
             if self.urls_are_equal():
@@ -47,7 +47,7 @@ class BasePage(object):
             timeout = 5
         return WebDriverWait(obj, timeout=timeout)
 
-    def wait_for_openning(self, url, timeout=30):
+    def wait_for_openning(self, url, timeout=60):
         return self.wait(timeout).until(EC.url_to_be(url))
 
     def has_object(self, locator):
@@ -91,7 +91,7 @@ class BasePage(object):
         return cls.url[1:-3].replace('\\', '')
 
     @allure.step('Clicking on {locator}')
-    def click(self, locator, timeout=5, obj=None):
+    def click(self, locator, timeout=60, obj=None):
         for i in range(CLICK_RETRY):
             try:
                 self.find(locator, timeout=timeout, obj=obj)
