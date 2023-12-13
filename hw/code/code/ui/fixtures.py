@@ -33,7 +33,6 @@ def get_driver(browser_name):
         options.binary_location = "/Applications/Yandex.app/Contents/MacOS/Yandex"
         options = webdriver.FirefoxOptions()
 
-        # browser = webdriver.Chrome(service=service, options=options)
         browser = webdriver.Firefox(options=options, service=service)
 
     else:
@@ -55,8 +54,3 @@ def all_drivers(config, request):
 @pytest.fixture
 def base_page(driver):
     return BasePage(driver=driver)
-
-
-@pytest.fixture
-def main_page(driver):
-    return MainPage(driver=driver)

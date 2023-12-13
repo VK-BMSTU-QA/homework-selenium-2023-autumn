@@ -1,6 +1,5 @@
 import time
 
-import allure
 from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
@@ -13,7 +12,6 @@ class PageNotOpenedExeption(Exception):
 
 class BasePage(object):
     locators = basic_locators.BasePageLocators()
-    locators_main = basic_locators.MainPageLocators()
     url = "https://ads.vk.com/"
 
     # Open url
