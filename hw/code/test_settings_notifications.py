@@ -7,15 +7,13 @@ from base import BaseCase
 
 # @pytest.mark.skip('skip')
 class TestSettingsNotifications(BaseCase):
-    # create_cabinet = True
+    create_cabinet = True
 
-    # @pytest.mark.skip('skip')
     def test_disable_notifications(self, settings_notifications_page):
         settings_notifications_page.switch_notification_enabled()
         settings_notifications_page.find_element(settings_notifications_page.locators.WARNING_HINT)
         settings_notifications_page.is_options_disabled()
 
-    # @pytest.mark.skip('skip')
     @pytest.mark.parametrize(
         'option',
         SettingsNotificationsPage.OPTIONS,
