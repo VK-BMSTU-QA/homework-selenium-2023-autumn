@@ -3,9 +3,11 @@ from contextlib import contextmanager
 import pytest
 from _pytest.fixtures import FixtureRequest
 from ui.pages.base_page import BasePage
-from ui.pages.main_page import MainPage
 
 CLICK_RETRY = 3
+
+
+# Base case for tests
 
 
 class BaseCase:
@@ -22,11 +24,10 @@ class BaseCase:
             self.driver.close()
         self.driver.switch_to.window(current)
 
-    @pytest.fixture(scope='function', autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def setup(self, driver, config, logger, request: FixtureRequest):
         self.driver = driver
         self.config = config
         self.logger = logger
 
-        self.base_page: BasePage = (request.getfixturevalue('base_page'))
-        self.main_page: MainPage = (request.getfixturevalue('main_page'))
+        self.base_page: BasePage = request.getfixturevalue("base_page")

@@ -12,49 +12,42 @@ class PageNotOpenedExeption(Exception):
 
 
 class BasePage(object):
-
     locators = basic_locators.BasePageLocators()
     locators_main = basic_locators.MainPageLocators()
-    url = 'https://www.python.org/'
+    url = "https://www.python.org/"
 
+    # Open url
     def open(self):
         self.driver.get(self.url)
 
+    # Check url of opened page and page set in url
     def is_opened(self, timeout=15):
         started = time.time()
         while time.time() - started < timeout:
             if self.driver.current_url == self.url:
                 return True
-        raise PageNotOpenedExeption(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
+        raise PageNotOpenedExeption(
+            f"{self.url} did not open in {timeout} sec, current url {self.driver.current_url}"
+        )
 
+    # Open url that set in url of page and check if opened
     def __init__(self, driver):
         self.driver = driver
         self.open()
         # self.is_opened()
 
+    # wait for timeout. Default timeout 5
     def wait(self, timeout=None):
         if timeout is None:
             timeout = 5
         return WebDriverWait(self.driver, timeout=timeout)
 
+    # Wait timeout to find element by locator
     def find(self, locator, timeout=None):
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
 
-    @allure.step('Search')
-    def search(self, query):
-        elem = self.find(self.locators.QUERY_LOCATOR_ID)
-        elem.send_keys(query)
-        go_button = self.find(self.locators.GO_BUTTON_LOCATOR)
-        go_button.click()
-        self.my_assert()
-
-    @allure.step("Step 1")
-    def my_assert(self):
-        assert 1 == 1
-
-
-    @allure.step('Click')
-    def click(self, locator, timeout=None) -> WebElement:
+    # Search for element by locator and click on it
+    def click(self, locator, timeout=None) -> None:
         self.find(locator, timeout=timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
