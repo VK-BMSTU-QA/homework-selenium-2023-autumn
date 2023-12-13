@@ -21,15 +21,5 @@ class CampaignPage(HqPage):
         locator = self.tabs[tab_name]
         self.click(locator)
 
-    def close_modal(self):
-        try:
-            self.click(self.locators.CLOSE_MODAL_BTN)
-        except :
-            pass
-
-        try:
-            self.click(self.locators.CLOSE_HINT_BTN)
-        except:
-            pass
 
 

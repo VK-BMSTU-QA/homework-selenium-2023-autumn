@@ -25,8 +25,11 @@ def driver(config):
     url = config['url']
     selenoid = config['selenoid']
     vnc = config['vnc']
+    headless = config['headless']
     options = Options()
-    #options.add_argument("--headless=new")
+
+    if headless:
+        options.add_argument('--headless=new')
 
     if selenoid:
         capabilities = {
@@ -42,7 +45,7 @@ def driver(config):
     elif browser == 'chrome':
         driver = webdriver.Chrome(options=options)
     elif browser == 'firefox':
-        driver = webdriver.Firefox()
+        driver = webdriver.Firefox(options=options)
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
     driver.get(url)

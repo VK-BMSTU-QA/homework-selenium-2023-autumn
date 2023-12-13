@@ -8,6 +8,11 @@ from base import BaseCase
 class TestCampaign(BaseCase):
 
     create_new_plan_url = 'https://ads.vk.com/hq/new_create/ad_plan'
+
+    @pytest.fixture(autouse=True)
+    def try_close_edu_modal(self, campaign_page):
+        campaign_page.close_edu_modal()
+
     @pytest.mark.parametrize(
         'tab_name,tab_url',
         [
@@ -17,10 +22,7 @@ class TestCampaign(BaseCase):
         ]
     )
 
-    def test_tab_navigation(self, tab_name, tab_url):
-        self.driver.get(CampaignPage.url)
-        campaign_page = CampaignPage(driver=self.driver)
-        campaign_page.close_modal()
+    def test_tab_navigation(self, campaign_page, tab_name, tab_url):
         campaign_page.go_to_tab(tab_name)
         campaign_page.check_url(tab_url)
 
