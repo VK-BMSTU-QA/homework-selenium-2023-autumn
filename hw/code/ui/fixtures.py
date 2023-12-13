@@ -12,6 +12,7 @@ from ui.pages.create_cabinet_page import CreateCabinetPage
 from ui.pages.hq_page import HqPage
 from ui.pages.login_page import LoginPage
 from ui.pages.registration_page import RegistrationPage
+from ui.pages.settings_notifications_page import SettingsNotificationsPage
 from ui.pages.settings_page import SettingsPage
 
 
@@ -116,3 +117,9 @@ def audience_page(driver):
 def settings_page(driver):
     driver.get(SettingsPage.url)
     return SettingsPage(driver=driver)
+
+
+@pytest.fixture
+def settings_notifications_page(driver):
+    driver.get(SettingsNotificationsPage.url)
+    return SettingsNotificationsPage(driver=driver)

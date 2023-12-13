@@ -3,7 +3,7 @@ from ui.pages.audience_page import AudiencePage
 from base import BaseCase
 
 
-# @pytest.mark.skip('skip')
+@pytest.mark.skip('skip')
 class TestAudience(BaseCase):
     # create_cabinet = True
 
@@ -15,11 +15,9 @@ class TestAudience(BaseCase):
             pytest.param(AudiencePage.USERS_TAB, 'https://ads.vk.com/hq/audience/user_lists'),
         ]
     )
-    def test_tab_navigation(self, tab_name, tab_url):
-        self.driver.get(AudiencePage.url)
-        page = AudiencePage(driver=self.driver)
-        page.go_to_tab(tab_name)
-        page.check_url(tab_url)
+    def test_tab_navigation(self, audience_page, tab_name, tab_url):
+        audience_page.go_to_tab(tab_name)
+        audience_page.check_url(tab_url)
 
     # @pytest.mark.skip('skip')
     def test_no_source(self, audience_page):

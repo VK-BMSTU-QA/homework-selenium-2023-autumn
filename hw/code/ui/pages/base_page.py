@@ -1,12 +1,13 @@
 import time
 from typing import List
 
-import allure
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+CLICK_RETRY = 3
 
 
 class PageNotOpenedException(Exception):
@@ -32,19 +33,26 @@ class BasePage(object):
 
     def wait(self, timeout=None):
         if timeout is None:
-            # timeout = 5
-            timeout = 15
+            timeout = 5
+            # timeout = 15
         return WebDriverWait(self.driver, timeout=timeout)
 
-    def find_element(self, locator, timeout=None):
+    def find_element(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
 
     def find_elements(self, locator, timeout=None) -> List[WebElement]:
         return self.wait(timeout).until(EC.presence_of_all_elements_located(locator))
 
     def click(self, locator, timeout=None) -> WebElement:
-        elem = self.find_element(locator, timeout=timeout)
-        return self.click_by_elem(elem)
+        for i in range(CLICK_RETRY):
+            try:
+                self.find_element(locator, timeout=timeout)
+                elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
+                elem.click()
+                return elem
+            except:
+                if i == CLICK_RETRY - 1:
+                    raise
 
     def click_by_elem(self, elem, timeout=None) -> WebElement:
         elem = self.wait(timeout).until(EC.element_to_be_clickable(elem))
@@ -62,18 +70,17 @@ class BasePage(object):
         elem.send_keys(text)
         return elem
 
+    def is_visible(self, locator, timeout=None):
+        self.wait(timeout).until(EC.visibility_of_element_located(locator))
+
     def is_invisible(self, locator, timeout=None):
         self.wait(timeout).until(EC.invisibility_of_element_located(locator))
 
     def is_disabled(self, locator, timeout=None):
         self.wait(timeout).until(EC.element_attribute_to_include(locator, 'disabled'))
 
-    def is_visible(self, locator, timeout=None):
-        try:
-            self.wait(timeout).until(EC.visibility_of_element_located(locator))
-            return True
-        except:
-            return False
+    def is_selected(self, locator, state=True, timeout=None):
+        self.wait(timeout).until(EC.element_located_selection_state_to_be(locator, state))
 
     def check_url(self, url, timeout=None):
         self.wait(timeout).until(EC.url_to_be(url))

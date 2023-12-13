@@ -78,5 +78,49 @@ class AudiencePageLocators(BasePageLocators):
 
 
 class SettingsPageLocators(BasePageLocators):
+    # Navigate
+    GENERAL_TAB = (By.ID, 'tab-settings')
+    NOTIFICATIONS_TAB = (By.ID, 'tab-settings.notifications')
+    ACCESS_TAB = (By.ID, 'tab-settings.access')
+    HISTORY_TAB = (By.ID, 'tab-settings.logs')
+
+    PHONE_INPUT = (By.XPATH, "//*[contains(@data-testid, 'general-phone')]")
+    FIO_INPUT = BasePageLocators.by_css_selector('data-testid', 'general-ord-name')
+    INN_INPUT = BasePageLocators.by_css_selector('data-testid', 'general-ord-inn')
+    FORM_CONTROL_BTNS = (By.XPATH, "//*[contains(@class, 'FormControls_buttons')]")
+    SAVE_BTN = (By.XPATH, "//button[contains(@data-testid, 'settings-save')]")
+
+    PHONE_INVALID_ERROR = (
+        By.XPATH, "//*[contains(@class, 'vkuiFootnote')][contains(., 'Некорректный номер телефона')]")
+    PHONE_MIN_ERROR = (
+        By.XPATH, "//*[contains(@class, 'vkuiFootnote')][contains(., 'Телефон не может быть короче 12 цифр')]")
+    FIO_INVALID_ERROR = (
+        By.XPATH,
+        "//*[contains(@class, 'vkuiFormItem')][contains(., 'ФИО')][contains(., 'Значение не может содержать только пробелы')]")
+    FIO_INVALID_CHARS_ERROR = (
+        By.XPATH,
+        "//*[contains(@class, 'vkuiFormItem')][contains(., 'ФИО')][contains(., 'Некорректные символы. Разрешена только кириллица дефис и пробел')]")
+    INN_INVALID_ERROR = (
+        By.XPATH, "//*[contains(@class, 'vkuiFormItem')][contains(., 'ИНН')][contains(., 'Некорректный ИНН')]")
+    INN_TOO_SHORT_ERROR = (
+        By.XPATH,
+        "//*[contains(@class, 'vkuiFormItem')][contains(., 'ИНН')][contains(., 'Длина ИНН должна быть 12 символов')]")
+
+    # Delete cabinet
     DELETE_CABINET_BTN = (By.XPATH, "//button[contains(@class, 'DeleteAccount_button')]")
     CONFIRM_DELETE_CABINET_BTN = (By.XPATH, "//button[contains(., 'Да, удалить')]")
+
+
+class SettingsNotificationsPageLocators(BasePageLocators):
+    NOTIFICATION_ENABLE_BTN = (By.XPATH, "//*[contains(@class, 'Emails_item')]//*[contains(@class, 'vkuiSwitch')]")
+    WARNING_HINT = (By.XPATH, "//*[contains(@class, 'Warning_warning')]")
+
+    SAVE_BTN = (By.XPATH, "//button[contains(@data-testid, 'settings-save')]")
+
+    @staticmethod
+    def checkbox_by_name(name):
+        return By.XPATH, f"//label[contains(@class, 'vkuiCheckbox')][contains(., '{name}')]//input"
+
+    @staticmethod
+    def item_by_name(name):
+        return By.XPATH, f"//label[contains(@class, 'vkuiCheckbox')][contains(., '{name}')]"
