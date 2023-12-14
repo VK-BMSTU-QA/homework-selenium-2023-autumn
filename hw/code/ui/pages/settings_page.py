@@ -29,6 +29,7 @@ class SettingsPage(HqPage):
         self.click(self.locators.DELETE_CABINET_BTN)
         self.click(self.locators.CONFIRM_DELETE_CABINET_BTN)
         BasePage(driver=self.driver).is_opened()
+        self.is_visible(self.locators.GO_TO_CABINET_BTN)
 
     def edit_general(self, phone=None, fio=None, inn=None):
         if phone is not None:

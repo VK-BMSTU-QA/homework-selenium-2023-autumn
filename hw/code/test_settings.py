@@ -4,11 +4,7 @@ from ui.fixtures import settings_page
 from base import BaseCase
 
 
-# @pytest.mark.skip('skip')
 class TestSettings(BaseCase):
-    create_cabinet = True
-    general_info_set = True
-
     @pytest.mark.parametrize(
         'tab_name,tab_url',
         [

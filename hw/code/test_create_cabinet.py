@@ -6,11 +6,12 @@ from ui.pages.campaigns_page import CampaignsPage
 from ui.pages.settings_page import SettingsPage
 
 
-# @pytest.mark.skip('skip')
 class TestCreateCabinet(BaseCase):
+    cabinet_created = False
+
     def test_physical_disabled_due_to_agency(self, create_cabinet_page):
         create_cabinet_page.click(create_cabinet_page.locators.AGENCY_RADIO)
-        assert not create_cabinet_page.is_visible(create_cabinet_page.locators.PHYSICAL_RADIO)
+        create_cabinet_page.is_invisible(create_cabinet_page.locators.PHYSICAL_RADIO)
 
     @pytest.mark.parametrize(
         'country,currencies',

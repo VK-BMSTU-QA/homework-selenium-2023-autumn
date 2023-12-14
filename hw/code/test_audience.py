@@ -3,10 +3,7 @@ from ui.pages.audience_page import AudiencePage
 from base import BaseCase
 
 
-# @pytest.mark.skip('skip')
 class TestAudience(BaseCase):
-    # create_cabinet = True
-
     @pytest.mark.parametrize(
         'tab_name,tab_url',
         [

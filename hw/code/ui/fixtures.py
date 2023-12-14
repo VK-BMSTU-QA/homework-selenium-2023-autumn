@@ -85,6 +85,11 @@ def credentials(load_env):
     return os.getenv("LOGIN"), os.getenv("PASSWORD")
 
 
+@pytest.fixture(scope='session')
+def no_cabinet_credentials(load_env):
+    return os.getenv("NO_CABINET_LOGIN"), os.getenv("NO_CABINET_PASSWORD")
+
+
 @pytest.fixture
 def base_page(driver):
     return BasePage(driver=driver)
@@ -125,26 +130,26 @@ def settings_page(driver):
     driver.get(SettingsPage.url)
     return SettingsPage(driver=driver)
 
+
 @pytest.fixture
 def settings_notifications_page(driver):
     driver.get(SettingsNotificationsPage.url)
     return SettingsNotificationsPage(driver=driver)
 
-def audience_page(hq_page):
-    hq_page.driver.get(AudiencePage.url)
-    return AudiencePage(driver=hq_page.driver)
 
 @pytest.fixture
-def campaign_page(hq_page):
-    hq_page.driver.get(CampaignPage.url)
-    return CampaignPage(driver=hq_page.driver)
+def campaign_page(driver):
+    driver.get(CampaignPage.url)
+    return CampaignPage(driver=driver)
+
 
 @pytest.fixture
-def budget_page(hq_page):
-    hq_page.driver.get(BudgetPage.url)
-    return BudgetPage(driver=hq_page.driver)
+def budget_page(driver):
+    driver.get(BudgetPage.url)
+    return BudgetPage(driver=driver)
+
 
 @pytest.fixture
-def sites_page(hq_page):
-    hq_page.driver.get(SitesPage.url)
-    return SitesPage(driver=hq_page.driver)
+def sites_page(driver):
+    driver.get(SitesPage.url)
+    return SitesPage(driver=driver)
