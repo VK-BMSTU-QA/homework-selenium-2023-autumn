@@ -32,7 +32,7 @@ class BasePage(object):
     def __init__(self, driver):
         self.driver = driver
         self.open()
-        # self.is_opened()
+        self.is_opened()
 
     # wait for timeout. Default timeout 5
     def wait(self, timeout=None):
@@ -43,6 +43,11 @@ class BasePage(object):
     # Wait timeout to find element by locator
     def find(self, locator, timeout=None):
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
+    
+    def fill(self, locator, text, timeout=None) -> WebElement:
+        elem = self.find(locator, timeout=timeout)
+        elem.send_keys(text)
+        return elem
 
     # Search for element by locator and click on it
     def click(self, locator, timeout=None) -> None:

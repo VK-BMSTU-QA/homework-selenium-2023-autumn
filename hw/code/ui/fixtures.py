@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
+from hw.code.ui.pages.lk_page import LKPage
+from hw.code.ui.pages.login_page import LoginPage
 from ui.pages.base_page import BasePage
 
 service = Service(executable_path=GeckoDriverManager().install())
@@ -54,3 +56,11 @@ def all_drivers(config, request):
 @pytest.fixture
 def base_page(driver):
     return BasePage(driver=driver)
+
+@pytest.fixture
+def login_page(driver):
+    return LoginPage(driver=driver)
+
+@pytest.fixture
+def lk_page(driver):
+    return LKPage(driver=driver)
