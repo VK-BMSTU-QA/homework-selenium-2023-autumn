@@ -17,7 +17,7 @@ class RegistrationPage(BasePageAuthorized):
     
     @allure.step("Creating cabinet")
     def create_cabinet(self, data):
-        print('create cabinet..............................')
+        
         self.click(self.locators.CREATE_CABINET_LOCATOR)
         self.fill_field(self.locators.EMAIL_LOCATOR, data['email'])
         self.click(self.locators.SUBMIT_LOCATOR)

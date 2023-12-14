@@ -76,13 +76,6 @@ class BasePage(object):
     def find(self, locator, timeout=None, obj=None):
         return self.wait(timeout=timeout, obj=obj).until(EC.presence_of_element_located(locator))
 
-    def select(self, locator, value):
-        select_element = self.find(locator)
-        self.driver.execute_script("arguments[0].style.display = 'block';", select_element)
-        select_element = self.find(locator)
-        select = Select(select_element)
-        select.select_by_value(value)
-
     def urls_are_equal(self):
         return re.match(self.url, self.driver.current_url)
 
