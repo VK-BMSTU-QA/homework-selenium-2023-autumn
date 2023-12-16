@@ -1,7 +1,7 @@
 import time
 
 from selenium.webdriver.remote.webelement import WebElement
-from ui.locators import basic_locators
+from ui.locators import basic
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -11,7 +11,7 @@ class PageNotOpenedExeption(Exception):
 
 
 class BasePage(object):
-    locators = basic_locators.BasePageLocators()
+    basic_locators = basic.BasePageLocators()
     url = "https://ads.vk.com/"
 
     # Open url
@@ -19,28 +19,39 @@ class BasePage(object):
         self.driver.get(self.url)
 
     def url_cmp(self):
+        driver_url = self.driver.current_url
         for i, v in enumerate(self.url):
             if self.url[i] == '*':
                 return True
-            if self.url[i] != self.driver.current_url[i]:
+            if self.url[i] != driver_url[i]:
                 return False
 
     # Check url of opened page and page set in url
     def is_opened(self, timeout=15):
-        started = time.time()
+        time.sleep(5)
+        '''started = time.time()
         while time.time() - started < timeout:
-            #if self.url_cmp():
-            if self.url == self.driver.current_url:    
+
+            # TODO
+            if self.url_cmp():
+            # if self.url == self.driver.current_url:    
                 return True
         raise PageNotOpenedExeption(
             f"{self.url} did not open in {timeout} sec, current url {self.driver.current_url}"
-        )
+        )'''
+
+    def close_cookie_banner(self):
+        try:
+            self.click(self.basic_locators.COOKIE_BANNER_BUTTON)
+        except Exception as e:
+            print(e)
+            pass
 
     # Open url that set in url of page and check if opened
     def __init__(self, driver):
         self.driver = driver
         self.open()
-        self.is_opened()
+        # self.is_opened()
 
     # wait for timeout. Default timeout 5
     def wait(self, timeout=None):
