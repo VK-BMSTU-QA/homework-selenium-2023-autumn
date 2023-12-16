@@ -12,15 +12,16 @@ class LoginPage(BasePage):
     locators = LoginPageLocators
 
     def login(self, user: str, password: str, timeout=None):
-
+        
         self.fill(self.locators.LOGIN, user, timeout=timeout)
 
         self.click(self.locators.LOGIN_GO_ON_BOY_BUTTON, timeout=timeout)
 
         self.fill(self.locators.PASSWORD, password, timeout=timeout)
 
-        self.click(self.locators.PASSWORD_GO_ON_BOY_BUT, timeout=timeout)
+        self.click(self.locators.PASSWORD_GO_ON_BOY_BUTTON, timeout=timeout)
         # WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.LINK_TEXT, "Блоги")))
 
+        print('login end')
         return LKPage(self.driver)
     

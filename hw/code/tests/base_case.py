@@ -50,10 +50,12 @@ def cookies(credentials, driver):
 
 
 @pytest.fixture(scope='session')
-def credentials() -> Dict[str, str]:
+def credentials() -> Dict[str, str | None]:
     dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
+    print('DOTENV ')
+    print(dotenv_path)
     if os.path.exists(dotenv_path):
         load_dotenv(dotenv_path)
     
-    return {'user': os.getenv('USER'), 'password': os.getenv('PASSWORD')}
+    return {'user': os.getenv('USER_CRED'), 'password': os.getenv('PASSWORD_CRED')}
 

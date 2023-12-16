@@ -15,7 +15,7 @@ def driver(config):
     print("Initialize driver")
 
     browser = config["browser"]
-    service  = None;
+    service  = None
 
     options = Options()
     if browser == "chrome":

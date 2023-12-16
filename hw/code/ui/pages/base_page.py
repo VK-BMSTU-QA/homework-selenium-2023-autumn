@@ -18,11 +18,19 @@ class BasePage(object):
     def open(self):
         self.driver.get(self.url)
 
+    def url_cmp(self):
+        for i, v in enumerate(self.url):
+            if self.url[i] == '*':
+                return True
+            if self.url[i] != self.driver.current_url[i]:
+                return False
+
     # Check url of opened page and page set in url
     def is_opened(self, timeout=15):
         started = time.time()
         while time.time() - started < timeout:
-            if self.driver.current_url == self.url:
+            #if self.url_cmp():
+            if self.url == self.driver.current_url:    
                 return True
         raise PageNotOpenedExeption(
             f"{self.url} did not open in {timeout} sec, current url {self.driver.current_url}"
@@ -46,6 +54,8 @@ class BasePage(object):
     
     def fill(self, locator, text, timeout=None) -> WebElement:
         elem = self.find(locator, timeout=timeout)
+        print(elem)
+        elem.clear()
         elem.send_keys(text)
         return elem
 

@@ -7,7 +7,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 class LKPage(BasePage):
-    url = 'https://ads.vk.com/hq/'
+    url = 'https://ads.vk.com/hq/*'
     locators = LKPageLocators
 
-    pass
+    # Open url that set in url of page and check if opened
+    def __init__(self, driver):
+        self.driver = driver
+        self.open()
