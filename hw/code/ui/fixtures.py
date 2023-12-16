@@ -1,57 +1,47 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ServiceChrome
+from selenium.webdriver.firefox.service import Service as ServiceFirefox
+from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
-from hw.code.ui.pages.lk_page import LKPage
-from hw.code.ui.pages.login_page import LoginPage
+from ui.pages.lk_page import LKPage
+from ui.pages.login_page import LoginPage
 from ui.pages.base_page import BasePage
 
-service = Service(executable_path=GeckoDriverManager().install())
 
-
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def driver(config):
+    print("Initialize driver")
+
     browser = config["browser"]
+    service  = None;
+
     options = Options()
     if browser == "chrome":
+        service  = ServiceChrome(executable_path=ChromeDriverManager().install())
+        
+        options = webdriver.ChromeOptions()
         driver = webdriver.Chrome(options=options, service=service)
+        
     elif browser == "firefox":
+        service  = ServiceFirefox(executable_path=GeckoDriverManager().install())
+
         options = webdriver.FirefoxOptions()
-        options.binary_location = "/Applications/Yandex.app/Contents/MacOS/Yandex"
-        browser = webdriver.Firefox(options=options, service=service)
+        driver = webdriver.Firefox(options=options, service=service)
+        
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
+    
+    # Setup
     driver.maximize_window()
+
     yield driver
+    print("Stop driver")
+
+    # Teardown
     driver.quit()
-
-
-def get_driver(browser_name):
-    options = Options()
-    if browser_name == "chrome":
-        browser = webdriver.Chrome(options=options, service=service)
-    elif browser_name == "firefox":
-        options.binary_location = "/Applications/Yandex.app/Contents/MacOS/Yandex"
-        options = webdriver.FirefoxOptions()
-
-        browser = webdriver.Firefox(options=options, service=service)
-
-    else:
-        raise RuntimeError(f'Unsupported browser: "{browser_name}"')
-
-    browser.maximize_window()
-    return browser
-
-
-@pytest.fixture(scope="session", params=["chrome", "firefox"])
-def all_drivers(config, request):
-    url = config["url"]
-    browser = get_driver(request.param)
-    browser.get(url)
-    yield browser
-    browser.quit()
-
+    service.stop()
 
 @pytest.fixture
 def base_page(driver):

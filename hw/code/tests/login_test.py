@@ -1,6 +1,6 @@
 import pytest
-from hw.code.tests.base_case import BaseCase
-from hw.code.ui.pages.login_page import LoginPage
+from tests.base_case import BaseCase, credentials
+from ui.pages.login_page import LoginPage
 
 class TestLogin(BaseCase):
     authorize = False

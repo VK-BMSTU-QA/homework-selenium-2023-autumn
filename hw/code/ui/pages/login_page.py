@@ -1,6 +1,6 @@
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
-from hw.code.ui.pages.lk_page import LKPage
+from ui.pages.lk_page import LKPage
 from ui.pages.base_page import BasePage
 from ui.locators.login_locators import LoginPageLocators
 

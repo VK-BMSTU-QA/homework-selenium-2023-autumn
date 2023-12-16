@@ -5,7 +5,7 @@ import os
 from pytest import FixtureRequest
 import pytest
 from dotenv import load_dotenv
-from hw.code.ui.pages.lk_page import LKPage
+from ui.pages.lk_page import LKPage
 from ui.fixtures import driver
 from conftest import config
 from ui.pages.login_page import LoginPage
@@ -40,6 +40,7 @@ class BaseCase:
                 self.driver.add_cookie(cookie)
             self.driver.refresh()
 
+# TODO может убрать в confest или fixtures?
 
 @pytest.fixture(scope='session')
 def cookies(credentials, driver):
