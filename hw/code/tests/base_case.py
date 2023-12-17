@@ -38,16 +38,19 @@ class BaseCase:
 
         main_page = BasePage(self.driver)
         if self.authorize:
-            cookies = request.getfixturevalue('cookies')
+            cookies = request.getfixturevalue('cookies_and_local_storage')
 
-            for cookie in cookies:
+            for key, value in cookies[1].items():
+                self.driver.execute_script(f"localStorage.setItem('{key}', '{value}');")
+
+            for cookie in cookies[0]:
                 self.driver.add_cookie(cookie)
             # self.driver.refresh()
 
 # TODO может убрать в confest или fixtures?
 
 @pytest.fixture(scope='session')
-def cookies(credentials, config, service):
+def cookies_and_local_storage(credentials, config, service):
     browser = config["browser"]
     new_driver = get_driver(browser, service)
 
@@ -55,14 +58,15 @@ def cookies(credentials, config, service):
     login_page.login(credentials["user"], credentials["password"])
 
     # main_page = BasePage(new_driver)
-
-    time.sleep(10)
     new_driver.refresh()
     co = new_driver.get_cookies()
     print(co)
+
+    all_local_storage = new_driver.execute_script("return Object.entries(localStorage);")
+    local_storage_dict = dict(all_local_storage)
     # sorted_objects = [obj for obj in co if obj.get("domain") != "id.vk.com"]
     # print(sorted_objects)
-    return co
+    return [co, local_storage_dict]
 
 @pytest.fixture(scope='session')
 def credentials() -> Dict[str, str | None]:

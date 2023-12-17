@@ -47,6 +47,13 @@ class BasePage(object):
             print(e)
             pass
 
+    def close_banner(self):
+        try:
+            self.click(self.basic_locators.BANNER_BUTTON)
+        except Exception as e:
+            print(e)
+            pass
+
     # Open url that set in url of page and check if opened
     def __init__(self, driver):
         self.driver = driver
