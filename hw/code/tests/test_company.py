@@ -20,6 +20,8 @@ class TestCompany(BaseCase):
         company_page.close_banner()
         company_page.create_company()
 
+        time.sleep(5)
+
         datetime_moscow = datetime.now(timezone(timedelta(hours=+3), 'MSC'))
 
-        assert f"Кампания {datetime_moscow.strftime('%Y:%m:%d')}" in self.driver.page_source
+        assert f"Кампания {datetime_moscow.strftime('%Y-%m-%d')}" in self.driver.page_source
