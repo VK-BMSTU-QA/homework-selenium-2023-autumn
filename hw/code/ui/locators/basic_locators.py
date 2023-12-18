@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 
 
 class BasePageLocators:
-    GO_TO_CABINET_BTN = By.CLASS_NAME, 'ButtonCabinet_primary__KQnu7'
+    GO_TO_CABINET_BTN = (By.XPATH, "//*[contains(@class, 'ButtonCabinet_primary')]")
     OPTIONS = (By.XPATH, f"//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]")
 
     @staticmethod
@@ -111,9 +111,11 @@ class SettingsPageLocators(BasePageLocators):
     DELETE_CABINET_BTN = (By.XPATH, "//button[contains(@class, 'DeleteAccount_button')]")
     CONFIRM_DELETE_CABINET_BTN = (By.XPATH, "//button[contains(., 'Да, удалить')]")
 
+
 class SettingsNotificationsPageLocators(BasePageLocators):
     NOTIFICATION_ENABLE_BTN = (By.XPATH, "//*[contains(@class, 'Emails_item')]//*[contains(@class, 'vkuiSwitch')]")
     WARNING_HINT = (By.XPATH, "//*[contains(@class, 'Warning_warning')]")
+    SAVE_PANEL = (By.XPATH, "//*[contains(@class, 'Notifications_bottom')]")
 
     SAVE_BTN = (By.XPATH, "//button[contains(@data-testid, 'settings-save')]")
 
@@ -134,7 +136,8 @@ class CampaignPageLocators:
 
 
 class BudgetPageLocators:
-    PAY_MODAL_BTN = (By.XPATH, '//button[contains(@class, AccountInfo_payButton__i1QFc)][contains(., "Пополнить счёт")]')
+    PAY_MODAL_BTN = (
+        By.XPATH, '//button[contains(@class, AccountInfo_payButton__i1QFc)][contains(., "Пополнить счёт")]')
     PAY_MODAL = (By.XPATH, '//div[contains(@class, vkuiModalPage)][contains(., "Пополнение счёта")]')
     PAY_BTN = (By.XPATH, "//div[contains(@class, 'vkuiFormItem')]//button[contains(string(), 'Пополнить счёт')]")
     AMOUNT_INPUT = (By.NAME, 'amount')
@@ -147,6 +150,6 @@ class BudgetPageLocators:
 
 
 class SitesPageLocators:
-    ADD_PIXEL_BTN = (By.XPATH, "//span[contains(@class, 'vkuiButton__in')]//span[contains(string(), 'Добавить пиксель')]")
+    ADD_PIXEL_BTN = (
+        By.XPATH, "//span[contains(@class, 'vkuiButton__in')]//span[contains(string(), 'Добавить пиксель')]")
     ADD_PIXEL_MODAL = (By.ID, '_modal_58')
-

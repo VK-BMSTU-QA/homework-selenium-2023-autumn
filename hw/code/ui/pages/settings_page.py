@@ -41,5 +41,4 @@ class SettingsPage(HqPage):
         if inn is not None:
             self.fill(self.locators.INN_INPUT, ' ')
             self.fill(self.locators.INN_INPUT, inn)
-        time.sleep(5)
         self.click(self.locators.SAVE_BTN)
