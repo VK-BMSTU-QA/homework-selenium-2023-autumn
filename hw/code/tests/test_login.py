@@ -9,7 +9,7 @@ class TestLogin(BaseCase):
     authorize = False
 
     def test_login(self, credentials, login_page: LoginPage):
-        self.login_page.login(credentials['user'], credentials['password'])
+        login_page.login(credentials['user'], credentials['password'])
 
         try:
             self.driver.get_cookie('remixnsid')
@@ -18,9 +18,9 @@ class TestLogin(BaseCase):
 
         
     @pytest.mark.parametrize("invalid_creds", [{"user": "stegozavr", "password": "a"}])
-    def test_login_neg(self, invalid_creds):
+    def test_login_neg(self, invalid_creds, login_page: LoginPage):
 
         with pytest.raises(TimeoutException):
-            self.login_page.login(invalid_creds['user'], invalid_creds['password'])
+            login_page.login(invalid_creds['user'], invalid_creds['password'])
 
     

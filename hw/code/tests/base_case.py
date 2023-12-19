@@ -33,9 +33,6 @@ class BaseCase:
         self.driver = driver
         self.config = config
 
-        self.login_page: LoginPage = (request.getfixturevalue('login_page'))
-        self.lk_page: LKPage = (request.getfixturevalue('lk_page'))
-
         main_page = BasePage(self.driver)
         if self.authorize:
             cookies = request.getfixturevalue('cookies_and_local_storage')
