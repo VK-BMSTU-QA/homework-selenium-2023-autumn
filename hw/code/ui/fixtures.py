@@ -5,10 +5,12 @@ from selenium.webdriver.chrome.service import Service as ServiceChrome
 from selenium.webdriver.firefox.service import Service as ServiceFirefox
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+
 from ui.pages.company_page import CompanyPage
 from ui.pages.lk_page import LKPage
 from ui.pages.login_page import LoginPage
 from ui.pages.base_page import BasePage
+from ui.pages.new_company_page import NewCompanyPage
 
 
 @pytest.fixture(scope="session")
@@ -80,3 +82,9 @@ def lk_page(driver):
 def company_page(driver):
     print("INIT FIXTURE COMPANY PAGE")
     return CompanyPage(driver=driver)
+
+
+@pytest.fixture
+def new_company_page(driver):
+    print("INIT FIXTURE NEW COMPANY PAGE")
+    return NewCompanyPage(driver=driver)

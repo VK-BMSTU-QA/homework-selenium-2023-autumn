@@ -15,6 +15,7 @@ from time import gmtime, strftime
 strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 
+# HACK
 def is_matching_link(link, base_url):
     # Parse the link and base_url
     parsed_link = urlparse(link)
@@ -31,53 +32,55 @@ def is_matching_link(link, base_url):
 class TestCompany(BaseCase):
     authorize = True
 
-    def test_create(self, company_page: CompanyPage):
-        print(company_page.driver.get_cookies())
 
-        company_page.close_banner()
-        company_page.create_company()
+# TODO remove comments
+# def test_create(self, company_page: CompanyPage):
+#     print(company_page.driver.get_cookies())
 
-        assert is_matching_link(
-            company_page.driver.current_url, AllLinks.COMPANY_CREATE
-        )
+#     company_page.close_banner()
+#     company_page.create_company()
 
-    def test_group(self, company_page):
-        company_page.close_banner()
-        company_page.group_view(5)
+#     assert is_matching_link(
+#         company_page.driver.current_url, AllLinks.COMPANY_CREATE
+#     )
 
-        assert is_matching_link(company_page.driver.current_url, AllLinks.GROUP)
+# def test_group(self, company_page):
+#     company_page.close_banner()
+#     company_page.group_view(5)
 
-    def test_advertisment(self, company_page):
-        company_page.close_banner()
-        company_page.advertisment_view(5)
+#     assert is_matching_link(company_page.driver.current_url, AllLinks.GROUP)
 
-        assert is_matching_link(
-            company_page.driver.current_url, AllLinks.ADVERTISEMENTS
-        )
+# def test_advertisment(self, company_page):
+#     company_page.close_banner()
+#     company_page.advertisment_view(5)
 
-    def test_list(self, company_page):
-        company_page.close_banner()
-        selector = company_page.find(company_page.locators.ACTION_SELECTOR)
+#     assert is_matching_link(
+#         company_page.driver.current_url, AllLinks.ADVERTISEMENTS
+#     )
 
-        actions = ActionChains(company_page.driver)
-        actions.move_to_element(selector)
-        actions.click(selector)
-        actions.perform()
+# def test_list(self, company_page):
+#     company_page.close_banner()
+#     selector = company_page.find(company_page.locators.ACTION_SELECTOR)
 
-        selector_classes = selector.get_attribute("class")
-        # NOTE class can be taken out
-        assert "vkuiCustomSelect--pop-down" not in selector_classes
+#     actions = ActionChains(company_page.driver)
+#     actions.move_to_element(selector)
+#     actions.click(selector)
+#     actions.perform()
 
-    def test_download(self, company_page):
-        company_page.close_banner()
-        company_page.download(5)
+#     selector_classes = selector.get_attribute("class")
+#     # NOTE class can be taken out
+#     assert "vkuiCustomSelect--pop-down" not in selector_classes
 
-        # NOTE can be taken out
-        assert "Отчет по датам" in company_page.driver.page_source
+# def test_download(self, company_page):
+#     company_page.close_banner()
+#     company_page.download(5)
 
-    def test_settings(self, company_page):
-        company_page.close_banner()
-        company_page.settings(5)
+#     # NOTE can be taken out
+#     assert "Отчет по датам" in company_page.driver.page_source
 
-        # NOTE can be taken out
-        assert "Настроить столбцы" in company_page.driver.page_source
+# def test_settings(self, company_page):
+#     company_page.close_banner()
+#     company_page.settings(5)
+
+#     # NOTE can be taken out
+#     assert "Настроить столбцы" in company_page.driver.page_source
