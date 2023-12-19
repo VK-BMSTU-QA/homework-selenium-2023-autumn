@@ -12,7 +12,6 @@ class LoginPage(BasePage):
     locators = LoginPageLocators
 
     def login(self, user: str, password: str, timeout=None):
-
         self.fill(self.locators.LOGIN, user, timeout=timeout)
 
         self.click(self.locators.LOGIN_GO_ON_BOY_BUTTON, timeout=timeout)

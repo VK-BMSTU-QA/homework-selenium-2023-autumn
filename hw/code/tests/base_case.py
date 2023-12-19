@@ -33,6 +33,8 @@ class BaseCase:
         self.driver = driver
         self.config = config
 
+        self.driver.delete_all_cookies()
+
         main_page = BasePage(self.driver)
         if self.authorize:
             cookies = request.getfixturevalue('cookies_and_local_storage')
