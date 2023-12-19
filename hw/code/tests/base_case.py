@@ -63,8 +63,6 @@ def cookies_and_local_storage(credentials, config, service):
 
     all_local_storage = new_driver.execute_script("return Object.entries(localStorage);")
     local_storage_dict = dict(all_local_storage)
-    # sorted_objects = [obj for obj in co if obj.get("domain") != "id.vk.com"]
-    # print(sorted_objects)
     return [co, local_storage_dict]
 
 @pytest.fixture(scope='session')

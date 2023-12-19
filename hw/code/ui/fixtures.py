@@ -15,9 +15,15 @@ def service(config):
     browser = config["browser"]
     if browser == "chrome":
         service  = ServiceChrome(executable_path=ChromeDriverManager().install())
+        # service  = ServiceChrome(executable_path='/usr/local/bin/geckodriver')
+
         
     elif browser == "firefox":
         service  = ServiceFirefox(executable_path=GeckoDriverManager().install())
+
+    elif browser == "yandex":
+        service  = ServiceChrome(executable_path='/Users/mochalovskiy/Technopark/QA/homework-selenium-2023-autumn/chromedriver-mac-x64/chromedriver')
+
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
     
@@ -40,13 +46,18 @@ def driver(config, service):
 
 def get_driver(browser, service):
     options = Options()
-    if browser == "chrome":        
+    if browser == "chrome":
         options = webdriver.ChromeOptions()
         driver = webdriver.Chrome(options=options, service=service)
         
     elif browser == "firefox":
         options = webdriver.FirefoxOptions()
         driver = webdriver.Firefox(options=options, service=service)
+
+    elif browser == "yandex":
+        options = webdriver.ChromeOptions()
+        options.binary_location = "/Applications/Yandex.app/Contents/MacOS/Yandex"
+        driver = webdriver.Chrome(options=options, service=service)
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
     
