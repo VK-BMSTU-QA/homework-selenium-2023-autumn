@@ -1,5 +1,18 @@
 from selenium.webdriver.common.by import By
+from ui.locators.basic import BasePageLocators
 
-class CompanyPageLocators:
+
+class CompanyPageLocators(BasePageLocators):
+    GROUP_BUTTON = (By.ID, "dashboardV2.groups")
+    ADVERTISEMENTS_BUTTON = (By.ID, "dashboardV2.ads")
+    SETTINGS_BUTTON = (By.CLASS_NAME, "TableSettings_settingsButton__uz8xK")
+    DOWNLOAD_BUTTON = (By.CLASS_NAME, "tableActions_downloadButton__Kuuoy")
     CREATE_BUTTON = (By.XPATH, '//*[@data-testid="create-button"]')
 
+    ACTION_SELECTOR = (By.CLASS_NAME, "tableActions_selectAction__3KbqY")
+
+    DOWNLOAD_DROPDOWN = (By.CLASS_NAME, "Dropdown_content__53ZvI")
+    SETTINGS_DROPDOWN = (By.CLASS_NAME, "PresetsMenu_wrapper__CcwQ-")
+
+    FILTER_FIELD = (By.XPATH, '//*[@data-testid="filter-search-input"]')
+    FILTER_BUTTON = (By.XPATH, '//*[@data-testid="filter-button"]')
