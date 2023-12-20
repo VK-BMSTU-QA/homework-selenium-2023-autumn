@@ -30,4 +30,15 @@ class NewCompanyPageLocators(BasePageLocators):
     )
 
     SPLIT_CHECKBOX = (By.XPATH, '//*[contains(text(), "Сплит-тест")]')
-    SELECTOR_LEAD = (By.XPATH, '//input[@data-testid="lead-form-select"]')
+    SELECTOR_LEAD = (By.XPATH, '//*[@data-testid="lead-form-select"]')
+    SELECT_LEAD_OPTION = (By.CLASS_NAME, "vkuiCustomSelectOption__description")
+
+    DATE_PICKER = (By.XPATH, '//*[@data-testid="end-date"]')
+    DATE_LAST_MONTH_BUTTON = (
+        By.XPATH,
+        '//*[contains(@aria-label, "Предыдущий месяц")]',
+    )
+    FIRST_DAY = (
+        By.XPATH,
+        '//*[contains(@class, "vkuiCalendarDay__inner")]/*[text()="1"]',
+    )

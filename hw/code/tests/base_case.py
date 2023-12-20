@@ -12,6 +12,10 @@ from ui.fixtures import driver, get_driver
 from conftest import config
 from ui.pages.login_page import LoginPage
 import json
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium import webdriver
 
 
 class BaseCase:
@@ -30,6 +34,31 @@ class BaseCase:
         self.driver.switch_to.window(current)
 
     @pytest.fixture(scope="function", autouse=True)
+    def teardown(self):
+        yield
+        # teardown
+        self.driver.find_element(By.TAG_NAME, "body").send_keys(Keys.CONTROL + "t")
+        self.driver.switch_to.window(self.driver.window_handles[-1])
+
+        for handle in self.driver.window_handles[:-1]:
+            self.driver.switch_to.window(handle)
+
+            # Wait for any potential alert
+            WebDriverWait(self.driver, 5).until(EC.alert_is_present())
+
+            # Handle the alert if present
+            try:
+                alert = self.driver.switch_to.alert
+                alert.accept()  # You can also use alert.dismiss() if needed
+            except:
+                pass
+
+            self.driver.close()
+
+        self.driver.delete_all_cookies()
+        time.sleep(5)
+
+    @pytest.fixture(scope="function", autouse=True)
     def setup(self, driver, config, request: FixtureRequest, cookies_and_local_storage):
         print("Setup")
         self.driver = driver
@@ -46,9 +75,11 @@ class BaseCase:
             # HACK
             self.driver.get("https://ads.vk.com/cases")
 
+            print("Set local")
             for key, value in cookies[1].items():
                 self.driver.execute_script(f"localStorage.setItem('{key}', '{value}');")
 
+            print("Set cookies")
             for cookie in cookies[0]:
                 self.driver.add_cookie(cookie)
 

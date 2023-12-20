@@ -11,6 +11,7 @@ from ui.pages.lk_page import LKPage
 from ui.pages.login_page import LoginPage
 from ui.pages.base_page import BasePage
 from ui.pages.new_company_page import NewCompanyPage
+from ui.pages.group_adv_page import GroupAdvPage
 
 
 @pytest.fixture(scope="session")
@@ -88,3 +89,9 @@ def company_page(driver):
 def new_company_page(driver):
     print("INIT FIXTURE NEW COMPANY PAGE")
     return NewCompanyPage(driver=driver)
+
+
+@pytest.fixture
+def group_adv_page(driver):
+    print("INIT FIXTURE GROUP PAGE")
+    return GroupAdvPage(driver=driver)
