@@ -44,8 +44,7 @@ class CreateCabinetPageLocators(BasePageLocators):
 
 
 class HqPageLocators(BasePageLocators):
-    CLOSE_EDU_MODAL_BTN = (By.XPATH, "//button[contains(., 'Попробовать позже')]")
-    CLOSE_EDU_HINT_BTN = BasePageLocators.by_css_selector('aria-label', 'close')
+    pass
 
 
 class AudiencePageLocators(BasePageLocators):
@@ -137,6 +136,8 @@ class CampaignPageLocators:
     GROUPS_TAB = (By.ID, 'dashboardV2.groups')
     ADS_TAB = (By.ID, 'dashboardV2.ads')
     CAMPAIGN_CREATION_BTN = BasePageLocators.by_css_selector('data-testid', 'create-button')
+    CLOSE_EDU_MODAL_BTN = (By.XPATH, "//button[contains(., 'Попробовать позже')]")
+    CLOSE_EDU_HINT_BTN = BasePageLocators.by_css_selector('aria-label', 'close')
 
 
 class BudgetPageLocators:
@@ -154,6 +155,33 @@ class BudgetPageLocators:
 
 
 class SitesPageLocators:
+    OPEN_PIXEL_MODAL_BTN = (By.XPATH, "//button[contains(., 'Добавить пиксель')]")
+    ADD_PIXEL_MODAL = (By.XPATH, "//div[contains(., 'Добавление пикселя')]")
+    SITE_DOMAIN_OPTION = (
+        By.XPATH, "//label[contains(@class, 'vkuiSegmentedControlOption') and contains(., 'Домен сайта')]")
+    PIXEL_ID_OPTION = (
+        By.XPATH, "//label[contains(@class, 'vkuiSegmentedControlOption') and contains(., 'ID пикселя')]")
+    SITE_DOMAIN_INPUT = (By.XPATH, "//input[@placeholder='Домен сайта']")
+    PIXEL_ID_INPUT = (By.XPATH, "//input[@placeholder='ID пикселя']")
+    OWNER_EMAIL_INPUT = (By.XPATH, "//input[@placeholder='Email владельца']")
     ADD_PIXEL_BTN = (
-        By.XPATH, "//span[contains(@class, 'vkuiButton__in')]//span[contains(string(), 'Добавить пиксель')]")
-    ADD_PIXEL_MODAL = (By.ID, '_modal_58')
+        By.XPATH, "//div[contains(@class, 'vkuiModalCardBase__actions')]//button[contains(., 'Добавить пиксель')]")
+    INVALID_DOMAIN_MSG = (By.XPATH, "//span[contains(., 'Введите корректный адрес сайта (вида: example.ru)')]")
+    ACCESS_REQUESTING_BTN = (By.XPATH, "//button[contains(., 'Запросить доступ')]")
+    CLOSE_MODAL_BTN = BasePageLocators.by_css_selector('aria-label', 'Закрыть')
+    MORE_BTN = BasePageLocators.by_css_selector('aria-label', 'More')
+    MORE_CONTEXT_MENU = (By.XPATH,
+                         "//div[contains(@class, 'vkuiPopper') and contains(., 'Переименовать') and contains(., 'Удалить пиксель')]")
+    RENAME_DROPDOWN_ITEM = (By.XPATH, "//label[contains(., 'Переименовать')]")
+    RENAME_CANCEL_BTN = (By.XPATH, "//button[contains(., 'Отмена')]")
+    RENAME_APPLY_BTN = (By.XPATH, "//button[contains(., 'Изменить')]")
+    RENAME_MODAL = (By.XPATH, "//div[contains(@class, 'vkuiModalCard') and contains(., 'Изменить название пикселя')]")
+    RENAME_MODAL_NAME_INPUT = By.XPATH, "//div[contains(@class, 'vkuiModalCard') and contains(., 'Изменить название пикселя')]/div/span/input[@name='name']"
+
+    @staticmethod
+    def pixel_by_domain(domain):
+        return By.XPATH, f"//*[contains(., '{domain}')]"
+
+    @staticmethod
+    def pixel_more_btn(domain):
+        return By.XPATH, f"//div[contains(@class, 'PixelsList__row') and contains(., {domain})]/div[contains(@class, 'BaseTable__row-cell')]/button[@aria-label='More']"

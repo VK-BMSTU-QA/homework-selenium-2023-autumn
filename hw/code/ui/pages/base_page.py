@@ -59,6 +59,9 @@ class BasePage(object):
         actions.move_to_element(elem).click().perform()
         return elem
 
+    def clear_elem(self, elem):
+        self.driver.execute_script("arguments[0].value = '';", elem)
+
     def fill(self, locator, text, timeout=None) -> WebElement:
         elem = self.click(locator, timeout=timeout)
         elem.clear()
