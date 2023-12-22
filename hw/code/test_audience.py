@@ -39,14 +39,12 @@ class TestAudience(BaseCase):
         audience_page.is_disabled(audience_page.locators.KEYWORDS_SAVE_BTN)
 
     def test_only_keywords_filled(self, audience_page):
-        audience_page.create_audience('Ключевые фразы', 'маркетинг', title='Тестовая аудитория')
-        audience_page.delete_audience('Тестовая аудитория')
+        audience_page.create_audience('Ключевые фразы', keywords='маркетинг', title='Тестовая аудитория')
 
     def test_all_fields_filled(self, audience_page):
         audience_page.create_audience('Ключевые фразы', keywords='маркетинг', title='Тестовая аудитория',
                                       keywords_title='Источник', neg_keywords='бизнес')
-        audience_page.delete_audience('Тестовая аудитория')
 
     def test_delete_audience(self, audience_page):
-        audience_page.create_audience('Ключевые фразы', 'маркетинг', title='Тестовая аудитория')
+        audience_page.create_audience('Ключевые фразы', keywords='маркетинг', title='Тестовая аудитория')
         audience_page.delete_audience('Тестовая аудитория')

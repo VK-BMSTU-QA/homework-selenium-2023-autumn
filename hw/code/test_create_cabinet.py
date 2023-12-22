@@ -2,7 +2,7 @@ from ui.fixtures import create_cabinet_page
 from base import BaseCase
 import pytest
 
-from ui.pages.campaigns_page import CampaignsPage
+from ui.pages.campaign_page import CampaignPage
 from ui.pages.settings_page import SettingsPage
 
 
@@ -43,7 +43,7 @@ class TestCreateCabinet(BaseCase):
     def test_valid_form(self, create_cabinet_page, credentials):
         create_cabinet_page.fill_email(credentials[0])
         create_cabinet_page.submit_form()
-        CampaignsPage(driver=self.driver).is_opened()
+        CampaignPage(driver=self.driver).is_opened()
 
         self.driver.get(SettingsPage.url)
         page = SettingsPage(driver=self.driver)
