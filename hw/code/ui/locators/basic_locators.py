@@ -24,6 +24,10 @@ class LoginPageLocators(BasePageLocators):
 
 class RegistrationPageLocators(BasePageLocators):
     CREATE_CABINET_BTN = BasePageLocators.by_css_selector('data-testid', 'create-new')
+    AVATAR_BTN = (By.XPATH, "//*[contains(@class, 'userMenu_avatar')]")
+    LOGOUT_BTN = (By.XPATH, "//*[contains(@class, 'userMenu_logoutButton')]")
+    RU_TAB = (By.XPATH, "//label[contains(@class, 'vkuiSegmentedControlOption')][contains(., 'Русский')]")
+    EN_TAB = (By.XPATH, "//label[contains(@class, 'vkuiSegmentedControlOption')][contains(., 'English')]")
 
 
 class CreateCabinetPageLocators(BasePageLocators):

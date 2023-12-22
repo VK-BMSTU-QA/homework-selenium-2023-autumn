@@ -9,3 +9,5 @@ pytest --verbose -s hw/code
 или
 ./runner_tests.sh
 ```
+
+Полезные ключи: --headless и -k

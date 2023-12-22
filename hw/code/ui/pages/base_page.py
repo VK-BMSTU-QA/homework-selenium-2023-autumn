@@ -77,6 +77,9 @@ class BasePage(object):
     def is_selected(self, locator, state=True, timeout=None):
         self.wait(timeout).until(EC.element_located_selection_state_to_be(locator, state))
 
+    def has_text(self, locator, text, timeout=None):
+        self.wait(timeout).until(EC.text_to_be_present_in_element(locator, text))
+
     def check_url(self, url_for_match, timeout=15):
         started = time.time()
         while time.time() - started < timeout:
