@@ -42,3 +42,23 @@ class NewCompanyPageLocators(BasePageLocators):
         By.XPATH,
         '//*[contains(@class, "vkuiCalendarDay__inner")]/*[text()="1"]',
     )
+
+    ERROR_LESS_THAN_HUN = (
+        By.XPATH,
+        '//*[contains(text(), "Бюджет кампании должен быть не меньше 100₽")]',
+    )
+
+    ERROR_MUST_FIELD = (
+        By.XPATH,
+        '//*[contains(text(), "Обязательное поле")]',
+    )
+
+    ERROR_NOT_FOUND_COM = (
+        By.XPATH,
+        '//*[contains(text(), "Сообщество не найдено")]',
+    )
+
+    ERROR_ALREADY_SELECTED = (
+        By.XPATH,
+        '//*[contains(text(), "Уже выбрана в другом селекте")]',
+    )
