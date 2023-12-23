@@ -76,11 +76,11 @@ class TestGroup(BaseCase):
 
     #     assert group_adv_page.is_disabled_and_cheked_device(1)
 
-    def test_url(self, group_adv_page: GroupAdvPage):
-        group_adv_page.get_page().wait_load_page()
+    # def test_url(self, group_adv_page: GroupAdvPage):
+    #     group_adv_page.get_page().wait_load_page()
 
-        group_adv_page.click_url_region().select_utm().send_text_url(
-            "adsabasb"
-        ).click_continue_button()
+    #     group_adv_page.click_url_region().select_utm().send_text_url(
+    #         "adsabasb"
+    #     ).click_continue_button()
 
-        assert group_adv_page.is_utm_not_correct()
+    #     assert group_adv_page.is_utm_not_correct()

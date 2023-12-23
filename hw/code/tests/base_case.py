@@ -93,12 +93,15 @@ class BaseCase:
 
 # HACK
 def save_localstorage_cookies_to_env(driver):
+    print("Save to storages")
     localstorage = driver.execute_script("return window.localStorage")
     with open("localstorage.env", "w") as f:
+        print("Save to localStorage")
         json.dump(localstorage, f)
 
     cookies = driver.get_cookies()
     with open("cookies.env", "w") as f:
+        print("Save to cookies")
         json.dump(cookies, f)
 
 

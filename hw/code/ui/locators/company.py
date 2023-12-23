@@ -16,3 +16,14 @@ class CompanyPageLocators(BasePageLocators):
 
     FILTER_FIELD = (By.XPATH, '//*[@data-testid="filter-search-input"]')
     FILTER_BUTTON = (By.XPATH, '//*[@data-testid="filter-button"]')
+    DELETED_FILTER = (By.XPATH, '//*[contains(text(), "Удаленные")]')
+    FILTER_APPLY_BUTTON = (By.XPATH, '//*[contains(text(), "Применить")]')
+    COMPANY_OPTIONS = (
+        By.XPATH,
+        "//div[@data-entityid]//label[contains(@class, 'vkuiCheckbox')]//input[@type='checkbox']",
+    )
+    STARTED_FILTER = (By.XPATH, '//*[contains(text(), "Запущенные")]')
+    DELETE_ACTION = (By.XPATH, '//*[contains(text(), "Удалить)]')
+
+    DRAFT_BUTTON = (By.XPATH, '//*[@data-testid="drafts-button"]')
+    DELETE_DRAFT = (By.XPATH, '//*[@data-testid="delete-button""]')

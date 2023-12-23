@@ -1,6 +1,11 @@
 import pytest
 import time
-from tests.base_case import BaseCase, credentials, save_localstorage_cookies_to_env
+from tests.base_case import (
+    BaseCase,
+    credentials,
+    save_localstorage_cookies_to_env,
+    cookies_and_local_storage,
+)
 from ui.pages.login_page import LoginPage
 
 from selenium.common.exceptions import TimeoutException
@@ -8,6 +13,11 @@ from selenium.common.exceptions import TimeoutException
 
 class TestLogin(BaseCase):
     authorize = False
+
+    # HACK
+    # def test_login(self, login_page):
+    #     time.sleep(100)
+    #     save_localstorage_cookies_to_env(login_page.driver)
 
     # TODO remove comments
     # def test_login(self, credentials, login_page: LoginPage):
