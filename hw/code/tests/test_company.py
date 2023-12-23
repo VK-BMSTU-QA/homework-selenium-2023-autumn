@@ -115,8 +115,8 @@ class TestCompany(BaseCase):
     def create_draft(self, company_page):
         # TODO make creation of draft
         yield company_page
-        company_page.select_company().
-        
+        company_page.select_company().delete_draft()
+
     def test_draft(self, create_draft):
         create_draft.go_to_drafts().delete_draft()
         assert create_draft.is_on_site_text("Создайте первую рекламную кампанию")
