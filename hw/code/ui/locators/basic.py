@@ -6,6 +6,10 @@ class BasePageLocators:
         By.XPATH, "//button[contains(@class, 'CookieBanner_button__')]"
     )
     BANNER_BUTTON = (By.CLASS_NAME, 'vkuiIcon--cancel_20')
+    ELEMENT_WITH_TEXT = lambda self, element, text : (By.XPATH, f"//{element}[text()=\"{text}\"]")
+    INPUT_WITH_PLACEHOLDER = lambda self, placeholder : (By.XPATH, f"//input[@placeholder=\"{placeholder}\"]")
+    LINK_WITH_HREF = lambda self, href : (By.XPATH, f"//a[contains(@href, '{href}')]")
+    VALIDATION_FAILED_NOTIFICATION = (By.ID, "Validation failed")
     
     '''QUERY_LOCATOR = (By.NAME, "q")
     QUERY_LOCATOR_ID = (By.ID, "id-search-field")

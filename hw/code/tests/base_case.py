@@ -12,6 +12,8 @@ from ui.fixtures import driver, get_driver
 from conftest import config
 from ui.pages.login_page import LoginPage
 
+from selenium.common.exceptions import NoAlertPresentException
+
 
 class BaseCase:
     driver = None
@@ -38,6 +40,12 @@ class BaseCase:
         main_page = BasePage(self.driver)
         if self.authorize:
             cookies = request.getfixturevalue('cookies_and_local_storage')
+
+            try:
+                alert = driver.switch_to.alert
+                alert.accept()
+            except NoAlertPresentException:
+                pass
 
             for key, value in cookies[1].items():
                 self.driver.execute_script(f"localStorage.setItem('{key}', '{value}');")
