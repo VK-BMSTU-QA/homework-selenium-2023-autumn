@@ -49,5 +49,5 @@ class TestGroup(BaseCase):
     #     )
     #     name = get_page.get_company_name()
     #     get_page.click_continue_button()
-
+    #     # XXX
     #     assert get_page.is_on_site_text(name, 10)

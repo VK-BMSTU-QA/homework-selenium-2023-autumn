@@ -18,32 +18,31 @@ class CompanyPage(BasePage):
             EC.presence_of_all_elements_located(locator)
         )
 
+    def action_click(self, element):
+        # XXX
+        actions = ActionChains(self.driver, 500)
+        actions.move_to_element(element)
+        actions.click(element)
+        actions.perform()
+        return self
+
+    def get_current_url(self):
+        return self.driver.current_url
+
     def create_company(self, timeout=None):
         self.click(self.locators.CREATE_BUTTON, timeout=timeout)
+        return self
 
     def download(self, timeout=None):
         element = self.find(self.locators.DOWNLOAD_BUTTON, timeout=timeout)
 
-        actions = ActionChains(self.driver, 500)
-        actions.move_to_element(element)
-        actions.click(element)
-        actions.perform()
-
+        self.action_click(element)
         return self
 
     def settings(self, timeout=None):
         element = self.find(self.locators.SETTINGS_BUTTON, timeout=timeout)
-
-        actions = ActionChains(self.driver, 500)
-        actions.move_to_element(element)
-        actions.click(element)
-        actions.perform()
-
-    def action(self, timeout=None):
-        self.click(self.locators.ACTION_SELECTOR, timeout=timeout)
-
-    def group_view(self, timeout=None):
-        self.click(self.locators.GROUP_BUTTON, timeout=timeout)
+        self.action_click(element)
+        return self
 
     def advertisment_view(self, timeout=None):
         self.click(self.locators.ADVERTISEMENTS_BUTTON, timeout=timeout)
@@ -55,21 +54,12 @@ class CompanyPage(BasePage):
     def select_deleted_filter(self):
         element = self.find(self.locators.DELETED_FILTER)
 
-        actions = ActionChains(self.driver, 500)
-        actions.move_to_element(element)
-        actions.click(element)
-        actions.perform()
-
+        self.action_click(element)
         return self
 
     def select_started_filter(self):
         element = self.find(self.locators.STARTED_FILTER)
-
-        actions = ActionChains(self.driver, 500)
-        actions.move_to_element(element)
-        actions.click(element)
-        actions.perform()
-
+        self.action_click(element)
         return self
 
     def apply_filters(self):
@@ -79,31 +69,18 @@ class CompanyPage(BasePage):
     def select_company(self, number_of_company=0):
         elements = self.multiple_find(self.locators.COMPANY_OPTIONS)
 
-        actions = ActionChains(self.driver, 500)
-        actions.move_to_element(elements[number_of_company])
-        actions.click(elements[number_of_company])
-        actions.perform()
-
+        self.action_click(elements[number_of_company])
         return self
 
     def select_action_list(self):
         element = self.find(self.locators.ACTION_SELECTOR)
 
-        actions = ActionChains(self.driver, 500)
-        actions.move_to_element(element)
-        actions.click(element)
-        actions.perform()
-
+        self.action_click(element)
         return self
 
     def select_delete_action(self):
         element = self.find(self.locators.DELETE_ACTION)
-
-        actions = ActionChains(self.driver, 500)
-        actions.move_to_element(element)
-        actions.click(element)
-        actions.perform()
-
+        self.action_click(element)
         return self
 
     def is_on_site_text(self, text: str, timeout: int = 5):
@@ -126,3 +103,6 @@ class CompanyPage(BasePage):
     def delete_draft(self):
         self.click(self.locators.DELETE_DRAFT)
         return self
+
+    def get_selector_attribute(self):
+        self.find(self.locators.ACTION_SELECTOR).get_attribute("class")

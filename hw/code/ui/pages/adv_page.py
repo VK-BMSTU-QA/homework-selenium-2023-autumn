@@ -80,7 +80,7 @@ class AdvPage(BasePage):
         el = self.multiple_find(self.locators.COUNTS_CHARS)[0]
         text = el.text
 
-        # ***
+        # XXX
         matches = re.search(r"\d+ / (\d+)", text)
         count_chars_value = 0
         if matches:

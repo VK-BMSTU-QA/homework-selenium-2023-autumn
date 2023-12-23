@@ -32,73 +32,53 @@ def is_matching_link(link, base_url):
 class TestCompany(BaseCase):
     authorize = True
 
-    # TODO remove comments
-    # def test_create(self, company_page: CompanyPage):
-    #     print(company_page.driver.get_cookies())
+    @pytest.fixture
+    def preparations(self, company_page: CompanyPage):
+        company_page.close_banner()
+        yield company_page
 
-    #     company_page.close_banner()
-    #     company_page.create_company()
+    def test_create(self, preparations):
+        preparations.create_company()
+        assert is_matching_link(preparations.get_current_url(), AllLinks.COMPANY_CREATE)
 
-    #     assert is_matching_link(
-    #         company_page.driver.current_url, AllLinks.COMPANY_CREATE
-    #     )
+    def test_group(self, preparations):
+        preparations.group_view(5)
+        assert is_matching_link(preparations.get_current_url(), AllLinks.GROUP)
 
-    # def test_group(self, company_page):
-    #     company_page.close_banner()
-    #     company_page.group_view(5)
+    def test_advertisment(self, preparations):
+        preparations.advertisment_view(5)
+        assert is_matching_link(preparations.get_current_url(), AllLinks.ADVERTISEMENTS)
 
-    #     assert is_matching_link(company_page.driver.current_url, AllLinks.GROUP)
+    def test_list(self, preparations):
+        preparations.select_action_list()
 
-    # def test_advertisment(self, company_page):
-    #     company_page.close_banner()
-    #     company_page.advertisment_view(5)
+        selector_classes = preparations.get_selector_attribute()
+        # NOTE class can be taken out
+        assert "vkuiCustomSelect--pop-down" not in selector_classes
 
-    #     assert is_matching_link(
-    #         company_page.driver.current_url, AllLinks.ADVERTISEMENTS
-    #     )
+    def test_download(self, preparations):
+        preparations.download(5)
+        # NOTE can be taken out
+        assert not preparations.is_on_site_text("Отчет по датам")
 
-    # def test_list(self, company_page):
-    #     company_page.close_banner()
-    #     selector = company_page.find(company_page.locators.ACTION_SELECTOR)
+    def test_settings(self, preparations):
+        preparations.settings(5)
+        # NOTE can be taken out
+        assert not preparations.is_on_site_text("Настроить столбцы")
 
-    #     actions = ActionChains(company_page.driver)
-    #     actions.move_to_element(selector)
-    #     actions.click(selector)
-    #     actions.perform()
+    @pytest.fixture
+    def setup_filter(self, preparations):
+        preparations.select_filter().select_deleted_filter().apply_filters()
+        yield preparations
+        preparations.select_filter().select_deleted_filter().apply_filters()
 
-    #     selector_classes = selector.get_attribute("class")
-    #     # NOTE class can be taken out
-    #     assert "vkuiCustomSelect--pop-down" not in selector_classes
+    def test_select_company_settings(self, setup_filter: CompanyPage):
+        setup_filter.select_company().settings()
+        assert setup_filter.is_on_site_text("Настроить столбцы")
 
-    # def test_download(self, company_page):
-    #     company_page.close_banner()
-    #     company_page.download(5)
-
-    #     # NOTE can be taken out
-    #     assert "Отчет по датам" not in company_page.driver.page_source
-
-    # def test_settings(self, company_page):
-    #     company_page.close_banner()
-    #     company_page.settings(5)
-
-    #     # NOTE can be taken out
-    #     assert "Настроить столбцы" not in company_page.driver.page_source
-    # TODO
-    # Кампании. Выбрать кампанию, иконка "шестеренки" и выпадающий список "Действия", станут доступны.
-
-    # @pytest.fixture
-    # def setup_filter(self, company_page):
-    #     company_page.select_filter().select_deleted_filter().apply_filters()
-    #     yield company_page
-    #     company_page.select_filter().select_deleted_filter().apply_filters()
-
-    # def test_select_company_settings(self, setup_filter: CompanyPage):
-    #     setup_filter.select_company().settings()
-    #     assert "Настроить столбцы" in setup_filter.driver.page_source
-
-    # def test_select_company_downloads(self, setup_filter):
-    #     setup_filter.select_company().download()
-    #     assert "Отчет по датам" in company_page.driver.page_source
+    def test_select_company_downloads(self, setup_filter):
+        setup_filter.select_company().download()
+        assert setup_filter.is_on_site_text("Отчет по датам")
 
     @pytest.fixture
     def create_company(self, new_company_page):

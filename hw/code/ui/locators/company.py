@@ -9,7 +9,7 @@ class CompanyPageLocators(BasePageLocators):
     DOWNLOAD_BUTTON = (By.CLASS_NAME, "tableActions_downloadButton__Kuuoy")
     CREATE_BUTTON = (By.XPATH, '//*[@data-testid="create-button"]')
 
-    ACTION_SELECTOR = (By.CLASS_NAME, "tableActions_selectAction__3KbqY")
+    ACTION_SELECTOR = (By.XPATH, '//*[@data-testid="select-options"]')
 
     DOWNLOAD_DROPDOWN = (By.CLASS_NAME, "Dropdown_content__53ZvI")
     SETTINGS_DROPDOWN = (By.CLASS_NAME, "PresetsMenu_wrapper__CcwQ-")
