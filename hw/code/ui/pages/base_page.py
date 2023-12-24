@@ -93,5 +93,8 @@ class BasePage(object):
                 return True
         return False
 
+    def url_contains(self, substring,):
+        return substring in self.driver.current_url
+
     def go_to_cabinet(self):
         self.click(self.locators.GO_TO_CABINET_BTN)

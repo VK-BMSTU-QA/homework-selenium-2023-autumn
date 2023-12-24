@@ -155,9 +155,10 @@ class CampaignPageLocators:
         return By.XPATH, f"//div[contains(@class, vkuiChip) and contains(., {query})]"
 
 
-class CampaignCreationPageLocators:
+class CampaignCreationPageLocators(BasePageLocators):
     CAMPAIGN_SECTION_TITLE = (By.CLASS_NAME, 'PlanForm_title__wffcf')
     CAMPAIGN_SECTION_TITLE_INPUT = (By.CLASS_NAME, 'EditableTitle_input__cq0UF')
+    DELETE_CAMPAIGN_OPTION = (By.XPATH, "//label[contains(., 'Удалить')]")
     MORE_OPTION_BTN = BasePageLocators.by_css_selector('aria-label', 'More')
     MORE_CONTEXT_MENU = (By.XPATH, "//div[contains(@class, 'vkuiPopper')]")
     SITE_OPTION = BasePageLocators.by_css_selector('data-id', 'site_conversions')
@@ -200,12 +201,25 @@ class CampaignCreationPageLocators:
         By.XPATH, "//div[contains(@class, 'vkuiFormItem') and contains(., 'Ссылка на сайт')]//input")
     NATIVE_BLOCK_BTN = (By.XPATH, "//button[contains(@data-value, 'native')]")
     SET_LOGO_BTN = (By.XPATH, "//button[contains(., 'Выбрать логотип')]")
+    LOADER = (By.CLASS_NAME, 'Loading_loading__o-t1B')
     LOGO_IMG = (By.XPATH, "//div[contains(@class, 'ImageItems_imageItem__jdlt3') and contains(., 'emblem.png')]")
-    EMPTY_MEDIA_FILES_BANNER = (By.XPATH, "//div[contains(@class, 'vkuiBanner') and contains(., 'Для выбранных мест размещений не хватает медиафайлов')]")
-    CHOOSE_MEDIAFILES_BTN = (By.XPATH, "//div[contains(@class, 'vkuiSimpleCell') and contains(., 'Выбрать из медиатеки')]")
-    ADD_MEDIFILES_BTN = (By.XPATH, "//button[contains(., 'Добавить')]")
+    PREVIEW_IMG = (By.XPATH, "//div[contains(@class, 'ImageItems_imageItem__jdlt3') and contains(., 'preview.png')]")
+    EMPTY_MEDIA_FILES_BANNER = (By.XPATH,
+                                "//div[contains(@class, 'vkuiBanner') and contains(., 'Для выбранных мест размещений не хватает медиафайлов')]")
+    CHOOSE_MEDIA_FILES_BTN = (
+        By.XPATH, "//div[contains(@class, 'vkuiSimpleCell') and contains(., 'Выбрать из медиатеки')]")
+    ADD_MEDIA_FILES_BTN = (By.XPATH, "//button[contains(., 'Добавить')]")
     SEND_BTN = (By.XPATH, "//button[contains(., 'Отправить')]")
     PUBLISH_BTN = (By.XPATH, "//button[contains(., 'Опубликовать')]")
+    CHANGES_SAVING_MSG = (By.XPATH, "//div[contains(., 'Изменения сохранены')]")
+    PREVIEW_ITEM = (
+        By.XPATH, "//img[contains(@class, 'MediaContainer_image__HmwFk')]")
+    LOGO_MEDIA_PREVIEW = (By.CLASS_NAME, 'AdMediaPreview_loaded__g7y71')
+    ACTION_SELECT = (By.XPATH, "//label[contains(@class, 'vkuiCustomSelect') and contains(., 'Действия')]")
+
+    @staticmethod
+    def campaign_checkbox(name):
+        return (By.XPATH, f"//div[contains(., '{name}')]//div[contains(@class, 'vkuiCheckbox__icon--off')]")
 
     @staticmethod
     def region_item(region):
@@ -231,6 +245,7 @@ class CampaignCreationPageLocators:
     @staticmethod
     def campaign_list_row(name):
         return (By.XPATH, f"//div[contains(@class, 'BaseTable__row') and contains(., '{name}')]")
+
 
 class BudgetPageLocators:
     PAY_MODAL_BTN = (
