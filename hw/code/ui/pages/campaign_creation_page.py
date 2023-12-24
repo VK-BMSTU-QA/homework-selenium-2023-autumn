@@ -18,10 +18,12 @@ class CampaignCreationPage(HqPage):
     def fill_budget(self, value):
         self.fill(self.locators.BUDGET_INPUT, value)
 
-    def go_to_ad_groups(self, domain, budget, name='test_campaign' + str(time.time())):
-        self.click(self.locators.CAMPAIGN_SECTION_TITLE)
-        time.sleep(5)
-        self.fill(self.locators.CAMPAIGN_SECTION_TITLE_INPUT, name)
+    def go_to_ad_groups(self, domain, budget, name=None):
+        if name is not None:
+            self.click(self.locators.CAMPAIGN_SECTION_TITLE)
+            time.sleep(5)
+            self.fill(self.locators.CAMPAIGN_SECTION_TITLE_INPUT, name)
+
         self.click(self.locators.SITE_OPTION)
         self.fill_site_domain(domain)
         self.fill_budget(budget)
@@ -29,7 +31,7 @@ class CampaignCreationPage(HqPage):
         self.click(self.locators.CONTINUE_BTN)
         time.sleep(5)
 
-    def go_to_ads(self, domain, budget, region, name='test_campaign' + str(time.time())):
+    def go_to_ads(self, domain, budget, region, name=None):
         self.go_to_ad_groups(domain, budget, name)
         self.click(self.locators.region_item(region))
         self.click(self.locators.CONTINUE_BTN)

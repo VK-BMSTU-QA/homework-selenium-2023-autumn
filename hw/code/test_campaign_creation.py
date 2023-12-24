@@ -54,10 +54,6 @@ class TestCampaignCreation(BaseCase):
         campaign_creation_page.click(campaign_creation_page.locators.region_item(region))
         assert campaign_creation_page.get_selected_regions_count() == 1
 
-    def test_min_age(self, campaign_creation_page):
-        campaign_creation_page.go_to_ad_groups('test.ru', 2000)
-        campaign_creation_page.click(campaign_creation_page.locators.DEMOGRAPHY_SECTION)
-
     @pytest.mark.parametrize(
         'disabling_device, enabling_device',
         [

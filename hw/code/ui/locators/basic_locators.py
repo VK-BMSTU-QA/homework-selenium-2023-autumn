@@ -147,6 +147,8 @@ class CampaignPageLocators:
     SEARCH_INPUT = BasePageLocators.by_css_selector('name', 'filter-search-input')
     SETTINGS_BTN = (By.CLASS_NAME, 'TableSettings_settingsButton__uz8xK')
     DOWNLOAD_BTN = (By.CLASS_NAME, 'tableActions_downloadButton__Kuuoy')
+    SETTINGS_CONTEXT_MENU = (By.XPATH, "//div[contains(@class, 'vkuiPopper') and contains(., 'Настроить столбцы')]")
+    DOWNLOAD_CONTEXT_MENU = (By.XPATH, "//div[contains(@class, 'vkuiPopper') and contains(., 'Итоговый отчет')]")
 
     @staticmethod
     def search_bage(query):
