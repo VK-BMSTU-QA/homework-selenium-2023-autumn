@@ -1,5 +1,3 @@
-import time
-
 import pytest
 from ui.pages.budget_page import BudgetPage
 from base import BaseCase

@@ -44,7 +44,8 @@ class CreateCabinetPageLocators(BasePageLocators):
 
 
 class HqPageLocators(BasePageLocators):
-    pass
+    CLOSE_EDU_MODAL_BTN = (By.XPATH, "//button[contains(., 'Попробовать позже')]")
+    CLOSE_EDU_HINT_BTN = BasePageLocators.by_css_selector('aria-label', 'close')
 
 
 class AudiencePageLocators(BasePageLocators):
@@ -138,7 +139,96 @@ class CampaignPageLocators:
     CAMPAIGN_CREATION_BTN = BasePageLocators.by_css_selector('data-testid', 'create-button')
     CLOSE_EDU_MODAL_BTN = (By.XPATH, "//button[contains(., 'Попробовать позже')]")
     CLOSE_EDU_HINT_BTN = BasePageLocators.by_css_selector('aria-label', 'close')
+    FILTER_BTN = (By.XPATH, "//button[contains(., 'Фильтр')]")
+    FILTER_FORM = (
+        By.XPATH, "//div[contains(@class, 'Tooltip_tooltipContainer__P1b-O') and contains(., 'Новый фильтр')]")
+    RANGE_DATA_PICKER_WIDGET = (By.XPATH, "//div[contains(@class, 'RangeDatePicker')]")
+    RANGE_DATA_BTN = BasePageLocators.by_css_selector('data-testid', 'filter-data-picker')
+    SEARCH_INPUT = BasePageLocators.by_css_selector('name', 'filter-search-input')
+    SETTINGS_BTN = (By.CLASS_NAME, 'TableSettings_settingsButton__uz8xK')
+    DOWNLOAD_BTN = (By.CLASS_NAME, 'tableActions_downloadButton__Kuuoy')
 
+    @staticmethod
+    def search_bage(query):
+        return By.XPATH, f"//div[contains(@class, vkuiChip) and contains(., {query})]"
+
+
+class CampaignCreationPageLocators:
+    CAMPAIGN_SECTION_TITLE = (By.CLASS_NAME, 'PlanForm_title__wffcf')
+    CAMPAIGN_SECTION_TITLE_INPUT = (By.CLASS_NAME, 'EditableTitle_input__cq0UF')
+    MORE_OPTION_BTN = BasePageLocators.by_css_selector('aria-label', 'More')
+    MORE_CONTEXT_MENU = (By.XPATH, "//div[contains(@class, 'vkuiPopper')]")
+    SITE_OPTION = BasePageLocators.by_css_selector('data-id', 'site_conversions')
+    SITE_DOMAIN_INPUT = (
+        By.XPATH, "//div[contains(., 'Рекламируемый сайт') and contains(@class, 'vkuiFormItem')]/span/input")
+    CONTINUE_BTN = (By.XPATH, "//button[contains(., 'Продолжить')]")
+    BUDGET_INPUT = BasePageLocators.by_css_selector('data-testid', 'targeting-not-set')
+    MIN_BUDGET_MSG = (By.XPATH,
+                      "//span[contains(@class, 'vkuiFormItem__bottom') and contains(., 'Бюджет кампании должен быть не меньше 100₽')]")
+    FOOTER_ERROR_BTN = (By.XPATH, "//button[contains(@class, 'ErrorsTooltip_button__YyIDS')]")
+    REGIONS_COUNTER = (By.CLASS_NAME, 'RegionsSelector_selectedRegionsCount__LWBfS')
+    DEMOGRAPHY_SECTION = BasePageLocators.by_css_selector('data-testid', 'section-demography')
+    DEVICES_SECTION = BasePageLocators.by_css_selector('data-testid', 'section-devices')
+    URL_PARAMS_SECTION = BasePageLocators.by_css_selector('data-testid', 'section-urlUtm')
+    URL_MANUAL_LABEL_OPTION = (
+        By.XPATH, "//label[contains(@class, 'vkuiRadio') and contains(., 'Добавлять UTM-метки вручную')]")
+    URL_PARAMS_REQUIRED_FIELD_MSG = (By.XPATH,
+                                     "//section[contains(@data-testid, 'section-urlUtm')]//span[contains(@class, 'vkuiFormItem__bottom') and contains(., 'Обязательное поле')]")
+    INCORRECT_UTM_LABEL_FORMAT_MSG = (By.XPATH,
+                                      "//section[contains(@data-testid, 'section-urlUtm')]//span[contains(@class, 'vkuiFormItem__bottom') and contains(., 'Неверный формат utm-метки')]")
+    UTM_LABEL_INPUT = (By.XPATH, "//span[contains(@class, 'UrlUtm_textarea__QsCLz')]//textarea")
+    PLACEMENT_SECTION = BasePageLocators.by_css_selector('data-testid', 'section-placement')
+    PLACEMENT_SWITCH = (
+        By.XPATH, "//section[contains(@data-testid, 'section-placement')]//label[contains(@class, 'vkuiSwitch')]")
+    PLACEMENT_LIST = (
+        By.XPATH,
+        "//section[contains(@data-testid, 'section-placement')]//div[contains(@class, 'composite_unit__1W0jc')]")
+    AD_SECTION_TITLE = (By.CLASS_NAME, 'EditableTitle_container__l9GP0')
+    AD_SECTION_TITLE_INPUT = (By.CLASS_NAME, 'EditableTitle_input__cq0UF')
+    TITLE_INPUT = (By.XPATH, "//div[contains(@class, 'vkuiFormItem') and contains(., 'Заголовок')]//input")
+    SHORT_DESCRIPTION_INPUT = (
+        By.XPATH, "//div[contains(@class, 'vkuiFormItem') and contains(., 'Короткое описание')]//textarea")
+    LONG_DESCRIPTION_INPUT = (
+        By.XPATH, "//div[contains(@class, 'vkuiFormItem') and contains(., 'Длинное описание')]//textarea")
+    BTN_TEXT_INPUT = (
+        By.XPATH, "//div[contains(@class, 'vkuiFormItem') and contains(., 'Текст рядом с кнопкой')]//input")
+    ADVERTISER_DATA_INPUT = (
+        By.XPATH, "//div[contains(@class, 'vkuiFormItem') and contains(., 'Данные рекламодателя')]//textarea")
+    SITE_LINK_INPUT = (
+        By.XPATH, "//div[contains(@class, 'vkuiFormItem') and contains(., 'Ссылка на сайт')]//input")
+    NATIVE_BLOCK_BTN = (By.XPATH, "//button[contains(@data-value, 'native')]")
+    SET_LOGO_BTN = (By.XPATH, "//button[contains(., 'Выбрать логотип')]")
+    LOGO_IMG = (By.XPATH, "//div[contains(@class, 'ImageItems_imageItem__jdlt3') and contains(., 'emblem.png')]")
+    EMPTY_MEDIA_FILES_BANNER = (By.XPATH, "//div[contains(@class, 'vkuiBanner') and contains(., 'Для выбранных мест размещений не хватает медиафайлов')]")
+    CHOOSE_MEDIAFILES_BTN = (By.XPATH, "//div[contains(@class, 'vkuiSimpleCell') and contains(., 'Выбрать из медиатеки')]")
+    ADD_MEDIFILES_BTN = (By.XPATH, "//button[contains(., 'Добавить')]")
+    SEND_BTN = (By.XPATH, "//button[contains(., 'Отправить')]")
+    PUBLISH_BTN = (By.XPATH, "//button[contains(., 'Опубликовать')]")
+
+    @staticmethod
+    def region_item(region):
+        return By.XPATH, f"//button[contains(@class, 'RegionsQuickSelection_item__nOY8O') and contains(., '{region}')]"
+
+    @staticmethod
+    def device_option(device):
+        return By.XPATH, f"//label[contains(@class, 'vkuiCheckbox') and contains(., '{device}')]"
+
+    @staticmethod
+    def placement_option(placement):
+        return By.XPATH, f"//div[contains(@class, 'vkuiSimpleCell') and contains(., '{placement}')]"
+
+    @staticmethod
+    def checked_placement_checkbox(placement):
+        return By.XPATH, f"//div[contains(@class, 'vkuiSimpleCell') and contains(., '{placement}')]//*[contains(@class, 'simpleCheckbox_checked__XSLVa')]"
+
+    @staticmethod
+    def form_item_error_msg(item_title, msg):
+        return (By.XPATH,
+                f"//div[contains(@class, 'vkuiFormItem') and contains(., '{item_title}')]//span[contains(@class, 'vkuiFormItem__bottom') and contains(., '{msg}')]")
+
+    @staticmethod
+    def campaign_list_row(name):
+        return (By.XPATH, f"//div[contains(@class, 'BaseTable__row') and contains(., '{name}')]")
 
 class BudgetPageLocators:
     PAY_MODAL_BTN = (
@@ -151,7 +241,6 @@ class BudgetPageLocators:
                                     "сумма 600,00 ₽')]")
     PAYMENT_METHOD_FORM = (By.XPATH, "//iframe[contains(@title, 'Счёт')]")
     RANGE_DATA_PICKER_WIDGET = (By.XPATH, "//div[contains(@class, 'RangeDatePicker')]")
-    RANGE_DATA_PICKER_BTN = (By.XPATH, "//button[contains(@class, 'ActionsBlock_simpleButton__gfmux')]")
 
 
 class SitesPageLocators:

@@ -17,6 +17,7 @@ from ui.pages.settings_notifications_page import SettingsNotificationsPage
 from ui.pages.settings_page import SettingsPage
 from ui.pages.budget_page import BudgetPage
 from ui.pages.sites_page import SitesPage
+from ui.pages.campaign_creation_page import CampaignCreationPage
 
 
 @pytest.fixture()
@@ -153,3 +154,8 @@ def budget_page(driver):
 def sites_page(driver):
     driver.get(SitesPage.url)
     return SitesPage(driver=driver)
+
+@pytest.fixture
+def campaign_creation_page(driver):
+    driver.get(CampaignCreationPage.url)
+    return CampaignCreationPage(driver=driver)
