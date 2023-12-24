@@ -4,5 +4,6 @@ hw/data/userdata
 idea/
 .pytest_cache/
 .idea/
+__pychache__
 __pychache__/
 .env
