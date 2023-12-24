@@ -33,8 +33,8 @@ class NewCompanyPage(BasePage):
 
         return self
 
-    def site_region_click(self):
-        self.click(self.locators.SITE_REGION)
+    def site_region_click(self, timeout=5):
+        self.click(self.locators.SITE_REGION, timeout)
         return self
 
     def catalog_region_click(self):
@@ -45,23 +45,26 @@ class NewCompanyPage(BasePage):
         self.click(self.locators.LEAD_FORM_REGION)
         return self
 
-    def continue_click(self):
-        self.click(locator=self.locators.CONTINUE_BUTTON)
+    def continue_click(self, timeout=10):
+        # HACK
+        button = WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.locators.CONTINUE_BUTTON)
+        )
+
+        self.action_click(button)
         return self
 
     def actions_click(self, element):
         self.action_click(element)
         return self
 
-    def send_keys_site(self, text):
-        el = self.find(self.locators.SITE_INPUT)
-        # XXX
-        self.driver.implicitly_wait(5)
+    def send_keys_site(self, text, timeout=10):
+        el = self.find(self.locators.SITE_INPUT, timeout)
         self.send_keys_with_enter(el, text)
         return self
 
-    def send_cost(self, cost):
-        el = self.find(self.locators.COST_INPUT)
+    def send_cost(self, cost, timeout=5):
+        el = self.find(self.locators.COST_INPUT, timeout)
         el.clear()
         el.send_keys(cost, Keys.RETURN)
         return self
@@ -161,3 +164,9 @@ class NewCompanyPage(BasePage):
             returnVal = False
 
         return returnVal
+
+    def get_to_next(self):
+        self.site_region_click().send_keys_site("ababa.com").send_cost(
+            206
+        ).continue_click()
+        return self

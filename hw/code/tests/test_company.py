@@ -3,6 +3,8 @@ import pytest
 import time
 from tests.base_case import BaseCase, credentials, AllLinks
 from ui.pages.company_page import CompanyPage
+from ui.pages.adv_page import AdvPage
+from ui.pages.group_adv_page import GroupAdvPage
 from tests.base_case import cookies_and_local_storage
 
 from selenium.common.exceptions import TimeoutException
@@ -56,15 +58,21 @@ class TestCompany(BaseCase):
         # NOTE class can be taken out
         assert "vkuiCustomSelect--pop-down" not in selector_classes
 
-    def test_download(self, preparations):
-        preparations.download(5)
-        # NOTE can be taken out
-        assert not preparations.is_on_site_text("Отчет по датам")
+    @pytest.fixture
+    def setup_started_filters(self, preparations):
+        preparations.select_filter().select_started_filter().apply_filters()
+        yield preparations
+        preparations.select_filter().select_started_filter().apply_filters()
 
-    def test_settings(self, preparations):
-        preparations.settings(5)
+    def test_download(self, setup_started_filters):
+        setup_started_filters.download(5)
         # NOTE can be taken out
-        assert not preparations.is_on_site_text("Настроить столбцы")
+        assert not setup_started_filters.is_on_site_text("Отчет по датам")
+
+    def test_settings(self, setup_started_filters):
+        setup_started_filters.settings(5)
+        # NOTE can be taken out
+        assert not setup_started_filters.is_on_site_text("Настроить столбцы")
 
     @pytest.fixture
     def setup_filter(self, preparations):
@@ -82,21 +90,39 @@ class TestCompany(BaseCase):
 
     @pytest.fixture
     def create_company(self, new_company_page):
-        # TODO make creation of company
+        page = AdvPage.__new__(AdvPage)
+        page.driver = new_company_page.driver
+        page.create_company()
+
         company_page = CompanyPage(new_company_page.driver)
         company_page.select_filter().select_started_filter().apply_filters()
         yield company_page
 
     def test_company_deletion(self, create_company):
-        create_company.select_company().select_action_list().select_delete_action()
-        assert create_company.is_on_site_text("Ничего не нашлось")
+        while True:
+            try:
+                create_company.select_company().select_action_list().select_delete_action()
+            except:
+                break
+        assert create_company.is_on_site_text(
+            "Ничего не нашлось"
+        ) or create_company.is_on_site_text("Создайте первую рекламную кампанию")
 
     @pytest.fixture
     def create_draft(self, company_page):
-        # TODO make creation of draft
+        page = GroupAdvPage(company_page.driver)
+        page.get_to_next()
+
+        company_page.open()
+
         yield company_page
-        company_page.select_company().delete_draft()
 
     def test_draft(self, create_draft):
-        create_draft.go_to_drafts().delete_draft()
+        create_draft.go_to_drafts()
+        while True:
+            try:
+                create_draft.select_draft_option().delete_draft().click_approve_delete()
+            except:
+                break
+
         assert create_draft.is_on_site_text("Создайте первую рекламную кампанию")

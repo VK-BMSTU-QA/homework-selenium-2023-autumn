@@ -96,8 +96,16 @@ class CompanyPage(BasePage):
 
         return returnVal
 
+    def group_view(self, timeout=None):
+        self.click(self.locators.GROUP_BUTTON, timeout=timeout)
+
     def go_to_drafts(self):
         self.click(self.locators.DRAFT_BUTTON)
+        return self
+
+    def select_draft_option(self, what_to_select=0):
+        el = self.multiple_find(self.locators.DRAFT_OPTIONS)[what_to_select]
+        self.action_click(el)
         return self
 
     def delete_draft(self):
@@ -105,4 +113,8 @@ class CompanyPage(BasePage):
         return self
 
     def get_selector_attribute(self):
-        self.find(self.locators.ACTION_SELECTOR).get_attribute("class")
+        return self.find(self.locators.ACTION_SELECTOR).get_attribute("class")
+
+    def click_approve_delete(self):
+        self.action_click(self.find(self.locators.DELETE_MODAL))
+        return self

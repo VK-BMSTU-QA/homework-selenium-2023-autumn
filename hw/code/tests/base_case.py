@@ -16,6 +16,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class BaseCase:
@@ -35,28 +36,44 @@ class BaseCase:
 
     @pytest.fixture(scope="function", autouse=True)
     def teardown(self):
+        # Close all tabs and open new tab
+        # Get to this tab
         yield
+        print("Teardown")
+
+        if not self.driver:
+            print("Don't have a driver")
+            return
+
         # teardown
-        self.driver.find_element(By.TAG_NAME, "body").send_keys(Keys.CONTROL + "t")
+        self.driver.execute_script("""window.open("http://bing.com","_blank");""")
+
+        # Switch to the new tab
         self.driver.switch_to.window(self.driver.window_handles[-1])
 
+        # Close all tabs except the currently active one
         for handle in self.driver.window_handles[:-1]:
             self.driver.switch_to.window(handle)
 
-            # Wait for any potential alert
-            WebDriverWait(self.driver, 5).until(EC.alert_is_present())
-
-            # Handle the alert if present
             try:
-                alert = self.driver.switch_to.alert
-                alert.accept()  # You can also use alert.dismiss() if needed
-            except:
+                # Wait for any potential alert
+                WebDriverWait(self.driver, 5).until(EC.alert_is_present())
+
+                # Handle the alert if present
+                while True:
+                    try:
+                        WebDriverWait(self.driver, 1).until(EC.alert_is_present())
+                        alert = self.driver.switch_to.alert
+                        alert.accept()
+                    except Exception:
+                        break
+
+            except Exception:
                 pass
 
             self.driver.close()
 
-        self.driver.delete_all_cookies()
-        time.sleep(5)
+        self.driver.switch_to.window(self.driver.window_handles[0])
 
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, driver, config, request: FixtureRequest, cookies_and_local_storage):
@@ -107,17 +124,18 @@ def save_localstorage_cookies_to_env(driver):
 
 # HACK
 def load_localstorage_cookies_from_env():
-    with open("cookies.env", "r") as f:
-        cookies = json.load(f)
-    # driver.delete_all_cookies()
-    # for cookie in cookies:
-    #     driver.add_cookie(cookie)
+    try:
+        with open("cookies.env", "r") as f:
+            cookies = json.load(f)
 
-    with open("localstorage.env", "r") as f:
-        localstorage = json.load(f)
-    # for key, value in localstorage.items():
-    #     driver.execute_script(f"window.localStorage.setItem('{key}', '{value}')")
-    return cookies, localstorage
+        with open("localstorage.env", "r") as f:
+            localstorage = json.load(f)
+
+        return cookies, localstorage
+    except Exception as e:
+        print("can't access files with cookies and localstorage")
+        print(e)
+        return "", ""
 
 
 @pytest.fixture(scope="session")

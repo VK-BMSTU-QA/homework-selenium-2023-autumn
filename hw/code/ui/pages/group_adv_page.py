@@ -9,14 +9,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from ui.pages.new_company_page import NewCompanyPage
 
 
 class GroupAdvPage(BasePage):
     url = "https://ads.vk.com/hq/new_create/ad_plan/"
     locators = GroupAdvLocators
 
-    def multiple_find(self, locator):
-        return WebDriverWait(self.driver, 10).until(
+    def multiple_find(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
             EC.presence_of_all_elements_located(locator)
         )
 
@@ -39,18 +40,11 @@ class GroupAdvPage(BasePage):
             return None
 
     def get_page(self):
-        self.click(self.locators.SITE_REGION, 10)
-        el = self.find(self.locators.SITE_INPUT)
-        self.driver.implicitly_wait(5)
-        el.click()
-        el.clear()
-        el.send_keys("ababa.com", Keys.RETURN)
+        # HACK
+        page = NewCompanyPage.__new__(NewCompanyPage)
+        page.driver = self.driver
+        page.get_to_next()
 
-        el = self.find(self.locators.COST_INPUT)
-        el.clear()
-        el.send_keys(106, Keys.RETURN)
-
-        self.action_click(self.find(self.locators.CONTINUE_BUTTON, 5))
         return self
 
     def action_click(self, element):
@@ -97,14 +91,19 @@ class GroupAdvPage(BasePage):
 
         return self
 
-    def click_key_phrases(self):
-        self.action_click(self.find(self.locators.INTEREST_REGION))
-        self.action_click(self.find(self.locators.KEY_PHRASES))
+    def click_interest_region(self, timeout=10):
+        self.action_click(self.multiple_find(self.locators.INTEREST_REGION, timeout)[0])
+        return self
+
+    def click_key_phrases(self, timeout=10):
+        self.action_click(self.find(self.locators.KEY_PHRASES, timeout))
 
         return self
 
-    def send_key_phrases(self, text: str):
-        el = self.multiple_find(self.locators.KEY_PHRASE_INPUTS)[0]
+    def send_key_phrases(self, text: str, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.locators.KEY_PHRASE_INPUTS)
+        )
 
         el.clear()
         el.send_keys(text, Keys.RETURN)
@@ -153,3 +152,20 @@ class GroupAdvPage(BasePage):
 
     def is_utm_not_correct(self):
         return "Неверный формат utm-метки" in self.driver.page_source
+
+    def is_on_site_text(self, text: str, timeout: int = 5):
+        returnVal = False
+        try:
+            returnVal = self.wait(timeout).until(
+                EC.presence_of_element_located(
+                    (By.XPATH, f"//*[contains(text(), '{text}')]")
+                )
+            )
+        except Exception as e:
+            returnVal = False
+
+        return returnVal
+
+    def get_to_next(self):
+        self.get_page().site_region_click().click_continue_button()
+        return self

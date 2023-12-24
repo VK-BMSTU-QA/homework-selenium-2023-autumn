@@ -23,7 +23,17 @@ class CompanyPageLocators(BasePageLocators):
         "//div[@data-entityid]//label[contains(@class, 'vkuiCheckbox')]//input[@type='checkbox']",
     )
     STARTED_FILTER = (By.XPATH, '//*[contains(text(), "Запущенные")]')
-    DELETE_ACTION = (By.XPATH, '//*[contains(text(), "Удалить)]')
+    DELETE_ACTION = (By.XPATH, '//*[contains(text(), "Удалить")]')
 
     DRAFT_BUTTON = (By.XPATH, '//*[@data-testid="drafts-button"]')
-    DELETE_DRAFT = (By.XPATH, '//*[@data-testid="delete-button""]')
+    DELETE_DRAFT = (By.XPATH, '//*[@data-testid="delete-button"]')
+
+    DELETE_MODAL = (
+        By.XPATH,
+        '//*[contains(@id, "modal")]//button//span[contains(text(),"Удалить")]',
+    )
+
+    DRAFT_OPTIONS = (
+        By.XPATH,
+        "//div[@data-entityid]//label[contains(@class, 'vkuiCheckbox')]//input[@type='checkbox']",
+    )

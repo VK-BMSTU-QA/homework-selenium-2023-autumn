@@ -14,7 +14,7 @@ from selenium.common.exceptions import TimeoutException
 class TestLogin(BaseCase):
     authorize = False
 
-    # HACK
+    # # HACK
     # def test_login(self, login_page):
     #     time.sleep(100)
     #     save_localstorage_cookies_to_env(login_page.driver)

@@ -5,6 +5,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from ui.locators.adv import AdvLocators
 from ui.pages.base_page import BasePage
+from ui.pages.group_adv_page import GroupAdvPage
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -16,11 +17,13 @@ class AdvPage(BasePage):
     url = "https://ads.vk.com/hq/new_create/ad_plan/"
     locators = AdvLocators
 
+    # TODO remove to BasePage
     def multiple_find(self, locator):
         return WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located(locator)
         )
 
+    # TODO remove to BasePage
     def action_click(self, element):
         actions = ActionChains(self.driver, 500)
         actions.move_to_element(element)
@@ -28,14 +31,7 @@ class AdvPage(BasePage):
         actions.perform()
         return self
 
-    def site_region_click(self):
-        self.click(self.locators.SEARCH_INPUT)
-        el = self.find(self.locators.SEARCH_INPUT)
-        el.send_keys("Россия", Keys.RETURN)
-
-        self.click(self.locators.REGION_VARIANTS)
-        return self
-
+    # TODO create good wait function
     # HACK
     def wait_load_page(self):
         self.multiple_find(self.locators.SAVE_TEXT)[0]
@@ -43,29 +39,15 @@ class AdvPage(BasePage):
         return self
 
     def get_page(self):
-        # First page of creating company
-        self.click(self.locators.SITE_REGION, 10)
-        el = self.find(self.locators.SITE_INPUT)
-        self.driver.implicitly_wait(5)
-        el.click()
-        el.clear()
-        el.send_keys("ababa.com", Keys.RETURN)
-
-        el = self.find(self.locators.COST_INPUT)
-        el.clear()
-        el.send_keys(106, Keys.RETURN)
-
-        self.action_click(self.find(self.locators.CONTINUE_BUTTON, 5))
-
-        # TODO make good load page
-        # self.wait_load_page()
-
-        self.site_region_click().click_continue_button()
+        page = GroupAdvPage.__new__(GroupAdvPage)
+        page.driver = self.driver
+        page.get_to_next()
 
         return self
 
     def click_continue_button(self):
-        el = self.multiple_find(self.locators.FOOTER_BUTTONS)[1]
+        buttons = self.multiple_find(self.locators.FOOTER_BUTTONS)
+        el = buttons[-1]
         self.action_click(el)
         return self
 
@@ -105,6 +87,7 @@ class AdvPage(BasePage):
         el = self.find(self.locators.URL_INPUT)
         el.clear()
         el.send_keys(url, Keys.RETURN)
+
         return self
 
     def select_logo(self, number_of_logo: int):
@@ -133,3 +116,45 @@ class AdvPage(BasePage):
 
     def get_company_name(self):
         return self.find(self.locators.COMPANY_NAME).text
+
+    def click_send_button(self, timeout=10):
+        self.action_click(self.find(self.locators.SEND_BUTTON, timeout))
+        return self
+
+    # Return name of company, that was created
+    def create_company(self) -> str:
+        self.get_page()
+        self.select_logo(0).write_to_inputs("https://vk.com/").write_to_textarea(
+            "https://vk.com/"
+        )
+        name = self.get_company_name()
+
+        self.click_media_upload().select_media_options().add_media_option()
+        self.click_continue_button().click_send_button(10)
+
+        return name
+
+    def click_media_upload(self):
+        self.action_click(self.find(self.locators.CHOOSE_MEDIA))
+        return self
+
+    def select_media_options(self, options=0):
+        elements = self.multiple_find(self.locators.MEDIA_OPTIONS)
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.locators.MEDIA_OPTIONS)
+        )
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView(true);", elements[options]
+        )
+        self.action_click(elements[options])
+        return self
+
+    def add_media_option(self):
+        el = self.find(self.locators.ADD_MEDIA)
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", el)
+        el = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.locators.ADD_MEDIA)
+        )
+
+        self.action_click(el)
+        return self

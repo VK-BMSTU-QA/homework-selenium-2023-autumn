@@ -46,6 +46,7 @@ def driver(config, service):
 
 
 def get_driver(browser, service):
+    print("Get driver for browser: ", browser)
     options = Options()
     if browser == "chrome":
         options = webdriver.ChromeOptions()
@@ -58,6 +59,7 @@ def get_driver(browser, service):
         raise RuntimeError(f'Unsupported browser: "{browser}"')
 
     # Setup
+    print("Maximize window in driver")
     driver.maximize_window()
     return driver
 
