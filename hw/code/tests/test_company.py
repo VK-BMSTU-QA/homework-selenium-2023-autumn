@@ -17,7 +17,7 @@ from time import gmtime, strftime
 strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 
-# HACK
+# # HACK
 def is_matching_link(link, base_url):
     # Parse the link and base_url
     parsed_link = urlparse(link)
@@ -55,18 +55,21 @@ class TestCompany(BaseCase):
         preparations.select_action_list()
 
         selector_classes = preparations.get_selector_attribute()
-        # NOTE class can be taken out
         assert "vkuiCustomSelect--pop-down" not in selector_classes
 
     @pytest.fixture
     def setup_started_filters(self, preparations):
         preparations.select_filter().select_started_filter().apply_filters()
+        while True:
+            try:
+                preparations.select_company().select_action_list().select_delete_action()
+            except:
+                break
         yield preparations
         preparations.select_filter().select_started_filter().apply_filters()
 
     def test_download(self, setup_started_filters):
         setup_started_filters.download(5)
-        # NOTE can be taken out
         assert not setup_started_filters.is_on_site_text("Отчет по датам")
 
     def test_settings(self, setup_started_filters):
@@ -78,7 +81,9 @@ class TestCompany(BaseCase):
     def setup_filter(self, preparations):
         preparations.select_filter().select_deleted_filter().apply_filters()
         yield preparations
-        preparations.select_filter().select_deleted_filter().apply_filters()
+        preparations.select_filter()
+        preparations.select_deleted_filter()
+        preparations.apply_filters()
 
     def test_select_company_settings(self, setup_filter: CompanyPage):
         setup_filter.select_company().settings()
@@ -121,7 +126,10 @@ class TestCompany(BaseCase):
         create_draft.go_to_drafts()
         while True:
             try:
-                create_draft.select_draft_option().delete_draft().click_approve_delete()
+                cnt = create_draft.select_draft_option()
+                create_draft.delete_draft().click_approve_delete().wait_until_draft_delete(
+                    cnt
+                )
             except:
                 break
 

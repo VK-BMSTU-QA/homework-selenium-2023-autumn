@@ -4,19 +4,7 @@ from ui.locators.basic import BasePageLocators
 
 class AudienceLocators(BasePageLocators):
     CREATE_BUTTON = (By.XPATH, '//button[@data-testid="create-audience"]')
-
-    # TODO remove
-    # CREATION_LABEL = (
-    #     By.XPATH,
-    #     '//*[contains(@class, "ModalRoot")]//*[contains(text(),"Создание аудитории")]',
-    # )
-
     CREATION_NAME_AUDITORY = (By.XPATH, '//*[@name="segmentName"]//input')
-    # TODO remove
-    # NAME_LEN_ERROR = (
-    #     By.XPATH,
-    #     '//*[contains(text(), "Максимальная длина 255 символов")]',
-    # )
 
     ADD_SOURCE = (By.XPATH, '//*[contains(@class, "CreateSegmentModal")]//button')
     LEAD_REGION = (

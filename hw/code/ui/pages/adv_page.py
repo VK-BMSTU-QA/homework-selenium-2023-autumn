@@ -19,7 +19,7 @@ class AdvPage(BasePage):
 
     # TODO remove to BasePage
     def multiple_find(self, locator):
-        return WebDriverWait(self.driver, 10).until(
+        return WebDriverWait(self.driver, 15).until(
             EC.presence_of_all_elements_located(locator)
         )
 
@@ -29,13 +29,6 @@ class AdvPage(BasePage):
         actions.move_to_element(element)
         actions.click(element)
         actions.perform()
-        return self
-
-    # TODO create good wait function
-    # HACK
-    def wait_load_page(self):
-        self.multiple_find(self.locators.SAVE_TEXT)[0]
-
         return self
 
     def get_page(self):

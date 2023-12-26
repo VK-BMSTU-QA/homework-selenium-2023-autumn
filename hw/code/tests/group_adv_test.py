@@ -13,16 +13,17 @@ from ui.pages.group_adv_page import GroupAdvPage
 class TestGroup(BaseCase):
     authorize = True
 
-    def test_region_select(self, group_adv_page: GroupAdvPage):
-        # HACK remove get page and remove selected
+    @pytest.fixture
+    def select_region(self, group_adv_page: GroupAdvPage):
         group_adv_page.get_page()
+        yield group_adv_page
+        group_adv_page.remove_selected_region()
 
-        page = group_adv_page
+    def test_region_select(self, select_region: GroupAdvPage):
+        page = select_region
         page.site_region_click()
 
         assert page.get_selected_region() != None
-        # HACK
-        group_adv_page.remove_selected_region()
 
     def test_upper_limit(self, group_adv_page: GroupAdvPage):
         group_adv_page.get_page()

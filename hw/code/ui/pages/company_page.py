@@ -1,3 +1,4 @@
+import re
 from ui.pages.base_page import BasePage
 from ui.locators.company import CompanyPageLocators
 
@@ -104,9 +105,10 @@ class CompanyPage(BasePage):
         return self
 
     def select_draft_option(self, what_to_select=0):
-        el = self.multiple_find(self.locators.DRAFT_OPTIONS)[what_to_select]
+        elements = self.multiple_find(self.locators.DRAFT_OPTIONS)
+        el = elements[what_to_select]
         self.action_click(el)
-        return self
+        return el
 
     def delete_draft(self):
         self.click(self.locators.DELETE_DRAFT)
@@ -117,4 +119,16 @@ class CompanyPage(BasePage):
 
     def click_approve_delete(self):
         self.action_click(self.find(self.locators.DELETE_MODAL))
+        return self
+
+    def not_on_site(self, text: str):
+        res = self.is_on_site_text(text)
+        return not res
+
+    def wait_until_draft_delete(self, el: str):
+        try:
+            WebDriverWait(self.driver, 15).until(EC.staleness_of(el))
+        except:
+            pass
+
         return self

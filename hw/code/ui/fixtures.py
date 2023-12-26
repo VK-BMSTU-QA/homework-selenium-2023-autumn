@@ -14,6 +14,7 @@ from ui.pages.new_company_page import NewCompanyPage
 from ui.pages.group_adv_page import GroupAdvPage
 from ui.pages.adv_page import AdvPage
 from ui.pages.audience_page import AudiencePage
+from ui.pages.site_page import SitePage
 
 
 @pytest.fixture(scope="session")
@@ -111,3 +112,9 @@ def adv_page(driver):
 def audience_page(driver):
     print("INIT FIXTURE AUDIENCE PAGE")
     return AudiencePage(driver=driver)
+
+
+@pytest.fixture
+def site_page(driver):
+    print("INIT FIXTURE SITE PAGE")
+    return SitePage(driver=driver)

@@ -16,7 +16,11 @@ class CompanyPageLocators(BasePageLocators):
 
     FILTER_FIELD = (By.XPATH, '//*[@data-testid="filter-search-input"]')
     FILTER_BUTTON = (By.XPATH, '//*[@data-testid="filter-button"]')
-    DELETED_FILTER = (By.XPATH, '//*[contains(text(), "Удаленные")]')
+    DELETED_FILTER = (
+        By.XPATH,
+        '//*[contains(@class,"CreateFilter_filterList")]//*[contains(text(), "Удаленные")]',
+    )
+
     FILTER_APPLY_BUTTON = (By.XPATH, '//*[contains(text(), "Применить")]')
     COMPANY_OPTIONS = (
         By.XPATH,
@@ -37,3 +41,6 @@ class CompanyPageLocators(BasePageLocators):
         By.XPATH,
         "//div[@data-entityid]//label[contains(@class, 'vkuiCheckbox')]//input[@type='checkbox']",
     )
+
+    COUNT_LINE = (By.XPATH, '//*[contains(@class, "nameCell_footerCell")]')
+    GRIDS = (By.XPATH, '//*[contains(@class,"BaseTable__body")]//*[@role="gridcell"]')
