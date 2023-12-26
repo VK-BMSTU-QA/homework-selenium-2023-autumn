@@ -11,12 +11,6 @@ from ui.pages.lk_page import LKPage
 from ui.fixtures import driver, get_driver
 from conftest import config
 from ui.pages.login_page import LoginPage
-import json
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class BaseCase:
@@ -34,120 +28,29 @@ class BaseCase:
             self.driver.close()
         self.driver.switch_to.window(current)
 
-    @pytest.fixture(scope="function", autouse=True)
-    def teardown(self):
-        # Close all tabs and open new tab
-        # Get to this tab
-        yield
-        print("Teardown")
-
-        if not self.driver:
-            print("Don't have a driver")
-            return
-
-        # teardown
-        self.driver.execute_script("""window.open("http://bing.com","_blank");""")
-
-        # Switch to the new tab
-        self.driver.switch_to.window(self.driver.window_handles[-1])
-
-        # Close all tabs except the currently active one
-        for handle in self.driver.window_handles[:-1]:
-            self.driver.switch_to.window(handle)
-
-            try:
-                # Wait for any potential alert
-                WebDriverWait(self.driver, 5).until(EC.alert_is_present())
-
-                # Handle the alert if present
-                while True:
-                    try:
-                        WebDriverWait(self.driver, 1).until(EC.alert_is_present())
-                        alert = self.driver.switch_to.alert
-                        alert.accept()
-                    except Exception:
-                        break
-
-            except Exception:
-                pass
-
-            self.driver.close()
-
-        self.driver.switch_to.window(self.driver.window_handles[0])
-
-    @pytest.fixture(scope="function", autouse=True)
-    def setup(self, driver, config, request: FixtureRequest, cookies_and_local_storage):
-        print("Setup")
+    @pytest.fixture(scope='function', autouse=True)
+    def setup(self, driver, config, request: FixtureRequest):
         self.driver = driver
         self.config = config
 
-        # self.login_page: LoginPage = request.getfixturevalue("login_page")
-        # self.lk_page: LKPage = request.getfixturevalue("lk_page")
+        self.driver.delete_all_cookies()
 
-        # main_page = BasePage(self.driver)
+        main_page = BasePage(self.driver)
         if self.authorize:
-            print("Setup authorize")
-            cookies = request.getfixturevalue("cookies_and_local_storage")
+            cookies = request.getfixturevalue('cookies_and_local_storage')
 
-            # HACK
-            self.driver.get("https://ads.vk.com/cases")
-
-            print("Set local")
             for key, value in cookies[1].items():
                 self.driver.execute_script(f"localStorage.setItem('{key}', '{value}');")
 
-            print("Set cookies")
             for cookie in cookies[0]:
                 self.driver.add_cookie(cookie)
-
-            print("Open cases: https://ads.vk.com/cases")
-            self.driver.get("https://ads.vk.com/cases")
-            self.driver.refresh()
-
+            # self.driver.refresh()
 
 # TODO может убрать в confest или fixtures?
 
-
-# HACK
-def save_localstorage_cookies_to_env(driver):
-    print("Save to storages")
-    localstorage = driver.execute_script("return window.localStorage")
-    with open("localstorage.env", "w") as f:
-        print("Save to localStorage")
-        json.dump(localstorage, f)
-
-    cookies = driver.get_cookies()
-    with open("cookies.env", "w") as f:
-        print("Save to cookies")
-        json.dump(cookies, f)
-
-
-# HACK
-def load_localstorage_cookies_from_env():
-    try:
-        with open("cookies.env", "r") as f:
-            cookies = json.load(f)
-
-        with open("localstorage.env", "r") as f:
-            localstorage = json.load(f)
-
-        return cookies, localstorage
-    except Exception as e:
-        print("can't access files with cookies and localstorage")
-        print(e)
-        return "", ""
-
-
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def cookies_and_local_storage(credentials, config, service):
     browser = config["browser"]
-    # HACK
-    if credentials["password"] == "" and credentials["user"]:
-        print("Hack credentials")
-        # User doesn't have password => localStorage and cookies stored in env
-        [cookies, local] = load_localstorage_cookies_from_env()
-        return [cookies, local]
-
     new_driver = get_driver(browser, service)
 
     login_page = LoginPage(new_driver)
@@ -158,26 +61,16 @@ def cookies_and_local_storage(credentials, config, service):
     co = new_driver.get_cookies()
     print(co)
 
-    all_local_storage = new_driver.execute_script(
-        "return Object.entries(localStorage);"
-    )
+    all_local_storage = new_driver.execute_script("return Object.entries(localStorage);")
     local_storage_dict = dict(all_local_storage)
-    # sorted_objects = [obj for obj in co if obj.get("domain") != "id.vk.com"]
-    # print(sorted_objects)
     return [co, local_storage_dict]
 
-
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def credentials() -> Dict[str, str | None]:
-    dotenv_path = os.path.join(os.path.dirname(__file__), "../.env")
+    dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
+    print('DOTENV ')
+    print(dotenv_path)
     if os.path.exists(dotenv_path):
         load_dotenv(dotenv_path)
-
-    return {"user": os.getenv("USER_CRED"), "password": os.getenv("PASSWORD_CRED")}
-
-
-# HACK
-class AllLinks:
-    COMPANY_CREATE = "https://ads.vk.com/hq/new_create/ad_plan"
-    GROUP = "https://ads.vk.com/hq/dashboard/ad_groups"
-    ADVERTISEMENTS = "https://ads.vk.com/hq/dashboard/ads"
+    
+    return {'user': os.getenv('USER_CRED'), 'password': os.getenv('PASSWORD_CRED')}

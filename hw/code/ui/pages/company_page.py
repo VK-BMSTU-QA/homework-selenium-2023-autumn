@@ -20,7 +20,6 @@ class CompanyPage(BasePage):
         )
 
     def action_click(self, element):
-        # XXX
         actions = ActionChains(self.driver, 500)
         actions.move_to_element(element)
         actions.click(element)

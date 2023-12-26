@@ -1,7 +1,7 @@
 from datetime import datetime, timezone, timedelta
 import pytest
 import time
-from tests.base_case import BaseCase, credentials, AllLinks
+from tests.base_case import BaseCase, credentials
 from ui.pages.company_page import CompanyPage
 from ui.pages.adv_page import AdvPage
 from ui.pages.group_adv_page import GroupAdvPage
@@ -12,18 +12,10 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
 
-from time import gmtime, strftime
-
-strftime("%Y-%m-%d %H:%M:%S", gmtime())
-
-
-# # HACK
 def is_matching_link(link, base_url):
-    # Parse the link and base_url
     parsed_link = urlparse(link)
     parsed_base_url = urlparse(base_url)
 
-    # Check if the link starts with the base URL
     return (
         parsed_link.scheme == parsed_base_url.scheme
         and parsed_link.netloc == parsed_base_url.netloc
@@ -41,15 +33,15 @@ class TestCompany(BaseCase):
 
     def test_create(self, preparations):
         preparations.create_company()
-        assert is_matching_link(preparations.get_current_url(), AllLinks.COMPANY_CREATE)
+        assert is_matching_link(preparations.get_current_url(), "https://ads.vk.com/hq/new_create/ad_plan")
 
     def test_group(self, preparations):
         preparations.group_view(5)
-        assert is_matching_link(preparations.get_current_url(), AllLinks.GROUP)
+        assert is_matching_link(preparations.get_current_url(), "https://ads.vk.com/hq/dashboard/ad_groups")
 
     def test_advertisment(self, preparations):
         preparations.advertisment_view(5)
-        assert is_matching_link(preparations.get_current_url(), AllLinks.ADVERTISEMENTS)
+        assert is_matching_link(preparations.get_current_url(), "https://ads.vk.com/hq/dashboard/ads")
 
     def test_list(self, preparations):
         preparations.select_action_list()

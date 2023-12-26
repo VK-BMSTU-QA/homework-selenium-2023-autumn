@@ -1,7 +1,7 @@
 import pytest
 import time
 
-from tests.base_case import BaseCase, credentials, AllLinks
+from tests.base_case import BaseCase, credentials
 from tests.base_case import cookies_and_local_storage
 
 from selenium.common.exceptions import TimeoutException

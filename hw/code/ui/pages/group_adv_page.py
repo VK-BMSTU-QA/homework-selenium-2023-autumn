@@ -40,7 +40,6 @@ class GroupAdvPage(BasePage):
             return None
 
     def get_page(self):
-        # HACK
         page = NewCompanyPage.__new__(NewCompanyPage)
         page.driver = self.driver
         page.get_to_next()

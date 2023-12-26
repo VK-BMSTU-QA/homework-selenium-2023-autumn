@@ -18,13 +18,11 @@ class SitePage(BasePage):
     url = "https://ads.vk.com/hq/pixels"
     locators = SiteLocators
 
-    # TODO remove to BasePage
     def multiple_find(self, locator):
         return WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located(locator)
         )
 
-    # TODO remove to BasePage
     def action_click(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
         WebDriverWait(self.driver, 10).until(EC.visibility_of(element))
@@ -55,19 +53,18 @@ class SitePage(BasePage):
         return bool(self.find(self.locators.INPUT_DOMEN))
 
     def create_pixel(self, site="ababa.com"):
-        # TODO remove later
-        # self.click_add_button()
-        # input = self.find(self.locators.INPUT_DOMEN)
-        # input.clear()
-        # input.send_keys(site, Keys.RETURN)
+        self.click_add_button()
+        input = self.find(self.locators.INPUT_DOMEN)
+        input.clear()
+        input.send_keys(site, Keys.RETURN)
 
-        # add_btn = self.find(self.locators.ADD_BUTTON_MODAL)
-        # if self.action_click(add_btn).is_on_site_text("Нашли пиксели"):
-        #     new_pix_reg = self.find(self.locators.CREATE_NEW_PIXEL_REGION)
-        #     self.action_click(new_pix_reg)
+        add_btn = self.find(self.locators.ADD_BUTTON_MODAL)
+        if self.action_click(add_btn).is_on_site_text("Нашли пиксели"):
+            new_pix_reg = self.find(self.locators.CREATE_NEW_PIXEL_REGION)
+            self.action_click(new_pix_reg)
 
-        # close_btn = self.find(self.locators.CLOSE_BUTTON)
-        # self.action_click(close_btn)
+        close_btn = self.find(self.locators.CLOSE_BUTTON)
+        self.action_click(close_btn)
         return self
 
     def click_settings(self, what_settings=0):

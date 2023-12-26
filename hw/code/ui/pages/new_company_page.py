@@ -19,7 +19,6 @@ class NewCompanyPage(BasePage):
         )
 
     def action_click(self, element):
-        # XXX
         actions = ActionChains(self.driver, 500)
         actions.move_to_element(element)
         actions.click(element)
@@ -33,7 +32,7 @@ class NewCompanyPage(BasePage):
 
         return self
 
-    def site_region_click(self, timeout=5):
+    def site_region_click(self, timeout=15):
         self.click(self.locators.SITE_REGION, timeout)
         return self
 
@@ -46,7 +45,6 @@ class NewCompanyPage(BasePage):
         return self
 
     def continue_click(self, timeout=10):
-        # HACK
         button = WebDriverWait(self.driver, timeout).until(
             EC.element_to_be_clickable(self.locators.CONTINUE_BUTTON)
         )

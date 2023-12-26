@@ -1,7 +1,7 @@
 from datetime import datetime, timezone, timedelta
 import pytest
 import time
-from tests.base_case import BaseCase, credentials, AllLinks
+from tests.base_case import BaseCase, credentials
 from ui.pages.new_company_page import NewCompanyPage
 from tests.base_case import cookies_and_local_storage
 
@@ -44,11 +44,7 @@ class TestNewCompany(BaseCase):
         new_company_page.catalog_region_click().continue_click()
         assert new_company_page.is_must_field()
 
-    # TODO тут нужно переписать и сократить код, а также проверить
-    # на правильность работы данных тестов
     def test_wrong_group(self, new_company_page: NewCompanyPage):
-        # TODO alert when try to leave to new page, remove it and generate new tab
-        # NOTE maybe const
         url_vk = "https://vk.com/sweetmarin"
         new_company_page.catalog_region_click().select_vk_group(url_vk)
 

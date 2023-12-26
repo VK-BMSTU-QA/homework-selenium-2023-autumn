@@ -20,9 +20,6 @@ class SiteLocators(BasePageLocators):
         '//*[contains(text(), "Создать новый пиксель")]',
     )
 
-    # TODO remove
-    # ID_OF_PIXEL_LINE = (By.XPATH, "//h2")
-
     SETTINGS = (By.XPATH, '//*[@data-route="pixels.code"]')
     CHECBOX_SETTINGS = (
         By.XPATH,

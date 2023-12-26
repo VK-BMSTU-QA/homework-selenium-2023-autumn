@@ -1,7 +1,7 @@
 import pytest
 import time
 
-from tests.base_case import BaseCase, credentials, AllLinks
+from tests.base_case import BaseCase, credentials
 from tests.base_case import cookies_and_local_storage
 
 from selenium.common.exceptions import TimeoutException
@@ -50,6 +50,6 @@ class TestGroup(BaseCase):
         name = get_page.get_company_name()
 
         get_page.click_media_upload().select_media_options().add_media_option()
-        get_page.click_continue_button().click_send_button(10)
+        get_page.click_continue_button().click_send_button(15)
 
         assert get_page.is_on_site_text(name, 5)

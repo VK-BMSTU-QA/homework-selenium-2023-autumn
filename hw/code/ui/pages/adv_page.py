@@ -17,13 +17,11 @@ class AdvPage(BasePage):
     url = "https://ads.vk.com/hq/new_create/ad_plan/"
     locators = AdvLocators
 
-    # TODO remove to BasePage
     def multiple_find(self, locator):
         return WebDriverWait(self.driver, 15).until(
             EC.presence_of_all_elements_located(locator)
         )
 
-    # TODO remove to BasePage
     def action_click(self, element):
         actions = ActionChains(self.driver, 500)
         actions.move_to_element(element)
@@ -55,7 +53,6 @@ class AdvPage(BasePage):
         el = self.multiple_find(self.locators.COUNTS_CHARS)[0]
         text = el.text
 
-        # XXX
         matches = re.search(r"\d+ / (\d+)", text)
         count_chars_value = 0
         if matches:
@@ -63,7 +60,7 @@ class AdvPage(BasePage):
 
         return count_chars_value
 
-    def is_on_site_text(self, text: str, timeout: int = 5):
+    def is_on_site_text(self, text: str, timeout: int = 10):
         returnVal = False
         try:
             returnVal = self.wait(timeout).until(
