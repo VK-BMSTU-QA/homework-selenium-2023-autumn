@@ -16,12 +16,13 @@ class BasePage(object):
 
     # Open url
     def open(self):
+        print("OPEN URL: ", self.url)
         self.driver.get(self.url)
 
     def url_cmp(self):
         driver_url = self.driver.current_url
         for i, v in enumerate(self.url):
-            if self.url[i] == '*':
+            if self.url[i] == "*":
                 return True
             if self.url[i] != driver_url[i]:
                 return False
@@ -29,7 +30,7 @@ class BasePage(object):
     # Check url of opened page and page set in url
     def is_opened(self, timeout=15):
         time.sleep(5)
-        '''started = time.time()
+        """started = time.time()
         while time.time() - started < timeout:
 
             # TODO
@@ -38,7 +39,7 @@ class BasePage(object):
                 return True
         raise PageNotOpenedExeption(
             f"{self.url} did not open in {timeout} sec, current url {self.driver.current_url}"
-        )'''
+        )"""
 
     def close_cookie_banner(self):
         try:
@@ -69,7 +70,7 @@ class BasePage(object):
     # Wait timeout to find element by locator
     def find(self, locator, timeout=None):
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
-    
+
     def fill(self, locator, text, timeout=None) -> WebElement:
         elem = self.find(locator, timeout=timeout)
         print(elem)
