@@ -1,9 +1,6 @@
-import time
-
 import allure
-from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import TimeoutException
 
+from selenium.webdriver.common.keys import Keys
 from ui.pages.campaign.create.groups_page import CreateCampaignGroupsPage
 from ui.pages.campaign.campaign_page_interface import CampaignPageInterface
 from ui.locators.campaign.create.settings_locators import CreateCampaignSettingsPageLocators
@@ -59,7 +56,7 @@ class CreateCampaignSettingsPage(CampaignPageInterface):
     @allure.step("Create campaign settings via catalog incorrect url")
     def create_campaign_settings_via_catalog_incorrect_url(self, data):
         self.click(self.locators.CREATE_CAMPAIGN_SETTINGS_CATALOG_BUTTON)
-        self.fill_field(self.locators.CREATE_CAMPAIGN_SETTINGS_CATALOG_INPUT, data['site'])
+        self.fill_field(self.locators.CREATE_CAMPAIGN_SETTINGS_CATALOG_SITE_INPUT, data['ecomm'])
         self.click(self.locators.CREATE_CAMPAIGN_CONTINUE_BUTTON)
 
         return CreateCampaignSettingsPage(self.driver)
@@ -67,7 +64,7 @@ class CreateCampaignSettingsPage(CampaignPageInterface):
     @allure.step("Create campaign settings via catalog empty catalog")
     def create_campaign_settings_via_catalog_empty_catalog(self, data):
         self.click(self.locators.CREATE_CAMPAIGN_SETTINGS_CATALOG_BUTTON)
-        self.fill_field(self.locators.CREATE_CAMPAIGN_SETTINGS_CATALOG_INPUT, data['site'])
+        self.fill_field(self.locators.CREATE_CAMPAIGN_SETTINGS_CATALOG_SITE_INPUT, data['ecomm'])
         self.click(self.locators.CREATE_CAMPAIGN_CONTINUE_BUTTON)
 
         return CreateCampaignSettingsPage(self.driver)

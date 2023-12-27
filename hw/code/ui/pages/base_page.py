@@ -1,6 +1,7 @@
 import re
 import time
 import allure
+
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import TimeoutException
@@ -26,7 +27,7 @@ class BasePage(object):
         self.driver = driver
         self.is_opened()
 
-    def is_opened(self, timeout=20):
+    def is_opened(self, timeout=30):
         started = time.time()
         while time.time() - started < timeout:
             if self.urls_are_equal():
@@ -38,7 +39,7 @@ class BasePage(object):
             obj = self.driver
 
         if timeout is None:
-            timeout = 5
+            timeout = 10
         return WebDriverWait(obj, timeout=timeout)
 
     def wait_for_openning(self, url, timeout=30):
@@ -70,7 +71,7 @@ class BasePage(object):
     def find(self, locator, timeout=None, obj=None):
         return self.wait(timeout=timeout, obj=obj).until(EC.presence_of_element_located(locator))
 
-    def clear_field(self, locator, timeout=20, obj=None):
+    def clear_field(self, locator, timeout=30, obj=None):
         input = self.find(locator)
         input.send_keys(Keys.CONTROL + "a")
         input.send_keys(Keys.BACKSPACE)
@@ -100,7 +101,7 @@ class BasePage(object):
         return cls.url[1:-3].replace('\\', '')
 
     @allure.step('Clicking on {locator}')
-    def click(self, locator, timeout=20, obj=None):
+    def click(self, locator, timeout=30, obj=None):
         for i in range(CLICK_RETRY):
             try:
                 self.find(locator, timeout=timeout, obj=obj)
@@ -116,10 +117,10 @@ class BasePage(object):
 
     def scroll_to(self, item):
         self.driver.execute_script("arguments[0].scrollIntoView(true);", item)
-        self.wait_for_scroll(item, timeout=20)
+        self.wait_for_scroll(item, timeout=30)
 
     @allure.step('Hovering and clicking on {locator}')
-    def hover_and_click(self, locator, timeout=20, obj=None):
+    def hover_and_click(self, locator, timeout=30, obj=None):
         a = ActionChains(self.driver)
         for i in range(CLICK_RETRY):
             try:
@@ -152,3 +153,27 @@ class BasePage(object):
             return False
 
         return True
+
+    @allure.step("Find long field label")
+    def find_long_field_label(self):
+        return self.find_elem_by_locator(self.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL)
+
+    @allure.step("Find empty url field label")
+    def find_empty_url_field_label(self):
+        return self.find_elem_by_locator(self.locators.CREATE_CAMPAIGN_SETTINGS_EMPTY_URL_LABEL)
+
+    @allure.step("Find incorrect url field label")
+    def find_incorrect_url_field_label(self):
+        return self.find_elem_by_locator(self.locators.CREATE_CAMPAIGN_SETTINGS_INCORRECT_URL_LABEL)
+
+    @allure.step("Find incorrect budget field label")
+    def find_incorrect_budget_field_label(self):
+        return self.find_elem_by_locator(self.locators.CREATE_CAMPAIGN_SETTINGS_INCORRECT_BUDGET_LABEL)
+
+    @allure.step("Find incorrect region field label")
+    def find_incorrect_region_field_label(self):
+        return self.find_elem_by_locator(self.locators.CREATE_CAMPAIGN_SETTINGS_INCORRECT_REGION_LABEL)
+
+    @allure.step("Find required field label")
+    def find_required_field_label(self):
+        return self.find_elem_by_locator(self.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_REQUIRED_LABEL)

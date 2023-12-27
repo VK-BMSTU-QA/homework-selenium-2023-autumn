@@ -16,6 +16,7 @@ class CreateCampaignSettingsPageLocators(CreateCampaignPageLocators):
     CREATE_CAMPAIGN_SETTINGS_COMMUNITY_INPUT = (By.XPATH, "//input[contains(@class, 'vkuiInput__el')]")
     CREATE_CAMPAIGN_SETTINGS_CLASSMATES_INPUT = (By.XPATH, "//input[contains(@class, 'vkuiInput__el')]")
     CREATE_CAMPAIGN_SETTINGS_BUDGET_INPUT = (By.XPATH, "//input[contains(@data-testid, 'targeting-not-set')]")
+    CREATE_CAMPAIGN_SETTINGS_CATALOG_SITE_INPUT = (By.XPATH, "//input[contains(@class, 'vkuiInput__el')]")
     CREATE_CAMPAIGN_SETTINGS_CATALOG_INPUT = (By.XPATH, "//div[contains(@class, 'ModalRoot_componentWrapper__uzHTL')]//input[contains(text(), '')]")
     CREATE_CAMPAIGN_SETTINGS_VK_APPS_INPUT = (By.XPATH, "//input[contains(@class, 'vkuiInput__el')]")
 

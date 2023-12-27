@@ -1,6 +1,5 @@
-import time
-
 import utils
+
 from ui.fixtures import *
 from base import BaseCase
 from ui.pages.campaign.campaign_page import CampaignPage
@@ -194,9 +193,7 @@ class TestCampaign(BaseCase):
         }
 
         settings_page = campaign_page.create_campaign_via_site_empty_url(data)
-        assert settings_page.find_elem_by_locator(
-            settings_page.locators.CREATE_CAMPAIGN_SETTINGS_EMPTY_URL_LABEL
-        ) == True
+        assert settings_page.find_empty_url_field_label() is True
 
     @allure.story('Create campaign via site incorrect url')
     def test_create_campaign_via_site_incorrect_url(self, repo_root):
@@ -208,9 +205,7 @@ class TestCampaign(BaseCase):
         }
 
         settings_page = campaign_page.create_campaign_via_site_incorrect_url(data)
-        assert settings_page.find_elem_by_locator(
-            settings_page.locators.CREATE_CAMPAIGN_SETTINGS_INCORRECT_URL_LABEL
-        ) == True
+        assert settings_page.find_incorrect_url_field_label() is True
 
     @allure.story('Create campaign via site incorrect budget')
     def test_create_campaign_via_site_incorrect_budget(self, repo_root):
@@ -223,9 +218,7 @@ class TestCampaign(BaseCase):
         }
 
         settings_page = campaign_page.create_campaign_via_site_incorrect_budget(data)
-        assert settings_page.find_elem_by_locator(
-            settings_page.locators.CREATE_CAMPAIGN_SETTINGS_INCORRECT_BUDGET_LABEL
-        ) == True
+        assert settings_page.find_incorrect_budget_field_label() is True
 
     @allure.story('Create campaign via site incorrect region')
     def test_create_campaign_via_site_incorrect_region(self, repo_root):
@@ -238,9 +231,7 @@ class TestCampaign(BaseCase):
         }
 
         groups_page = campaign_page.create_campaign_via_site_incorrect_region(data)
-        assert groups_page.find_elem_by_locator(
-            groups_page.locators.CREATE_CAMPAIGN_SETTINGS_INCORRECT_REGION_LABEL
-        ) == True
+        assert groups_page.find_incorrect_region_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -262,9 +253,7 @@ class TestCampaign(BaseCase):
         }
 
         advertisements_page = campaign_page.create_campaign_via_site_empty_title(data)
-        assert advertisements_page.find_elem_by_locator(
-            advertisements_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_REQUIRED_LABEL
-        ) == True
+        assert advertisements_page.find_required_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -287,9 +276,7 @@ class TestCampaign(BaseCase):
         }
 
         advertisements_page = campaign_page.create_campaign_via_site_long_title(data)
-        assert advertisements_page.find_elem_by_locator(
-            advertisements_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -312,9 +299,7 @@ class TestCampaign(BaseCase):
         }
 
         advertisements_page = campaign_page.create_campaign_via_site_empty_short_description(data)
-        assert advertisements_page.find_elem_by_locator(
-            advertisements_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_REQUIRED_LABEL
-        ) == True
+        assert advertisements_page.find_required_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -337,9 +322,7 @@ class TestCampaign(BaseCase):
         }
 
         advertisements_page = campaign_page.create_campaign_via_site_long_short_description(data)
-        assert advertisements_page.find_elem_by_locator(
-            advertisements_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -363,9 +346,7 @@ class TestCampaign(BaseCase):
         }
 
         advertisements_page = campaign_page.create_campaign_via_site_long_long_description(data)
-        assert advertisements_page.find_elem_by_locator(
-            advertisements_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -390,9 +371,7 @@ class TestCampaign(BaseCase):
         }
 
         advertisements_page = campaign_page.create_campaign_via_site_long_button_text(data)
-        assert advertisements_page.find_elem_by_locator(
-            advertisements_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -418,9 +397,7 @@ class TestCampaign(BaseCase):
         }
 
         advertisements_page = campaign_page.create_campaign_via_site_long_advertiser(data)
-        assert advertisements_page.find_elem_by_locator(
-            advertisements_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -432,37 +409,31 @@ class TestCampaign(BaseCase):
         }
 
         settings_page = campaign_page.create_campaign_via_catalog_empty_url(data)
-        assert settings_page.find_elem_by_locator(
-            settings_page.locators.CREATE_CAMPAIGN_SETTINGS_EMPTY_URL_LABEL
-        ) == True
+        assert settings_page.find_empty_url_field_label() is True
 
     @allure.story('Create campaign via catalog incorrect url')
     def test_create_campaign_via_catalog_incorrect_url(self, repo_root):
         campaign_page = CampaignPage(self.driver)
         data = {
             'settings': {
-                'site': 'sgfgsgsfg',
+                'ecomm': 'sgfgsgsfg',
             },
         }
 
         settings_page = campaign_page.create_campaign_via_catalog_incorrect_url(data)
-        assert settings_page.find_elem_by_locator(
-            settings_page.locators.CREATE_CAMPAIGN_SETTINGS_INCORRECT_URL_LABEL
-        ) == True
+        assert settings_page.find_incorrect_url_field_label() is True
 
     @allure.story('Create campaign via catalog empty catalog')
     def test_create_campaign_via_catalog_empty_catalog(self, repo_root):
         campaign_page = CampaignPage(self.driver)
         data = {
             'settings': {
-                'site': 'vk.com',
+                'ecomm': 'vk.com',
             },
         }
 
         settings_page = campaign_page.create_campaign_via_catalog_empty_catalog(data)
-        assert settings_page.find_elem_by_locator(
-            settings_page.locators.CREATE_CAMPAIGN_SETTINGS_EMPTY_URL_LABEL
-        ) == True
+        assert settings_page.find_empty_url_field_label() is True
 
     @allure.story('Create campaign via empty title')
     def test_create_campaign_via_catalog_empty_title(self, repo_root):
@@ -480,10 +451,8 @@ class TestCampaign(BaseCase):
             }
         }
 
-        advertiser_page = campaign_page.create_campaign_via_catalog_empty_title(data)
-        assert advertiser_page.find_elem_by_locator(
-            advertiser_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_REQUIRED_LABEL
-        ) == True
+        advertisements_page = campaign_page.create_campaign_via_catalog_empty_title(data)
+        assert advertisements_page.find_required_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -505,10 +474,8 @@ class TestCampaign(BaseCase):
             }
         }
 
-        advertiser_page = campaign_page.create_campaign_via_catalog_long_title(data)
-        assert advertiser_page.find_elem_by_locator(
-            advertiser_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        advertisements_page = campaign_page.create_campaign_via_catalog_long_title(data)
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -530,10 +497,8 @@ class TestCampaign(BaseCase):
             }
         }
 
-        advertiser_page = campaign_page.create_campaign_via_catalog_empty_carousel_description(data)
-        assert advertiser_page.find_elem_by_locator(
-            advertiser_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_REQUIRED_LABEL
-        ) == True
+        advertisements_page = campaign_page.create_campaign_via_catalog_empty_carousel_description(data)
+        assert advertisements_page.find_required_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -555,10 +520,8 @@ class TestCampaign(BaseCase):
             }
         }
 
-        advertiser_page = campaign_page.create_campaign_via_catalog_long_carousel_description(data)
-        assert advertiser_page.find_elem_by_locator(
-            advertiser_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        advertisements_page = campaign_page.create_campaign_via_catalog_long_carousel_description(data)
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -580,10 +543,8 @@ class TestCampaign(BaseCase):
             }
         }
 
-        advertiser_page = campaign_page.create_campaign_via_catalog_empty_banner_description(data)
-        assert advertiser_page.find_elem_by_locator(
-            advertiser_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_REQUIRED_LABEL
-        ) == True
+        advertisements_page = campaign_page.create_campaign_via_catalog_empty_banner_description(data)
+        assert advertisements_page.find_required_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -606,10 +567,8 @@ class TestCampaign(BaseCase):
             }
         }
 
-        advertiser_page = campaign_page.create_campaign_via_catalog_long_banner_description(data)
-        assert advertiser_page.find_elem_by_locator(
-            advertiser_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        advertisements_page = campaign_page.create_campaign_via_catalog_long_banner_description(data)
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)
@@ -633,10 +592,8 @@ class TestCampaign(BaseCase):
             }
         }
 
-        advertiser_page = campaign_page.create_campaign_via_catalog_long_long_description(data)
-        assert advertiser_page.find_elem_by_locator(
-            advertiser_page.locators.CREATE_CAMPAIGN_ADVERTISEMENTS_LONG_FIELD_LABEL
-        ) == True
+        advertisements_page = campaign_page.create_campaign_via_catalog_long_long_description(data)
+        assert advertisements_page.find_long_field_label() is True
 
         draft_name = f'Кампания {utils.get_today()}'
         campaign_page.delete_draft(draft_name)

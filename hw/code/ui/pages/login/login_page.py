@@ -1,11 +1,11 @@
 import allure
 
-from ui.pages.main_page import MainPage
+from ui.pages.base_page import BasePage
 from ui.pages.campaign.campaign_page import CampaignPage
 from ui.locators.login.basic_locators import LoginPageLocators
 
 
-class LoginPage(MainPage):
+class LoginPage(BasePage):
     locators = LoginPageLocators
 
     @allure.step("Login")
