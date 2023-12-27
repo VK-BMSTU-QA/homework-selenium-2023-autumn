@@ -10,12 +10,13 @@ from ui.pages.company_page import CompanyPage
 from ui.pages.lk_page import LKPage
 from ui.pages.login_page import LoginPage
 from ui.pages.base_page import BasePage
+from ui.pages.center_of_commerce import CenterOfCommercePage
+import os
 from ui.pages.new_company_page import NewCompanyPage
 from ui.pages.group_adv_page import GroupAdvPage
 from ui.pages.adv_page import AdvPage
 from ui.pages.audience_page import AudiencePage
 from ui.pages.site_page import SitePage
-
 
 @pytest.fixture(scope="session")
 def service(config):
@@ -66,6 +67,11 @@ def get_driver(browser, service):
     elif browser == "yandex":
         options = webdriver.ChromeOptions()
         options.binary_location = "/Applications/Yandex.app/Contents/MacOS/Yandex"
+
+        current_directory = os.getcwd()
+        download_directory = os.path.join(current_directory, "tmp")
+        prefs = {"download.default_directory": download_directory}
+        options.add_experimental_option("prefs", prefs)
         driver = webdriver.Chrome(options=options, service=service)
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
@@ -99,6 +105,9 @@ def company_page(driver):
     print("INIT FIXTURE COMPANY PAGE")
     return CompanyPage(driver=driver)
 
+@pytest.fixture
+def center_of_commerce_page(driver):
+    return CenterOfCommercePage(driver=driver)
 
 @pytest.fixture
 def new_company_page(driver):

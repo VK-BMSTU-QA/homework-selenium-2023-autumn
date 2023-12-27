@@ -5,6 +5,3 @@ class LoginPageLocators:
     LOGIN_GO_ON_BOY_BUTTON = (By.XPATH, '//button[@type="submit"]')
     PASSWORD_GO_ON_BOY_BUTTON = (By.XPATH, '//button[@type="submit"]')
     PASSWORD = (By.NAME, 'password')
-
-class LKPageLocators:
-    pass

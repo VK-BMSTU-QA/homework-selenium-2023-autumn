@@ -3,4 +3,6 @@
 **/.pytest_cache
 **/venv
 **/.vscode
+**/tmp
+**/mock_files
 **/*.env
