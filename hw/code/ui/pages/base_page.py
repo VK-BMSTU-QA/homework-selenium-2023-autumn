@@ -51,7 +51,7 @@ class BasePage(object):
         except Exception as e:
             print(e)
 
-    def close_banner(self, timeout=None):
+    def close_banner(self, timeout=3):
         try:
             self.click(self.basic_locators.BANNER_BUTTON, timeout)
         except Exception as e:
