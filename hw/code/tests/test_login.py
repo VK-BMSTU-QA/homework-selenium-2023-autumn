@@ -9,13 +9,13 @@ from selenium.common.exceptions import TimeoutException
 class TestLogin(BaseCase):
     authorize = False
 
-    # def test_login(self, credentials, login_page: LoginPage):
-    #     login_page.login(credentials["user"], credentials["password"])
+    def test_login(self, credentials, login_page: LoginPage):
+        login_page.login(credentials["user"], credentials["password"])
 
-    #     try:
-    #         self.driver.get_cookie("remixnsid")
-    #     except Exception as e:
-    #         assert False, f"self.driver.get_cookie raised {e}"
+        try:
+            self.driver.get_cookie("remixnsid")
+        except Exception as e:
+            assert False, f"self.driver.get_cookie raised {e}"
 
     # @pytest.mark.skip
     # @pytest.mark.parametrize("invalid_creds", [{"user": "stegozavr", "password": "a"}])

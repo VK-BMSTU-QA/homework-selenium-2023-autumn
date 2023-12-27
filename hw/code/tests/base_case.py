@@ -52,12 +52,7 @@ class BaseCase:
 
             for cookie in cookies[0]:
                 self.driver.add_cookie(cookie)
-            # self.driver.refresh()
-
-
-# TODO может убрать в confest или fixtures?
-
-
+                
 @pytest.fixture(scope="session")
 def cookies_and_local_storage(credentials, config, service):
     browser = config["browser"]

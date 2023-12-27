@@ -62,7 +62,7 @@ class TestSite(BaseCase):
 
         assert site_page.is_on_site_text("Максимальное количество символов - 255")
 
-    def test_click_tags(self, site_page: SitePage):
+    def test_click_tags_name(self, site_page: SitePage):
         site_page.create_pixel().click_settings().click_tags().click_add_tag()
         site_page.input_name_tag("a" * 260)
 
