@@ -13,7 +13,7 @@ from ui.pages.new_company_page import NewCompanyPage
 
 
 class GroupAdvPage(BasePage):
-    url = "https://ads.vk.com/hq/new_create/ad_plan/"
+    url = "https://ads.vk.com/hq/new_create/ad_plan"
     locators = GroupAdvLocators
 
     def action_click(self, element):

@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 
 class LoginPage(BasePage):
-    url = "https://ads.vk.com/hq/"
+    url = "https://ads.vk.com/hq"
     locators = LoginPageLocators
 
     def login(self, user: str, password: str, timeout=None):

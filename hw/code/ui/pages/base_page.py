@@ -9,13 +9,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
+from contextlib import contextmanager
+
 class PageNotOpenedExeption(Exception):
     pass
 
 
 class BasePage(object):
     basic_locators = basic.BasePageLocators()
-    url = "https://ads.vk.com/"
+    url = "https://ads.vk.com"
 
     # Open url
     def open(self):
@@ -23,26 +25,17 @@ class BasePage(object):
         self.driver.get(self.url)
 
     def url_cmp(self):
-        driver_url = self.driver.current_url
-        for i, v in enumerate(self.url):
-            if self.url[i] == "*":
-                return True
-            if self.url[i] != driver_url[i]:
-                return False
+        return self.driver.current_url.startswith(self.url)
 
     # Check url of opened page and page set in url
     def is_opened(self, timeout=15):
-        time.sleep(5)
-        """started = time.time()
+        started = time.time()
         while time.time() - started < timeout:
-
-            # TODO
-            if self.url_cmp():
-            # if self.url == self.driver.current_url:    
+            if self.url_cmp():   
                 return True
         raise PageNotOpenedExeption(
             f"{self.url} did not open in {timeout} sec, current url {self.driver.current_url}"
-        )"""
+        )
 
     def close_cookie_banner(self):
         try:
@@ -60,7 +53,7 @@ class BasePage(object):
     def __init__(self, driver):
         self.driver = driver
         self.open()
-        # self.is_opened()
+        self.is_opened()
 
     # wait for timeout. Default timeout 5
     def wait(self, timeout=None):
@@ -84,6 +77,10 @@ class BasePage(object):
     
     def click_element_with_text_and_class(self, element, text, class_name, timeout=None) -> WebElement:
         element = self.wait(timeout).until(EC.presence_of_element_located(self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS(element, text, class_name)))
+        element.click()
+
+    def click_element_with_class(self, element, class_name, timeout=None) -> WebElement:
+        element = self.wait(timeout).until(EC.presence_of_element_located(self.basic_locators.ELEMENT_WITH_CLASS(element, class_name)))
         element.click()
     
     def fill(self, locator, text, timeout=None) -> WebElement:
@@ -149,3 +146,15 @@ class BasePage(object):
         actions.click(element)
         actions.perform()
         return self
+
+    @contextmanager
+    def wait_for_url_change(self):
+        start_url = self.driver.current_url
+        yield
+        WebDriverWait(self.driver, 10).until(lambda driver: driver.current_url != start_url)
+
+    '''
+    def contains_text(self, text) -> bool:
+        self.find(self.basic_locators.CONTAINS_ANY_TEXT(text))
+    '''
+    

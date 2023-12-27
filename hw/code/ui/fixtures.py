@@ -6,11 +6,19 @@ from selenium.webdriver.firefox.service import Service as ServiceFirefox
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
+from ui.pages.main_page.cases_page import CasesPage
+from ui.pages.main_page.events_page import EventsPage
+from ui.pages.main_page.ideas_forum_page import IdeasForumPage
+from ui.pages.main_page.main_page import MainPage
+from ui.pages.main_page.monetisation_page import MonetisationPage
+from ui.pages.main_page.news_page import NewsPage
+from ui.pages.main_page.useful_materials_page import UsefulMaterialsPage
 from ui.pages.company_page import CompanyPage
 from ui.pages.lk_page import LKPage
 from ui.pages.login_page import LoginPage
 from ui.pages.base_page import BasePage
 from ui.pages.center_of_commerce import CenterOfCommercePage
+
 import os
 from ui.pages.new_company_page import NewCompanyPage
 from ui.pages.group_adv_page import GroupAdvPage
@@ -86,18 +94,15 @@ def base_page(driver):
     print("INIT FIXTURE BASE PAGE")
     return BasePage(driver=driver)
 
-
 @pytest.fixture
 def login_page(driver):
     print("INIT FIXTURE LOGIN PAGE")
     return LoginPage(driver=driver)
 
-
 @pytest.fixture
 def lk_page(driver):
     print("INIT FIXTURE LKPAGE PAGE")
     return LKPage(driver=driver)
-
 
 @pytest.fixture
 def company_page(driver):
@@ -113,26 +118,57 @@ def new_company_page(driver):
     print("INIT FIXTURE NEW COMPANY PAGE")
     return NewCompanyPage(driver=driver)
 
-
 @pytest.fixture
 def group_adv_page(driver):
     print("INIT FIXTURE GROUP PAGE")
     return GroupAdvPage(driver=driver)
-
 
 @pytest.fixture
 def adv_page(driver):
     print("INIT FIXTURE ADV PAGE")
     return AdvPage(driver=driver)
 
-
 @pytest.fixture
 def audience_page(driver):
     print("INIT FIXTURE AUDIENCE PAGE")
     return AudiencePage(driver=driver)
 
-
 @pytest.fixture
 def site_page(driver):
     print("INIT FIXTURE SITE PAGE")
     return SitePage(driver=driver)
+
+@pytest.fixture
+def main_page(driver):
+    print("INIT FIXTURE MAIN PAGE")
+    return MainPage(driver=driver)
+
+@pytest.fixture
+def cases_page(driver):
+    print("INIT FIXTURE CASES PAGE")
+    return CasesPage(driver=driver)
+
+@pytest.fixture
+def events_page(driver):
+    print("INIT FIXTURE EVENTS PAGE")
+    return EventsPage(driver=driver)
+
+@pytest.fixture
+def ideas_forum_page(driver):
+    print("INIT FIXTURE IDEAS FORUM PAGE")
+    return IdeasForumPage(driver=driver)
+
+@pytest.fixture
+def monetisation_page(driver):
+    print("INIT FIXTURE CASES PAGE")
+    return MonetisationPage(driver=driver)
+
+@pytest.fixture
+def news_page(driver):
+    print("INIT FIXTURE CASES PAGE")
+    return NewsPage(driver=driver)
+
+@pytest.fixture
+def useful_materials_page(driver):
+    print("INIT FIXTURE USEFUL MATERIALS PAGE")
+    return UsefulMaterialsPage(driver=driver)
