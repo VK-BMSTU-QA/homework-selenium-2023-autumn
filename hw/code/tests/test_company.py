@@ -3,25 +3,129 @@ import pytest
 import time
 from tests.base_case import BaseCase, credentials
 from ui.pages.company_page import CompanyPage
+from ui.pages.adv_page import AdvPage
+from ui.pages.group_adv_page import GroupAdvPage
 from tests.base_case import cookies_and_local_storage
 
-from selenium.common.exceptions import TimeoutException
+from urllib.parse import urlparse
 
-from time import gmtime, strftime
-strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
+def is_matching_link(link, base_url):
+    parsed_link = urlparse(link)
+    parsed_base_url = urlparse(base_url)
+
+    return (
+        parsed_link.scheme == parsed_base_url.scheme
+        and parsed_link.netloc == parsed_base_url.netloc
+        and parsed_link.path.startswith(parsed_base_url.path)
+    )
 
 
 class TestCompany(BaseCase):
     authorize = True
 
-    def test_create(self, company_page: CompanyPage, cookies_and_local_storage):
-        print(self.driver.get_cookies())
-
+    @pytest.fixture
+    def preparations(self, company_page: CompanyPage):
         company_page.close_banner()
-        company_page.create_company()
+        yield company_page
 
-        time.sleep(5)
+    def test_create(self, preparations):
+        preparations.create_company()
+        assert is_matching_link(
+            preparations.get_current_url(), "https://ads.vk.com/hq/new_create/ad_plan"
+        )
 
-        datetime_moscow = datetime.now(timezone(timedelta(hours=+3), 'MSC'))
+    def test_group(self, preparations):
+        preparations.group_view(5)
+        assert is_matching_link(
+            preparations.get_current_url(), "https://ads.vk.com/hq/dashboard/ad_groups"
+        )
 
-        assert f"Кампания {datetime_moscow.strftime('%Y-%m-%d')}" in self.driver.page_source
+    def test_advertisment(self, preparations):
+        preparations.advertisment_view(5)
+        assert is_matching_link(
+            preparations.get_current_url(), "https://ads.vk.com/hq/dashboard/ads"
+        )
+
+    def test_list(self, preparations):
+        preparations.select_action_list()
+
+        selector_classes = preparations.get_selector_attribute()
+        assert "vkuiCustomSelect--pop-down" not in selector_classes
+
+    @pytest.fixture
+    def setup_started_filters(self, preparations):
+        preparations.select_filter().select_started_filter().apply_filters()
+        while True:
+            try:
+                preparations.select_company().select_action_list().select_delete_action()
+            except:
+                break
+        yield preparations
+        preparations.select_filter().select_started_filter().apply_filters()
+
+    def test_download(self, setup_started_filters):
+        setup_started_filters.download(10)
+        assert not setup_started_filters.is_on_site_text("Отчет по датам")
+
+    def test_settings(self, setup_started_filters):
+        setup_started_filters.settings(5)
+        assert not setup_started_filters.is_on_site_text("Настроить столбцы")
+
+    @pytest.fixture
+    def setup_filter(self, preparations):
+        preparations.select_filter().select_deleted_filter().apply_filters()
+        yield preparations
+        preparations.select_filter()
+        preparations.select_deleted_filter()
+        preparations.apply_filters()
+
+    def test_select_company_settings(self, setup_filter: CompanyPage):
+        setup_filter.select_company().settings()
+        assert setup_filter.is_on_site_text("Настроить столбцы")
+
+    def test_select_company_downloads(self, setup_filter):
+        setup_filter.select_company().download()
+        assert setup_filter.is_on_site_text("Отчет по датам")
+
+    @pytest.fixture
+    def create_company(self, new_company_page):
+        page = AdvPage.__new__(AdvPage)
+        page.driver = new_company_page.driver
+        page.create_company()
+
+        company_page = CompanyPage(new_company_page.driver)
+        company_page.select_filter().select_started_filter().apply_filters()
+        yield company_page
+
+    def test_company_deletion(self, create_company):
+        while True:
+            try:
+                create_company.select_company().select_action_list().select_delete_action()
+            except:
+                break
+        assert create_company.is_on_site_text(
+            "Ничего не нашлось"
+        ) or create_company.is_on_site_text("Создайте первую рекламную кампанию")
+
+    @pytest.fixture
+    def create_draft(self, company_page):
+        page = GroupAdvPage(company_page.driver)
+        page.get_to_next()
+
+        company_page.open()
+
+        yield company_page
+
+    def test_draft(self, create_draft):
+        create_draft.go_to_drafts()
+        while True:
+            try:
+                cnt = create_draft.select_draft_option()
+                create_draft.delete_draft().click_approve_delete().wait_until_draft_delete(
+                    cnt
+                )
+            except:
+                break
+
+        assert create_draft.is_on_site_text("Создайте первую рекламную кампанию")

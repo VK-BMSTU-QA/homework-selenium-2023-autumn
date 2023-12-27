@@ -4,6 +4,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -18,12 +19,13 @@ class BasePage(object):
 
     # Open url
     def open(self):
+        print("OPEN URL: ", self.url)
         self.driver.get(self.url)
 
     def url_cmp(self):
         driver_url = self.driver.current_url
         for i, v in enumerate(self.url):
-            if self.url[i] == '*':
+            if self.url[i] == "*":
                 return True
             if self.url[i] != driver_url[i]:
                 return False
@@ -31,7 +33,7 @@ class BasePage(object):
     # Check url of opened page and page set in url
     def is_opened(self, timeout=15):
         time.sleep(5)
-        '''started = time.time()
+        """started = time.time()
         while time.time() - started < timeout:
 
             # TODO
@@ -40,7 +42,7 @@ class BasePage(object):
                 return True
         raise PageNotOpenedExeption(
             f"{self.url} did not open in {timeout} sec, current url {self.driver.current_url}"
-        )'''
+        )"""
 
     def close_cookie_banner(self):
         try:
@@ -135,4 +137,17 @@ class BasePage(object):
     
     def find_validation_failed_notification(self, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.presence_of_element_located(self.basic_locators.VALIDATION_FAILED_NOTIFICATION))
-    
+
+    def multiple_find(self, locator, timeout=15):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_all_elements_located(locator)
+        )
+
+    def action_click(self, element):
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+        WebDriverWait(self.driver, 10).until(EC.visibility_of(element))
+        actions = ActionChains(self.driver, 500)
+        actions.move_to_element(element)
+        actions.click(element)
+        actions.perform()
+        return self
