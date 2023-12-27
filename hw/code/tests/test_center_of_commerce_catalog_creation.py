@@ -106,7 +106,7 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
         assert center_of_commerce_page.find_link_with_href(href1) != None and center_of_commerce_page.find_link_with_href(href2) != None
     
     @pytest.mark.parametrize("url, apikey, placeholder, client_id", [("https://www.wildberries.ru/brands/crocs/all", "eee", "Введите ключ API", ""), ("https://www.ozon.ru/seller/qika-1210208/odezhda-obuv-i-aksessuary-7500/?miniapp=seller_1210208", "aaa", "Введите ключ API", "aa"), ("https://aliexpress.ru/store/1102452055?g=y&page=1&spm=a2g2w.detail.0.0.56762b41CeVj0X", "bbb", "Введите токен для доступа к API", "")])
-    def test_creation_marketplace_hrefs_found(self, url, apikey, placeholder, client_id, center_of_commerce_page: CenterOfCommercePage, cookies_and_local_storage):
+    def test_creation_marketplace_invalid_api_key_error(self, url, apikey, placeholder, client_id, center_of_commerce_page: CenterOfCommercePage, cookies_and_local_storage):
         center_of_commerce_page.go_to_create_marketplace_catalog()
         center_of_commerce_page.fill_url_input(url)
         center_of_commerce_page.fill_client_id_input(client_id)
@@ -116,7 +116,7 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
         assert center_of_commerce_page.find_validation_failed_notification() != None and center_of_commerce_page.find_invalid_apikey_error() != None
 
     @pytest.mark.parametrize("url, apikey, placeholder, client_id", [("https://www.wildberries.ru/brands/crocs/all", "ааа", "Введите ключ API", ""), ("https://www.ozon.ru/seller/qika-1210208/odezhda-obuv-i-aksessuary-7500/?miniapp=seller_1210208", "ььь", "Введите ключ API", "aa"), ("https://aliexpress.ru/store/1102452055?g=y&page=1&spm=a2g2w.detail.0.0.56762b41CeVj0X", "ввв", "Введите токен для доступа к API", "")])
-    def test_creation_marketplace_hrefs_found(self, url, apikey, placeholder, client_id, center_of_commerce_page: CenterOfCommercePage, cookies_and_local_storage):
+    def test_creation_marketplace_encoding_api_key_error(self, url, apikey, placeholder, client_id, center_of_commerce_page: CenterOfCommercePage, cookies_and_local_storage):
         center_of_commerce_page.go_to_create_marketplace_catalog()
         center_of_commerce_page.fill_url_input(url)
         center_of_commerce_page.fill_client_id_input(client_id)
