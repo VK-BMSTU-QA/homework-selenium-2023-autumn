@@ -49,14 +49,12 @@ class BasePage(object):
             self.click(self.basic_locators.COOKIE_BANNER_BUTTON)
         except Exception as e:
             print(e)
-            pass
 
-    def close_banner(self):
+    def close_banner(self, timeout = None):
         try:
-            self.click(self.basic_locators.BANNER_BUTTON)
+            self.click(self.basic_locators.BANNER_BUTTON, timeout)
         except Exception as e:
             print(e)
-            pass
 
     # Open url that set in url of page and check if opened
     def __init__(self, driver):

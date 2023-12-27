@@ -25,7 +25,6 @@ def service(config):
         service  = ServiceChrome(executable_path=ChromeDriverManager().install())
         # service  = ServiceChrome(executable_path='/usr/local/bin/geckodriver')
 
-        
     elif browser == "firefox":
         service  = ServiceFirefox(executable_path=GeckoDriverManager().install())
 
