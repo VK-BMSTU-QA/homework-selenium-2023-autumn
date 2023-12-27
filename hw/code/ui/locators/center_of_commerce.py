@@ -86,19 +86,85 @@ class CenterOfCommerceLocators:
     DOWNLOADED_FILE = (
         By.XPATH, "//header[contains(@title, \".xlsx\") or contains(@title, \".csv\")]"
     )
+
+    # Каталог
+
     CATALOG_TABS = (
         By.CLASS_NAME, "vkuiTabs__in"
     )
     FEED_DOWNLOADING = (
         By.XPATH, "//span[text() = \"Загрузка фида\"]"
     )
+    DOWNLOADING_HISTORY_ICON = (
+        By.CLASS_NAME, "UpdateBannerInfo_bannerIcon__dds6O"
+    )
+    FEED_DOWNLOADING_ON_DIAGNOSTIC = (
+        By.XPATH, "//h2[text() = \"Фид загружается\"]"
+    )
+    DOWNLOAD_FULL_REPORT_BUTTON = (
+        By.XPATH, "//a[contains(., \"Скачать полный отчёт\")]"
+    )
+    ADD_PRODUCTS_BUTTON = (
+        By.XPATH, "//button[contains(.,\"Добавить товары\")]"
+    )
+    PROMOTE_BUTTON = (
+        By.XPATH, "//a[contains(., \"Рекламировать\")]"
+    )
     CONNECT_DATA_SOURCE_BUTTON = (
         By.XPATH, "//button[contains(.,\"Подключить источник данных\")]"
+    )
+    TAB_WITH_EVENTS_NOT_ACCESSED_SOON_SVG = (
+        By.CLASS_NAME, "vkuiIcon--hourglass_outline_56"
     )
     CREATE_GROUP_BUTTON= (
         By.XPATH, "//button[contains(.,\"Создать группу\")]"
     )
     CHOOOSE_CATALOG = (
-        By.CLASS_NAME, "vkuiIcon--chevron_down_outline"
+        By.CLASS_NAME, "vkuiIcon--chevron_down_outline_28"
     )
-    
+    PRODUCT_CELL_ON_CATALOG_TABLE = lambda text :  (
+        By.XPATH,  f"//span[contains(text(), \"{text}\") and contains(@class, \"vkuiHeadline\")]"
+    )
+    CATALOG_TITLE = lambda text :  (
+        By.XPATH,  f"//div[contains(., \"{text}\") and contains(@data-testid, \"current-catalog\")]"
+    )
+    SEARCH_CATALOG_BY_CLASS = lambda class_name : (
+        By.XPATH, f"//div[contains(@class, \"{class_name}\")]/div/label/input[@type= \"search\"]"
+    )
+    TAB_BY_ID = lambda id : (
+        By.ID, id
+    )
+    COMPANY_SETTING = (
+        By.XPATH, "//div[contains(., \"Настройка кампании\") and @data-testid=\"steps\"]"
+    )
+    PRODUCTS_TABLE_SETTINGS_BUTTON = (
+        By.XPATH, "//div[contains(@class, \"Toolbar_tableSettings__KhdOD\")]/div/button"
+    )
+    H2_WITH_TEXT = lambda text : (
+        By.XPATH, f"//h2[text() = \"{text}\"]"
+    )
+    H1_WITH_TEXT = lambda text : (
+        By.XPATH, f"//h1[text() = \"{text}\"]"
+    )
+    PRODUCTS_SELECT_ALL_CHECKBOX = (
+        By.XPATH, "//div[contains(@class, \"BaseTable__header-cell\")]/input"
+    )
+    PRODUCTS_SELECT_ALL_CHECKBOX_SVG = (
+       By.XPATH,  "//div[contains(@class, \"BaseTable__header-cell\")]/div/*"
+    )
+    PRODUCTS_CHECKBOX_INPUTS = (
+        By.XPATH, '//div[contains(@class, \"BaseTable__table-frozen-left\")]/div/div/div/div/div/input'
+    )
+    SORT_INDICATOR_PRODUCT = (
+        By.XPATH, '//div[contains(.,\"Товар\")]/div[contains(@class, \"BaseTable__sort-indicator\")]'
+    )
+    PRODUCT_TABLE_HEADER = (
+        By.XPATH, '//div[text() = \"Товар\"]'
+    )
+    WARNING_SVG = (
+        By.XPATH, '//span[contains(text(), "предупреждение")]'
+    )
+    PRODUCT_ID_SVG = lambda product_id : (
+        By.XPATH, f'//span[contains(text(), "{product_id}")]'
+    )
+

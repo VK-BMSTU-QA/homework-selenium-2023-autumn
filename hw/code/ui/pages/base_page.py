@@ -78,6 +78,13 @@ class BasePage(object):
     def click_element_with_text(self, element, text, timeout=None) -> WebElement:
         element = self.wait(timeout).until(EC.presence_of_element_located(self.basic_locators.ELEMENT_WITH_TEXT(element, text)))
         element.click()
+
+    def find_with_text_and_class(self, element, text, class_name, timeout=None) -> WebElement:
+        return self.wait(timeout).until(EC.presence_of_element_located(self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS(element, text, class_name)))
+    
+    def click_element_with_text_and_class(self, element, text, class_name, timeout=None) -> WebElement:
+        element = self.wait(timeout).until(EC.presence_of_element_located(self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS(element, text, class_name)))
+        element.click()
     
     def fill(self, locator, text, timeout=None) -> WebElement:
         elem = self.find(locator, timeout=timeout)
@@ -104,11 +111,9 @@ class BasePage(object):
         time.sleep(3)
         elem.send_keys(Keys.BACKSPACE)
     
-    def search(self, search_locator, query):
-        elem = self.find(search_locator)
+    def search(self, search_locator, query, timeout = None):
+        elem = self.find(search_locator, timeout)
         elem.send_keys(query)
-        # go_button = self.find(self.locators.GO_BUTTON_LOCATOR)
-        # go_button.click()
 
     # Search for element by locator and click on it
     def click(self, locator, timeout=None) -> None:

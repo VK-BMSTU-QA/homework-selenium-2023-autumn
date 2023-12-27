@@ -91,3 +91,4 @@ def company_page(driver):
 @pytest.fixture
 def center_of_commerce_page(driver):
     return CenterOfCommercePage(driver=driver)
+
