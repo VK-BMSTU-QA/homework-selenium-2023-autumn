@@ -2,6 +2,7 @@ import re
 import time
 import allure
 
+from ui.locators import basic_locators
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import TimeoutException
@@ -9,8 +10,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common import StaleElementReferenceException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-
-from ui.locators import basic_locators
 
 CLICK_RETRY = 3
 
