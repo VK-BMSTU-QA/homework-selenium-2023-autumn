@@ -23,6 +23,9 @@ class BaseCase:
 
     @contextmanager
     def switch_to_window(self, current, close=False):
+        if len(self.driver.window_handles) == 1:
+            raise Exception('only one window')
+
         for w in self.driver.window_handles:
             if w != current:
                 self.driver.switch_to.window(w)
@@ -44,11 +47,11 @@ class BaseCase:
 
     
     @contextmanager
-    def not_raises(exception=Exception):
+    def not_raises(self):
         try:
             yield
-        except exception:
-            raise pytest.fail("DID RAISE {0}".format(exception))
+        except Exception as e:
+            raise pytest.fail("DID RAISE {0}".format(e))
 
 
     def wait_for(self, timeout, callback, *args, **kwargs):

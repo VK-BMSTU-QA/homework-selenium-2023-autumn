@@ -2,7 +2,7 @@ import pytest
 import time
 from tests.base_case import BaseCase, credentials
 from ui.pages.login_page import LoginPage
-from hw.code.ui.pages.main_page.main_page import MainPage
+from ui.pages.main_page.main_page import MainPage
 
 from selenium.common.exceptions import TimeoutException
 
@@ -34,17 +34,22 @@ class TestNavbarMainPage(BaseCase):
             main_page.go_to_monetisation_page()
 
     def test_go_to_help_page(self, main_page: MainPage):
-        with self.not_raises(), self.assert_url(HELP_URL):
-            main_page.go_to_help_page()
+        main_page.go_to_help_page()
+
+        with self.not_raises():
+            self.assert_url(HELP_URL)
 
     def test_go_to_sertification_page(self, main_page: MainPage):
-         with self.not_raises(), self.assert_url(SERTIFICATION_URL):
-            main_page.go_to_sertification_page()
+         main_page.go_to_sertification_page()
+
+         with self.not_raises(), self.switch_to_window(self.driver.current_window_handle, True):
+            self.assert_url(SERTIFICATION_URL), 
 
     def test_go_to_courses_page(self, main_page: MainPage):
-        with self.not_raises(), self.assert_url(COURSES_URL):
-            main_page.go_to_video_courses_page()
+        main_page.go_to_video_courses_page()
 
+        with self.not_raises(), self.switch_to_window(self.driver.current_window_handle, True):
+            self.assert_url(COURSES_URL)
 
 
     # @pytest.mark.skip

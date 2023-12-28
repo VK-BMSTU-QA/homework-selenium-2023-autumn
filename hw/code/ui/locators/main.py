@@ -23,3 +23,7 @@ class MainPageLocators:
     CAROUSEL_TOP_TEXT = (By.XPATH, "//*[contains(@class, 'active')]//*[@id='title']")
 
     VEBINARS_BUTTON = (By.XPATH, "//*[contains(@class, 'GetStarted')]//*[text='Подробнее']")
+
+    ALL_CASES_BUTTON = (By.XPATH, "//a[text()='Смотреть все']")
+
+    TOP_NEWS = (By.XPATH, "//div[contains(@class, 'News')]")
