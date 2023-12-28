@@ -27,7 +27,7 @@ class TestCampaign(BaseCase):
         }
 
         campaign_page.create_campaign_via_site(data)
-        campaign_name = utils.get_today_campaign_name()
+        campaign_name = campaign_page.get_campaign_title()
 
         ind, _ = campaign_page.find_ind_campaign_by_name(campaign_name)
         assert ind != -1
@@ -54,7 +54,7 @@ class TestCampaign(BaseCase):
         }
 
         campaign_page.create_campaign_via_community(data)
-        campaign_name = utils.get_today_campaign_name()
+        campaign_name = campaign_page.get_campaign_title()
 
         ind, _ = campaign_page.find_ind_campaign_by_name(campaign_name)
         assert ind != -1
@@ -82,7 +82,7 @@ class TestCampaign(BaseCase):
         }
 
         campaign_page.create_campaign_via_classmates(data)
-        campaign_name = utils.get_today_campaign_name()
+        campaign_name = campaign_page.get_campaign_title()
 
         ind, _ = campaign_page.find_ind_campaign_by_name(campaign_name)
         assert ind != -1
@@ -113,7 +113,7 @@ class TestCampaign(BaseCase):
         }
 
         campaign_page.create_campaign_via_catalog(data)
-        campaign_name = utils.get_today_campaign_name()
+        campaign_name = campaign_page.get_campaign_title()
 
         ind, _ = campaign_page.find_ind_campaign_by_name(campaign_name)
         assert ind != -1
@@ -140,7 +140,7 @@ class TestCampaign(BaseCase):
         }
 
         campaign_page.create_campaign_via_vk_apps(data)
-        campaign_name = utils.get_today_campaign_name()
+        campaign_name = campaign_page.get_campaign_title()
 
         ind, _ = campaign_page.find_ind_campaign_by_name(campaign_name)
         assert ind != -1
@@ -167,7 +167,7 @@ class TestCampaign(BaseCase):
         }
 
         campaign_page.create_campaign_via_site(data)
-        campaign_name = utils.get_today_campaign_name()
+        campaign_name = campaign_page.get_campaign_title()
 
         campaign_page.delete_campaign(campaign_name)
 
@@ -185,11 +185,11 @@ class TestCampaign(BaseCase):
         }
 
         campaign_page.create_draft_via_site(data)
-        draft_name = utils.get_today_campaign_name()
+        campaign_name = campaign_page.get_campaign_title()
 
-        campaign_page.delete_draft(draft_name)
+        campaign_page.delete_draft(campaign_name)
 
-        ind, _ = campaign_page.find_ind_campaign_by_name(draft_name)
+        ind, _ = campaign_page.find_ind_campaign_by_name(campaign_name)
         assert ind == -1
 
     @allure.story('Create campaign via site empty url')
@@ -239,7 +239,7 @@ class TestCampaign(BaseCase):
         groups_page = campaign_page.create_campaign_via_site_incorrect_region(data)
         assert groups_page.find_incorrect_region_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     @allure.story('Create campaign via site empty title')
     def test_create_campaign_via_site_empty_title(self, repo_root):
@@ -260,7 +260,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_site_empty_title(data)
         assert advertisements_page.find_required_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     @allure.story('Create campaign via site long title')
     def test_create_campaign_via_site_long_title(self, repo_root):
@@ -282,7 +282,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_site_long_title(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     @allure.story('Create campaign via site empty short description')
     def test_create_campaign_via_site_empty_short_description(self, repo_root):
@@ -304,7 +304,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_site_empty_short_description(data)
         assert advertisements_page.find_required_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     def test_create_campaign_via_site_long_short_description(self, repo_root):
         campaign_page = CampaignPage(self.driver)
@@ -326,7 +326,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_site_long_short_description(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     def test_create_campaign_via_site_long_long_description(self, repo_root):
         campaign_page = CampaignPage(self.driver)
@@ -349,7 +349,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_site_long_long_description(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     def test_create_campaign_via_site_long_button_text(self, repo_root):
         campaign_page = CampaignPage(self.driver)
@@ -373,7 +373,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_site_long_button_text(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     def test_create_campaign_via_site_long_advertiser(self, repo_root):
         campaign_page = CampaignPage(self.driver)
@@ -398,7 +398,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_site_long_advertiser(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     @allure.story('Create campaign via catalog empty url')
     def test_create_campaign_via_catalog_empty_url(self, repo_root):
@@ -452,7 +452,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_catalog_empty_title(data)
         assert advertisements_page.find_required_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     @allure.story('Create campaign via long title')
     def test_create_campaign_via_catalog_long_title(self, repo_root):
@@ -474,7 +474,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_catalog_long_title(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     @allure.story('Create campaign via empty carousel description')
     def test_create_campaign_via_catalog_empty_carousel_description(self, repo_root):
@@ -496,7 +496,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_catalog_empty_carousel_description(data)
         assert advertisements_page.find_required_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     def test_create_campaign_via_catalog_long_carousel_description(self, repo_root):
         campaign_page = CampaignPage(self.driver)
@@ -518,7 +518,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_catalog_long_carousel_description(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     def test_create_campaign_via_catalog_empty_banner_description(self, repo_root):
         campaign_page = CampaignPage(self.driver)
@@ -540,7 +540,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_catalog_empty_banner_description(data)
         assert advertisements_page.find_required_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     def test_create_campaign_via_catalog_long_banner_description(self, repo_root):
         campaign_page = CampaignPage(self.driver)
@@ -563,7 +563,7 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_catalog_long_banner_description(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())
 
     def test_create_campaign_via_catalog_long_long_description(self, repo_root):
         campaign_page = CampaignPage(self.driver)
@@ -587,4 +587,4 @@ class TestCampaign(BaseCase):
         advertisements_page = campaign_page.create_campaign_via_catalog_long_long_description(data)
         assert advertisements_page.find_long_field_label() is True
 
-        campaign_page.delete_draft(utils.get_today_campaign_name())
+        campaign_page.delete_draft(campaign_page.get_campaign_title())

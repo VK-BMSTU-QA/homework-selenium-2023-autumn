@@ -1,8 +1,7 @@
-import time
-
 import allure
-from selenium.common.exceptions import TimeoutException
 
+from utils import get_today
+from selenium.common.exceptions import TimeoutException
 from ui.pages.campaign.campaign_page_interface import CampaignPageInterface
 from ui.pages.campaign.create.settings_page import CreateCampaignSettingsPage
 
@@ -298,3 +297,6 @@ class CampaignPage(CampaignPageInterface):
                 return i, campaigns
 
         return -1, []
+
+    def get_campaign_title(self):
+        return f'Кампания {get_today()}'

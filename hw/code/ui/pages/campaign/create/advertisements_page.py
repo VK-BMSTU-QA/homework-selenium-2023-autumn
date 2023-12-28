@@ -1,4 +1,3 @@
-import time
 import allure
 
 from ui.pages.campaign.campaign_page_interface import CampaignPageInterface
