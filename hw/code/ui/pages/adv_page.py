@@ -103,9 +103,9 @@ class AdvPage(BasePage):
     # Return name of company, that was created
     def create_company(self) -> str:
         self.get_page()
-        self.select_logo(0).write_to_inputs("https://vk.com/").write_to_textarea(
+        self.select_logo(0).write_to_inputs(
             "https://vk.com/"
-        )
+        ).write_to_textarea("https://vk.com/")
         name = self.get_company_name()
 
         self.click_media_upload().select_media_options().add_media_option()

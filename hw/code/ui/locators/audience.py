@@ -6,7 +6,10 @@ class AudienceLocators(BasePageLocators):
     CREATE_BUTTON = (By.XPATH, '//button[@data-testid="create-audience"]')
     CREATION_NAME_AUDITORY = (By.XPATH, '//*[@name="segmentName"]//input')
 
-    ADD_SOURCE = (By.XPATH, '//*[contains(@class, "CreateSegmentModal")]//button')
+    ADD_SOURCE = (
+        By.XPATH,
+        '//*[contains(@class, "CreateSegmentModal")]//button',
+    )
     LEAD_REGION = (
         By.XPATH,
         '//*[contains(text(), "События в лид-форме")]',
@@ -57,7 +60,10 @@ class AudienceLocators(BasePageLocators):
 
     VK_GROUPS = (By.XPATH, '//*[contains(text(), "Сообщества ВКонтакте")]')
 
-    VK_GROUPS_OPTIONS = (By.XPATH, '//*[contains(@class, "GroupContent_item")]')
+    VK_GROUPS_OPTIONS = (
+        By.XPATH,
+        '//*[contains(@class, "GroupContent_item")]',
+    )
     VK_GROUP_TEXT = (By.XPATH, '//*[contains(text(),"Подписчики сообществ")]')
 
     SOURCE_BUTTONS = (

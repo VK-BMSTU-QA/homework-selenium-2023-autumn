@@ -106,7 +106,9 @@ class NewCompanyPage(BasePage):
 
     def select_lead_option(self, what_option: int):
         option = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_all_elements_located(self.locators.SELECT_LEAD_OPTION)
+            EC.presence_of_all_elements_located(
+                self.locators.SELECT_LEAD_OPTION
+            )
         )
         self.action_click(option[what_option])
 

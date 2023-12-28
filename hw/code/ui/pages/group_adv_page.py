@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from ui.pages.new_company_page import NewCompanyPage
+from selenium.common.exceptions import TimeoutException
 
 
 class GroupAdvPage(BasePage):
@@ -17,7 +18,9 @@ class GroupAdvPage(BasePage):
     locators = GroupAdvLocators
 
     def action_click(self, element):
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView(true);", element
+        )
         actions = ActionChains(self.driver, 500)
         actions.move_to_element(element)
         actions.click(element)
@@ -39,7 +42,7 @@ class GroupAdvPage(BasePage):
     def get_selected_region(self):
         try:
             return self.find(self.locators.SELECTED_RUSSIA)
-        except:
+        except TimeoutException:
             return None
 
     def get_page(self):
@@ -87,7 +90,9 @@ class GroupAdvPage(BasePage):
         return self
 
     def click_interest_region(self, timeout=10):
-        self.action_click(self.multiple_find(self.locators.INTEREST_REGION, timeout)[0])
+        self.action_click(
+            self.multiple_find(self.locators.INTEREST_REGION, timeout)[0]
+        )
         return self
 
     def click_key_phrases(self, timeout=10):

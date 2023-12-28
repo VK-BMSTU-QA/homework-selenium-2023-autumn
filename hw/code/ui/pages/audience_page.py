@@ -136,7 +136,10 @@ class AudiencePage(BasePage):
         return
 
     def is_user_list_url(self) -> bool:
-        return "https://ads.vk.com/hq/audience/user_lists" == self.driver.current_url
+        return (
+            "https://ads.vk.com/hq/audience/user_lists"
+            == self.driver.current_url
+        )
 
     def select_vk_group_region(self):
         region = self.find(self.locators.VK_GROUP_REGION)
@@ -151,7 +154,9 @@ class AudiencePage(BasePage):
 
     def select_vk_group(self):
         self.action_click(self.find(self.locators.VK_GROUPS))
-        self.action_click(self.multiple_find(self.locators.VK_GROUPS_OPTIONS)[0])
+        self.action_click(
+            self.multiple_find(self.locators.VK_GROUPS_OPTIONS)[0]
+        )
 
         self.empty_click()
         return self
@@ -161,7 +166,9 @@ class AudiencePage(BasePage):
         return self
 
     def get_name_audience(self) -> str:
-        return self.find(self.locators.CREATION_NAME_AUDITORY).get_attribute("value")
+        return self.find(self.locators.CREATION_NAME_AUDITORY).get_attribute(
+            "value"
+        )
 
     def select_vk_group_filter(self):
         filter_btn = self.multiple_find(self.locators.FILTER_BUTTON)[1]

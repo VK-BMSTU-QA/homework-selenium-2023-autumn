@@ -8,7 +8,10 @@ class SiteLocators(BasePageLocators):
         '//*[contains(@id, "pixels")]//button//*[contains(text(),"Добавить пиксель")]',
     )
 
-    INPUT_DOMEN = (By.XPATH, '//*[contains(@class, "ModalRoot")]//input[@type="text"]')
+    INPUT_DOMEN = (
+        By.XPATH,
+        '//*[contains(@class, "ModalRoot")]//input[@type="text"]',
+    )
     CLOSE_BUTTON = (
         By.XPATH,
         '//*[contains(@class, "ModalRoot")]//div[@aria-label="Закрыть"]',
@@ -56,7 +59,10 @@ class SiteLocators(BasePageLocators):
         '//button[@type="button"]//span[contains(text(),"Создать аудиторный тег")]',
     )
 
-    INPUT_NAME_TAG = (By.XPATH, '//*[contains(@class, "Modal")]//input[@type="text"]')
+    INPUT_NAME_TAG = (
+        By.XPATH,
+        '//*[contains(@class, "Modal")]//input[@type="text"]',
+    )
     CREATE_TAG_MODAL = (
         By.XPATH,
         '//*[contains(@class, "Modal")]//button//*[contains(text(),"Создать")]',

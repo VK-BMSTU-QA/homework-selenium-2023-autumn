@@ -23,19 +23,27 @@ class TestSite(BaseCase):
     def test_valid_input(self, teardown_checkbox: SitePage):
         teardown_checkbox.input_collection_data("привет")
 
-        assert teardown_checkbox.is_error_on_page("Недопустимое значение переменной")
+        assert teardown_checkbox.is_error_on_page(
+            "Недопустимое значение переменной"
+        )
 
     def test_click_events(self, site_page: SitePage):
         site_page.create_pixel().click_settings()
         pixel_id = site_page.current_id()
         site_page.click_events()
-        assert site_page.get_url() == f"https://ads.vk.com/hq/pixels/{pixel_id}/events"
+        assert (
+            site_page.get_url()
+            == f"https://ads.vk.com/hq/pixels/{pixel_id}/events"
+        )
 
     def test_click_tags(self, site_page: SitePage):
         site_page.create_pixel().click_settings()
         pixel_id = site_page.current_id()
         site_page.click_tags()
-        assert site_page.get_url() == f"https://ads.vk.com/hq/pixels/{pixel_id}/tags"
+        assert (
+            site_page.get_url()
+            == f"https://ads.vk.com/hq/pixels/{pixel_id}/tags"
+        )
 
     def test_click_access(self, site_page: SitePage):
         site_page.create_pixel().click_settings()
@@ -47,20 +55,24 @@ class TestSite(BaseCase):
         )
 
     def test_event_empty_category(self, site_page: SitePage):
-        site_page.create_pixel().click_settings().click_events().click_add_event()
+        site_page.create_pixel().click_settings().click_events()
+        site_page.click_add_event()
         site_page.click_add_event_modal()
 
         assert site_page.is_on_site_text("Поле не должно быть пустым")
 
     def test_event_max_size_name(self, site_page: SitePage):
-        site_page.create_pixel().click_settings().click_events().click_add_event()
+        site_page.create_pixel().click_settings().click_events()
+        site_page.click_add_event()
         site_page.click_add_event_modal().select_manual()
         site_page.input_event_name("s" * 260)
         site_page.select_event_category().select_event_condition()
 
         site_page.input_text_url("vk.com").click_add_event_modal()
 
-        assert site_page.is_on_site_text("Максимальное количество символов - 255")
+        assert site_page.is_on_site_text(
+            "Максимальное количество символов - 255"
+        )
 
     def test_click_tags_name(self, site_page: SitePage):
         site_page.create_pixel().click_settings().click_tags().click_add_tag()

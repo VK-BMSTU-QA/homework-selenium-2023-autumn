@@ -20,7 +20,7 @@ class TestGroup(BaseCase):
         page = select_region
         page.site_region_click()
 
-        assert page.get_selected_region() != None
+        assert page.get_selected_region() is not None
 
     def test_upper_limit(self, group_adv_page: GroupAdvPage):
         group_adv_page.get_page()
@@ -52,7 +52,8 @@ class TestGroup(BaseCase):
     def test_key_phrases_error(self, group_adv_page: GroupAdvPage):
         group_adv_page.get_page().wait_load_page()
 
-        group_adv_page.click_interest_region().click_key_phrases().send_key_phrases(
+        group_adv_page.click_interest_region().click_key_phrases()
+        group_adv_page.send_key_phrases(
             "строка1" * 71, 10
         ).click_continue_button()
 
@@ -61,9 +62,10 @@ class TestGroup(BaseCase):
     def test_key_phrases_duplicate(self, group_adv_page: GroupAdvPage):
         group_adv_page.get_page().wait_load_page()
 
-        group_adv_page.click_interest_region().click_key_phrases().send_key_phrases(
-            "строка1", 10
-        ).send_keys_phrases_minus("строка1")
+        group_adv_page.click_interest_region().click_key_phrases()
+        group_adv_page.send_key_phrases("строка1", 10).send_keys_phrases_minus(
+            "строка1"
+        )
 
         assert group_adv_page.is_on_site_text("У вас дублируются")
 

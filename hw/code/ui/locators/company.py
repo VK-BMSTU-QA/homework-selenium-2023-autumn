@@ -43,4 +43,7 @@ class CompanyPageLocators(BasePageLocators):
     )
 
     COUNT_LINE = (By.XPATH, '//*[contains(@class, "nameCell_footerCell")]')
-    GRIDS = (By.XPATH, '//*[contains(@class,"BaseTable__body")]//*[@role="gridcell"]')
+    GRIDS = (
+        By.XPATH,
+        '//*[contains(@class,"BaseTable__body")]//*[@role="gridcell"]',
+    )

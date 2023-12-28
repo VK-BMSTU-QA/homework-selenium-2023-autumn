@@ -7,15 +7,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.remote.webelement import WebElement
 
 
 class CompanyPage(BasePage):
+    # TODO
     url = "https://ads.vk.com/hq/dashboard/ad_plans?mode=ads&attribution=impression&sort=-created"
     locators = CompanyPageLocators
 
     def action_click(self, element):
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView(true);", element
+        )
         actions = ActionChains(self.driver, 500)
         actions.move_to_element(element)
         actions.click(element)
@@ -120,10 +124,10 @@ class CompanyPage(BasePage):
         res = self.is_on_site_text(text)
         return not res
 
-    def wait_until_draft_delete(self, el: str):
+    def wait_until_draft_delete(self, el: WebElement):
         try:
             WebDriverWait(self.driver, 15).until(EC.staleness_of(el))
-        except:
+        except TimeoutException:
             pass
 
         return self

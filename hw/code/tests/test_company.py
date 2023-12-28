@@ -6,6 +6,7 @@ from ui.pages.company_page import CompanyPage
 from ui.pages.adv_page import AdvPage
 from ui.pages.group_adv_page import GroupAdvPage
 from tests.base_case import cookies_and_local_storage
+from selenium.common.exceptions import TimeoutException
 
 from urllib.parse import urlparse
 
@@ -32,19 +33,22 @@ class TestCompany(BaseCase):
     def test_create(self, preparations):
         preparations.create_company()
         assert is_matching_link(
-            preparations.get_current_url(), "https://ads.vk.com/hq/new_create/ad_plan"
+            preparations.get_current_url(),
+            "https://ads.vk.com/hq/new_create/ad_plan",
         )
 
     def test_group(self, preparations):
         preparations.group_view(5)
         assert is_matching_link(
-            preparations.get_current_url(), "https://ads.vk.com/hq/dashboard/ad_groups"
+            preparations.get_current_url(),
+            "https://ads.vk.com/hq/dashboard/ad_groups",
         )
 
     def test_advertisment(self, preparations):
         preparations.advertisment_view(5)
         assert is_matching_link(
-            preparations.get_current_url(), "https://ads.vk.com/hq/dashboard/ads"
+            preparations.get_current_url(),
+            "https://ads.vk.com/hq/dashboard/ads",
         )
 
     def test_list(self, preparations):
@@ -55,11 +59,13 @@ class TestCompany(BaseCase):
 
     @pytest.fixture
     def setup_started_filters(self, preparations):
+        # TODO transfer to another function
         preparations.select_filter().select_started_filter().apply_filters()
         while True:
             try:
-                preparations.select_company().select_action_list().select_delete_action()
-            except:
+                preparations.select_company().select_action_list()
+                preparations.select_delete_action()
+            except TimeoutException:
                 break
         yield preparations
         preparations.select_filter().select_started_filter().apply_filters()
@@ -102,12 +108,15 @@ class TestCompany(BaseCase):
     def test_company_deletion(self, create_company):
         while True:
             try:
-                create_company.select_company().select_action_list().select_delete_action()
-            except:
+                create_company.select_company().select_action_list()
+                create_company.select_delete_action()
+            except TimeoutException:
                 break
         assert create_company.is_on_site_text(
             "Ничего не нашлось"
-        ) or create_company.is_on_site_text("Создайте первую рекламную кампанию")
+        ) or create_company.is_on_site_text(
+            "Создайте первую рекламную кампанию"
+        )
 
     @pytest.fixture
     def create_draft(self, company_page):
@@ -124,10 +133,11 @@ class TestCompany(BaseCase):
         while True:
             try:
                 cnt = create_draft.select_draft_option()
-                create_draft.delete_draft().click_approve_delete().wait_until_draft_delete(
-                    cnt
-                )
-            except:
+                create_draft.delete_draft().click_approve_delete()
+                create_draft.wait_until_draft_delete(cnt)
+            except TimeoutException:
                 break
 
-        assert create_draft.is_on_site_text("Создайте первую рекламную кампанию")
+        assert create_draft.is_on_site_text(
+            "Создайте первую рекламную кампанию"
+        )

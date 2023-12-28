@@ -35,7 +35,10 @@ class GroupAdvLocators(BasePageLocators):
         '//*[@id="footer"]//*[contains(@class, "vkuiButton__in")]',
     )
 
-    SAVE_TEXT = (By.XPATH, '//*[@id="footer"]//*[text()="Изменения сохранены"]')
+    SAVE_TEXT = (
+        By.XPATH,
+        '//*[@id="footer"]//*[text()="Изменения сохранены"]',
+    )
 
     INTEREST_REGION = (By.XPATH, '//*[@data-testid="section-interests"]')
 

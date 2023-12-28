@@ -17,7 +17,10 @@ class NewCompanyPageLocators(BasePageLocators):
     SELECTOR_STRATEGY = (By.XPATH, '//*[@data-testid="autobidding-mode"]')
     MAX_CLICK_COST = (By.XPATH, '//*[@data-testid="max-price"]')
 
-    RADIO_BUTTON_VK_GROUP = (By.XPATH, '//*[contains(text(), "Сообщество ВКонтакте")]')
+    RADIO_BUTTON_VK_GROUP = (
+        By.XPATH,
+        '//*[contains(text(), "Сообщество ВКонтакте")]',
+    )
     VK_ANOTHER_GROUP = (By.XPATH, '//*[contains(text(), "Другое сообщество")]')
     GROUP_SELECTOR = (By.CLASS_NAME, "SelectVkOwner_wrapper__ZauB2")
     VK_INPUT_ANOTHER_GROUP = (
