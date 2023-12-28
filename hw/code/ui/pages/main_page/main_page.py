@@ -32,69 +32,78 @@ class MainPage(BasePage):
         self.action_click(elem)
 
         return CasesPage(self.driver)
-    
+
     def click_on_top_news(self):
         elem = self.find(self.locators.TOP_NEWS)
         self.action_click(elem)
 
         return NewsPage(self.driver)
-    
+
     def click_on_vebinars(self):
         self.click(self.locators.VEBINARS_BUTTON)
         return EventsPage(self.driver)
-    
+
     def click_on_know_more(self):
         # button = self.find(self.locators.KNOW_MORE_BUTTONS)[0]
         with self.wait_for_url_change():
             self.click(self.locators.KNOW_MORE_BUTTONS)
-    
+
     def get_slide_text(self):
         carousel_top_elem = self.find(self.locators.CAROUSEL_TOP_TEXT)
         return carousel_top_elem.text
 
     def click_on_logo(self):
-        self.click_element_with_class('a', 'HeaderLeft')
+        self.click_element_with_class("a", "HeaderLeft")
         return MainPage(self.driver)
 
     def go_to_news_page(self):
-        self._click_on_navigation_element('Новости')
+        self._click_on_navigation_element("Новости")
         return NewsPage(self.driver)
 
     def go_to_usefull_materials_page(self):
-        self._dropdown_and_move_to('Полезные материалы')
+        self._dropdown_and_move_to("Полезные материалы")
         return UsefulMaterialsPage(self.driver)
-        
+
     def go_to_events_page(self):
-        self._dropdown_and_move_to('Мероприятия')
+        self._dropdown_and_move_to("Мероприятия")
         return EventsPage(self.driver)
 
     def go_to_sertification_page(self):
-        self._dropdown_and_move_to('Сертификация')
+        self._dropdown_and_move_to("Сертификация")
 
     def go_to_video_courses_page(self):
-        self._dropdown_and_move_to('Видеокурсы')
-        
+        self._dropdown_and_move_to("Видеокурсы")
+
     def go_to_ideas_forum_page(self):
-        self._click_on_navigation_element('Форум идей')
+        self._click_on_navigation_element("Форум идей")
         return IdeasForumPage(self.driver)
 
     def go_to_monetisation_page(self):
-        self._click_on_navigation_element('Монетизация')
+        self._click_on_navigation_element("Монетизация")
         return MonetisationPage(self.driver)
 
     def go_to_help_page(self):
-        self._click_on_navigation_element('Справка')
+        self._click_on_navigation_element("Справка")
 
-    def _click_on_navigation_element(self, text: str, element='*'):
-        self.click_element_with_text_and_class(element, text, 'Navigation')
-    
+    def _click_on_navigation_element(self, text: str, element="*"):
+        self.click_element_with_text_and_class(element, text, "Navigation")
+
     def _dropdown_and_move_to(self, header: str):
         dropdown = self.find(
-            self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS('*', 'Обучение', 'Navigation')
+            self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS(
+                "*", "Обучение", "Navigation"
+            )
         )
         events = self.find(
-            self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS('*', header, 'Navigation')
+            self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS(
+                "*", header, "Navigation"
+            )
         )
 
-        action = ActionChains(self.driver).move_to_element(dropdown).move_to_element(events).click()
+        action = (
+            ActionChains(self.driver)
+            .move_to_element(dropdown)
+            .move_to_element(events)
+            .click()
+        )
         action.perform()

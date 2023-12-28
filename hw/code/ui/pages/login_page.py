@@ -21,11 +21,6 @@ class LoginPage(BasePage):
         self.fill(self.locators.PASSWORD, password, timeout=timeout)
 
         self.click(self.locators.PASSWORD_GO_ON_BOY_BUTTON, timeout=timeout)
-        # WebDriverWait(self.driver, 20).until(
-        #     EC.presence_of_element_located((By.LINK_TEXT, "Блоги"))
-        # )
-
         self.close_cookie_banner()
 
-        print("login end")
         return LKPage(self.driver)

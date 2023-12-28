@@ -5,11 +5,28 @@ from ui.pages.lk_page import LKPage
 
 TIMEOUT = 30
 
+
 class TestSidebar(BaseCase):
     authorize = True
 
-    @pytest.mark.parametrize("tab", ["Кампании", "Аудитории", "Бюджет", "Обучение", "Центр коммерции", "Сайты", "Мобильные приложения", "Лид-формы", "Настройки", "Помощь"])
-    def test_tab_redirecting(self, tab, lk_page: LKPage, cookies_and_local_storage):
+    @pytest.mark.parametrize(
+        "tab",
+        [
+            "Кампании",
+            "Аудитории",
+            "Бюджет",
+            "Обучение",
+            "Центр коммерции",
+            "Сайты",
+            "Мобильные приложения",
+            "Лид-формы",
+            "Настройки",
+            "Помощь",
+        ],
+    )
+    def test_tab_redirecting(
+        self, tab, lk_page: LKPage, cookies_and_local_storage
+    ):
         lk_page.close_banner()
         lk_page.switch_tab(tab, TIMEOUT)
 
@@ -20,4 +37,3 @@ class TestSidebar(BaseCase):
         lk_page.click_on_wrap(TIMEOUT)
 
         assert lk_page.found_redirect_titles(TIMEOUT) is False
-    

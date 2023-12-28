@@ -1,4 +1,3 @@
-import time
 import re
 
 from selenium.webdriver.remote.webelement import WebElement
@@ -91,7 +90,6 @@ class SitePage(BasePage):
         if match:
             return match.group(1)
         else:
-            print("Can't find pixel id")
             return None
 
     def click_tags(self):

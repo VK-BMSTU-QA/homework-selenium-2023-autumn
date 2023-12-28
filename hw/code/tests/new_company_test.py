@@ -1,9 +1,7 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import pytest
-import time
-from tests.base_case import BaseCase, credentials
+from tests.base_case import BaseCase
 from ui.pages.new_company_page import NewCompanyPage
-from tests.base_case import cookies_and_local_storage
 
 from selenium.webdriver.support import expected_conditions as EC
 

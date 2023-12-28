@@ -1,6 +1,5 @@
 import time
 
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.base_page import BasePage
 from ui.locators.group_adv import GroupAdvLocators

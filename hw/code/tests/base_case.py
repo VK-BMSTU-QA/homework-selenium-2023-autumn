@@ -25,7 +25,7 @@ class BaseCase:
     @contextmanager
     def switch_to_window(self, current, close=False):
         if len(self.driver.window_handles) == 1:
-            raise Exception('only one window')
+            raise Exception("only one window")
 
         for w in self.driver.window_handles:
             if w != current:
@@ -43,17 +43,15 @@ class BaseCase:
         def _check():
             if self.driver.current_url != url:
                 raise Exception(f"url: {self.driver.current_url}")
-            
+
         self.wait_for(timeout, _check)
 
-    
     @contextmanager
     def not_raises(self):
         try:
             yield
         except Exception as e:
             raise pytest.fail("DID RAISE {0}".format(e))
-
 
     def wait_for(self, timeout, callback, *args, **kwargs):
         start = time.time()
@@ -64,7 +62,6 @@ class BaseCase:
             except Exception:
                 time.sleep(0.05)
         return callback(*args, **kwargs)
-
 
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, driver, config, request: FixtureRequest):
@@ -82,29 +79,38 @@ class BaseCase:
                 alert.accept()
             except NoAlertPresentException:
                 pass
-            print(cookies[1])
             for key, value in cookies[1]:
-                self.driver.execute_script(f"localStorage.setItem('{key}', '{value}');")
+                self.driver.execute_script(
+                    f"localStorage.setItem('{key}', '{value}');"
+                )
 
             for cookie in cookies[0]:
                 self.driver.add_cookie(cookie)
 
 
 def load_localstorage_cookies_from_env():
-    with open(os.path.join(os.path.dirname(__file__), "cookies.json"), "r") as f:
+    with open(
+        os.path.join(os.path.dirname(__file__), "cookies.json"), "r"
+    ) as f:
         cookies = json.load(f)
 
-    with open(os.path.join(os.path.dirname(__file__), "localstorage.json"), "r") as f:
+    with open(
+        os.path.join(os.path.dirname(__file__), "localstorage.json"), "r"
+    ) as f:
         localstorage = json.load(f)
 
     return cookies, localstorage
 
 
 def save_localstorage_cookies_to_env(localstorage, cookies):
-    with open(os.path.join(os.path.dirname(__file__), "localstorage.json"), "w") as f:
+    with open(
+        os.path.join(os.path.dirname(__file__), "localstorage.json"), "w"
+    ) as f:
         json.dump(localstorage, f)
 
-    with open(os.path.join(os.path.dirname(__file__), "cookies.json"), "w") as f:
+    with open(
+        os.path.join(os.path.dirname(__file__), "cookies.json"), "w"
+    ) as f:
         json.dump(cookies, f)
 
 
@@ -123,7 +129,6 @@ def cookies_and_local_storage(credentials, config, service):
     # main_page = BasePage(new_driver)
     new_driver.refresh()
     co = new_driver.get_cookies()
-    print(co)
 
     all_local_storage = new_driver.execute_script(
         "return Object.entries(localStorage);"
@@ -138,9 +143,11 @@ def cookies_and_local_storage(credentials, config, service):
 @pytest.fixture(scope="session")
 def credentials() -> Dict[str, str | None]:
     dotenv_path = os.path.join(os.path.dirname(__file__), "../.env")
-    print("DOTENV ")
-    print(dotenv_path)
+
     if os.path.exists(dotenv_path):
         load_dotenv(dotenv_path)
 
-    return {"user": os.getenv("USER_CRED"), "password": os.getenv("PASSWORD_CRED")}
+    return {
+        "user": os.getenv("USER_CRED"),
+        "password": os.getenv("PASSWORD_CRED"),
+    }

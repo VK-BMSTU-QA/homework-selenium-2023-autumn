@@ -1,15 +1,11 @@
 import time
 import re
 
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
-from ui.locators.adv import AdvLocators
 from ui.pages.base_page import BasePage
-from ui.pages.group_adv_page import GroupAdvPage
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from ui.locators.audience import AudienceLocators
 

@@ -1,8 +1,6 @@
 import os
-import time
 import re
 
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from ui.locators.adv import AdvLocators
 from ui.pages.base_page import BasePage
@@ -10,7 +8,6 @@ from ui.pages.group_adv_page import GroupAdvPage
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 
@@ -144,8 +141,6 @@ class AdvPage(BasePage):
 
         current_directory = os.getcwd()
         download_directory = os.path.join(current_directory, "test.jpg")
-
-        print("Upload dir", download_directory)
 
         file_input.clear()
         file_input.send_keys(download_directory)

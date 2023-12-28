@@ -1,8 +1,5 @@
 import pytest
-import time
-
-from tests.base_case import BaseCase, credentials
-from tests.base_case import cookies_and_local_storage
+from tests.base_case import BaseCase
 
 from ui.pages.group_adv_page import GroupAdvPage
 

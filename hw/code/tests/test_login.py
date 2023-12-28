@@ -16,9 +16,3 @@ class TestLogin(BaseCase):
             self.driver.get_cookie("remixnsid")
         except Exception as e:
             assert False, f"self.driver.get_cookie raised {e}"
-
-    # @pytest.mark.skip
-    # @pytest.mark.parametrize("invalid_creds", [{"user": "stegozavr", "password": "a"}])
-    # def test_login_neg(self, invalid_creds, login_page: LoginPage):
-    #     with pytest.raises(TimeoutException):
-    #         login_page.login(invalid_creds["user"], invalid_creds["password"])

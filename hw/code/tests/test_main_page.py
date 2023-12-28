@@ -6,6 +6,7 @@ from ui.pages.main_page.main_page import MainPage
 
 from selenium.common.exceptions import TimeoutException
 
+
 class TestMainPage(BaseCase):
     authorize = False
 
@@ -19,6 +20,5 @@ class TestMainPage(BaseCase):
         for word in banner_words:
             if word in self.driver.page_source:
                 found = True
-        
+
         assert found == True, "new page doesnt contain words from banner"
-        
