@@ -15,7 +15,7 @@ from selenium.webdriver.common.keys import Keys
 
 
 class AdvPage(BasePage):
-    url = "https://ads.vk.com/hq/new_create/ad_plan/"
+    url = "https://ads.vk.com/hq/new_create/ad_plan"
     locators = AdvLocators
 
     def get_page(self):

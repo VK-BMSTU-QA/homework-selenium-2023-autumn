@@ -12,16 +12,21 @@ from ui.pages.lk_page import LKPage
 from ui.fixtures import driver, get_driver
 from conftest import config
 from ui.pages.login_page import LoginPage
+from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
+from selenium.webdriver.chrome.webdriver import WebDriver as FireFoxWebDriver
 
 from selenium.common.exceptions import NoAlertPresentException
 
 
 class BaseCase:
-    driver = None
+    driver: ChromeWebDriver | FireFoxWebDriver | None = None
     authorize = True
 
     @contextmanager
     def switch_to_window(self, current, close=False):
+        if len(self.driver.window_handles) == 1:
+            raise Exception('only one window')
+
         for w in self.driver.window_handles:
             if w != current:
                 self.driver.switch_to.window(w)
@@ -30,6 +35,36 @@ class BaseCase:
         if close:
             self.driver.close()
         self.driver.switch_to.window(current)
+
+    @contextmanager
+    def assert_url(self, url: str, timeout=5):
+        yield
+
+        def _check():
+            if self.driver.current_url != url:
+                raise Exception(f"url: {self.driver.current_url}")
+            
+        self.wait_for(timeout, _check)
+
+    
+    @contextmanager
+    def not_raises(self):
+        try:
+            yield
+        except Exception as e:
+            raise pytest.fail("DID RAISE {0}".format(e))
+
+
+    def wait_for(self, timeout, callback, *args, **kwargs):
+        start = time.time()
+
+        while time.time() - start < timeout:
+            try:
+                return callback(*args, **kwargs)
+            except Exception:
+                time.sleep(0.05)
+        return callback(*args, **kwargs)
+
 
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, driver, config, request: FixtureRequest):
