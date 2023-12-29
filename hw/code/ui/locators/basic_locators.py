@@ -11,10 +11,9 @@ class LoginPageLocators():
 
     RECAPTCHA_BTN_LOCATOR = (By.XPATH, "//button[contains(@data-test-id, 'recaptcha-inter-next')]")
 
-
 class CampaignPageLocators():
     SETTINGS_PAGE_LOCATOR = (By.XPATH, "//a[@data-entityid='settings']")
-    ONBOARDING = (By.XPATH, "//*[@id='_modal_18']/div/div/div[3]")
+    ONBOARDING = (By.XPATH, "//button[.//span[.='Попробовать позже']]")
     TRIGGER_CREATE_CAMPAIGN_LOCATOR = (By.XPATH, "//button[@class='vkuiButton__in']")
     CAMPAIGN_NAME = (By.XPATH, "//button[contains(@class, 'nameCellContent_link__')]")
 
@@ -25,20 +24,20 @@ class NewAdPlanPageLocators():
     NEXT_PAGE = (By.XPATH, '//button[@class="vkuiButton__in"]')
 
 class NewAdPageLocators():
-    TITLE_LOCATOR = (By.XPATH, '')
-    SUMMARY_LOCATOR = (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div[1]/div/fieldset/div/div[1]/div[3]/div/span/textarea')
-    AD_IMAGE_LOCATOR = (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div[1]/div/fieldset/div/div[1]/div[9]/div[1]/div[1]/div/label/span[1]/span/input')
-    NEXT_PAGE = (By.XPATH, '//*[@id="footer"]/div/div/div[2]/button')
-    CHOOSE_IMAGE_LOCATOR = (By.XPATH, '//*[@id="media-library-image"]/div/div/div[3]')
-    LOGO_BUTTON_LOCATOR= (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div[1]/div/fieldset/div/div[1]/div[1]/div/button')
+    TITLE_LOCATOR = (By.XPATH, '//input[contains(@name, "заголовок")]')
+    SUMMARY_LOCATOR = (By.XPATH, '//textarea[@data-testid="text-field"]')
+    AD_IMAGE_LOCATOR = (By.XPATH, '//div[contains(@class, "LocalFileSelector_container__")]')
+    NEXT_PAGE = (By.XPATH, '//button[.//span[.="Опубликовать"]]')
+    CHOOSE_IMAGE_LOCATOR = (By.XPATH, '//div[contains(@class, "ImageItems_active__")]')
+    LOGO_BUTTON_LOCATOR= (By.XPATH, '//button[@data-testid="set-global-image"]')
 
 class NewAdGroupPageLocators():
     REGION_INPUT_LOCATOR = (By.XPATH, '//input[@data-testid="search"]')
     REGION_RUSSIA_LOCATOR = (By.XPATH, '//button[.//span[.="Россия"]]')
-    REGION_MOSCOW_LOCATOR = (By.XPATH, '//*[@id="react-collapsed-panel-1"]/fieldset/div/div/div[1]/div[2]/button[2]')
-    REGION_PETERSBURG_LOCATOR = (By.XPATH, '//*[@id="react-collapsed-panel-1"]/fieldset/div/div/div[1]/div[2]/button[3]')
-    CHECKBOX_LOCATOR = (By.XPATH, '//*[@id="floating-ui-5"]/div/div/div[1]/div/div/div/label/div[2]/svg')
-    NEXT_PAGE = (By.XPATH, '//*[@id="footer"]/div/div/div[2]/button')
+    REGION_MOSCOW_LOCATOR = (By.XPATH, '//button[.//span[.="Москва"]]')
+    REGION_PETERSBURG_LOCATOR = (By.XPATH, '//button[.//span[.="Санкт-Петербург"]]')
+    CHECKBOX_LOCATOR = (By.XPATH, '//label[@class="vkuiCheckbox')
+    NEXT_PAGE = (By.XPATH, '//button[.//span[.="Продолжить"]]')
 
 class RegistrationPageLocators():
     SWITCH_ACCOUNT_LOCATOR = (By.XPATH, "//div[contains(@class, 'AccountSwitch_changeAccountName')]")
