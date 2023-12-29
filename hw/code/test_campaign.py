@@ -17,7 +17,7 @@ class TestCampaign(BaseCase):
 
     def test_create_campaign(self, repo_root):
         campaign_page = CampaignPage(self.driver)
-        new_company_elem = campaign_page.create_campaign(self.get_settings(repo_root))
-        assert "Кампания " + datetime.datetime.today().strftime("%Y-%m-%d") in new_company_elem.text
+        new_company_name = campaign_page.create_campaign(self.get_settings(repo_root))
+        assert "Кампания " + datetime.datetime.today().strftime("%Y-%m-%d") in new_company_name
 
 
