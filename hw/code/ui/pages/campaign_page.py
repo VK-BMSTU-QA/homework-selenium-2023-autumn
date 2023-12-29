@@ -18,6 +18,7 @@ class CampaignPage(BasePageAuthorized):
         create_group_page = create_campaign_page.configure_company_settings(settings)
         create_ad_page = create_group_page.configure_group_settings(settings['region'])
         create_ad_page.configure_company_ads(settings)
+        return self.find(self.locators.CAMPAIGN_NAME).text
         
     
     def close_onboarding(self):
