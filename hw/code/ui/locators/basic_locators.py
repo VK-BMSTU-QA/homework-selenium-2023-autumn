@@ -13,19 +13,19 @@ class LoginPageLocators():
 
 
 class CampaignPageLocators():
-    SETTINGS_PAGE_LOCATOR = (By.XPATH, "//*[@id='root']/div/div[1]/div[1]/div[1]/div/div[1]/div/div[1]/div/section[2]/div[1]/a")
+    SETTINGS_PAGE_LOCATOR = (By.XPATH, "//a[@data-entityid='settings']")
     ONBOARDING = (By.XPATH, "//*[@id='_modal_18']/div/div/div[3]")
-    TRIGGER_CREATE_CAMPAIGN_LOCATOR = (By.XPATH, "//*[@id='adPlan']/div/div[2]/div/div[1]/div/div[1]/a")
-    CAMPAIGN_NAME = (By.XPATH, '//*[@id="adPlan"]/div/div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[1]/div/div/div[3]/div/div[1]/div/button')
+    TRIGGER_CREATE_CAMPAIGN_LOCATOR = (By.XPATH, "//button[@class='vkuiButton__in']")
+    CAMPAIGN_NAME = (By.XPATH, "//button[contains(@class, 'nameCellContent_link__')]")
 
 class NewAdPlanPageLocators():
-    SITE_LOCATOR = (By.XPATH, "//*[@id='new_ad_create']/div/div/div/div/section[2]/div[1]/div/section/div/div/div/div[1]")
-    URL_INPUT_LOCATOR = (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div/section[3]/div[1]/form/div/div/div/div[1]/span/input')
-    BUDGET_INPUT_LOCATOR = (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div/section[3]/div[1]/form/div/div[7]/div/span[1]/input')
-    NEXT_PAGE = (By.XPATH, '//*[@id="footer"]/div/div/div[2]/button')
+    SITE_LOCATOR = (By.XPATH, "//div[@id='site_conversions']")
+    URL_INPUT_LOCATOR = (By.XPATH, '//input[@placeholder="Введите ссылку на сайт"]')
+    BUDGET_INPUT_LOCATOR = (By.XPATH, '//input[@data-testid="targeting-not-set"]')
+    NEXT_PAGE = (By.XPATH, '//button[@class="vkuiButton__in"]')
 
 class NewAdPageLocators():
-    TITLE_LOCATOR = (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div[1]/div/fieldset/div/div[1]/div[2]/div/span/input')
+    TITLE_LOCATOR = (By.XPATH, '')
     SUMMARY_LOCATOR = (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div[1]/div/fieldset/div/div[1]/div[3]/div/span/textarea')
     AD_IMAGE_LOCATOR = (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div[1]/div/fieldset/div/div[1]/div[9]/div[1]/div[1]/div/label/span[1]/span/input')
     NEXT_PAGE = (By.XPATH, '//*[@id="footer"]/div/div/div[2]/button')
@@ -33,8 +33,8 @@ class NewAdPageLocators():
     LOGO_BUTTON_LOCATOR= (By.XPATH, '//*[@id="new_ad_create"]/div/div/div/div[1]/div/fieldset/div/div[1]/div[1]/div/button')
 
 class NewAdGroupPageLocators():
-    REGION_INPUT_LOCATOR = (By.XPATH, '//*[@id="react-collapsed-panel-1"]/fieldset/div/div/div[2]/div/div/div/div/label/input')
-    REGION_RUSSIA_LOCATOR = (By.XPATH, '//*[@id="react-collapsed-panel-1"]/fieldset/div/div/div[1]/div[2]/button[1]/span[1]')
+    REGION_INPUT_LOCATOR = (By.XPATH, '//input[@data-testid="search"]')
+    REGION_RUSSIA_LOCATOR = (By.XPATH, '//button[.//span[.="Россия"]]')
     REGION_MOSCOW_LOCATOR = (By.XPATH, '//*[@id="react-collapsed-panel-1"]/fieldset/div/div/div[1]/div[2]/button[2]')
     REGION_PETERSBURG_LOCATOR = (By.XPATH, '//*[@id="react-collapsed-panel-1"]/fieldset/div/div/div[1]/div[2]/button[3]')
     CHECKBOX_LOCATOR = (By.XPATH, '//*[@id="floating-ui-5"]/div/div/div[1]/div/div/div/label/div[2]/svg')
