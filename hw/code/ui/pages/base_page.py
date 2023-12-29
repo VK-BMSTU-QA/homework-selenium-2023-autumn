@@ -1,14 +1,11 @@
 import logging
 import time
-
 import allure
 from selenium.common import StaleElementReferenceException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support.ui import Select
 import re
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.action_chains import ActionChains
 
 from ui.locators import basic_locators
 
@@ -25,7 +22,6 @@ class NoNavbarSection:
 
 class BasePage(object):
     url = r'^https:\/\/ads\.vk\.com\/$'
-    #locators = basic_locators.BasePageLocators
 
     def __init__(self, driver):
         self.driver = driver
