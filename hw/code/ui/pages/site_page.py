@@ -17,19 +17,6 @@ class SitePage(BasePage):
     url = "https://ads.vk.com/hq/pixels"
     locators = SiteLocators
 
-    def is_on_site_text(self, text: str, timeout: int = 5):
-        returnVal = False
-        try:
-            returnVal = self.wait(timeout).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, f"//*[contains(text(), '{text}')]")
-                )
-            )
-        except Exception as e:
-            returnVal = False
-
-        return returnVal
-
     def click_add_button(self):
         self.click(self.locators.ADD_PIXEL_BUTTON, 15)
         return self
@@ -67,15 +54,6 @@ class SitePage(BasePage):
         input.clear()
         input.send_keys(text, Keys.RETURN)
         return self
-
-    def is_error_on_page(self, text):
-        try:
-            WebDriverWait(self.driver, 10).until(
-                EC.text_to_be_present_in_element((By.XPATH, "//*"), text)
-            )
-            return True
-        except Exception:
-            return False
 
     def click_events(self):
         el = self.find(self.locators.EVENTS_REG)

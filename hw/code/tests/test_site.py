@@ -20,7 +20,7 @@ class TestSite(BaseCase):
     def test_valid_input(self, teardown_checkbox: SitePage):
         teardown_checkbox.input_collection_data("привет")
 
-        assert teardown_checkbox.is_error_on_page(
+        assert teardown_checkbox.is_on_site_text(
             "Недопустимое значение переменной"
         )
 

@@ -1,8 +1,7 @@
-import time
-import re
-
 from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.base_page import BasePage
+
+from ui.pages.consts import AUDIENCE_USER_LIST_URL as USER_LIST_URL
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -20,22 +19,9 @@ class AudiencePage(BasePage):
 
         return self
 
-    def is_on_site_text(self, text: str, timeout: int = 5):
-        returnVal = False
-        try:
-            returnVal = self.wait(timeout).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, f"//*[contains(text(), '{text}')]")
-                )
-            )
-        except Exception as e:
-            returnVal = False
-
-        return returnVal
-
-    def write_text_to_name(self, text):
+    def write_text_to_name(self, text, timeout=None):
         field = self.find(self.locators.CREATION_NAME_AUDITORY)
-        WebDriverWait(self.driver, 10).until(
+        self.wait(timeout).until(
             EC.element_to_be_clickable(self.locators.CREATION_NAME_AUDITORY)
         )
         field.clear()
@@ -47,8 +33,8 @@ class AudiencePage(BasePage):
         self.action_click(btn)
         return self
 
-    def select_lead_region(self):
-        region = WebDriverWait(self.driver, 10).until(
+    def select_lead_region(self, timeout=None):
+        region = self.wait(timeout).until(
             EC.visibility_of_element_located(self.locators.LEAD_REGION)
         )
         self.action_click(region)
@@ -94,11 +80,17 @@ class AudiencePage(BasePage):
 
     def get_from_value(self) -> int:
         input = self.multiple_find(self.locators.LEAD_INPUT_DAYS)
-        return int(input[0].get_attribute("value"))
+
+        value = input[0].get_attribute("value")
+        assert value != None
+        return int(value)
 
     def get_to_value(self) -> int:
         input = self.multiple_find(self.locators.LEAD_INPUT_DAYS)
-        return int(input[1].get_attribute("value"))
+
+        value = input[1].get_attribute("value")
+        assert value != None
+        return int(value)
 
     def select_key_phrases_region(self):
         region = self.find(self.locators.KEY_PHRASES_REGION)
@@ -117,7 +109,10 @@ class AudiencePage(BasePage):
 
     def get_period_value(self) -> int:
         period_field = self.find(self.locators.KEY_DAYS_PERIOD)
-        return int(period_field.get_attribute("value"))
+
+        value = period_field.get_attribute("value")
+        assert value != None
+        return int(value)
 
     def click_save_button(self):
         self.action_click(self.find(self.locators.SAVE_BUTTON))
@@ -132,10 +127,7 @@ class AudiencePage(BasePage):
         return
 
     def is_user_list_url(self) -> bool:
-        return (
-            "https://ads.vk.com/hq/audience/user_lists"
-            == self.driver.current_url
-        )
+        return USER_LIST_URL == self.driver.current_url
 
     def select_vk_group_region(self):
         region = self.find(self.locators.VK_GROUP_REGION)
@@ -162,9 +154,10 @@ class AudiencePage(BasePage):
         return self
 
     def get_name_audience(self) -> str:
-        return self.find(self.locators.CREATION_NAME_AUDITORY).get_attribute(
-            "value"
-        )
+        elem = self.find(self.locators.CREATION_NAME_AUDITORY)
+        value = elem.get_attribute("value")
+        assert value != None
+        return value
 
     def select_vk_group_filter(self):
         filter_btn = self.multiple_find(self.locators.FILTER_BUTTON)[1]

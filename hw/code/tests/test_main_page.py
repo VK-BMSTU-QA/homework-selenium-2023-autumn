@@ -1,10 +1,5 @@
-import pytest
-import time
-from tests.base_case import BaseCase, credentials
-from ui.pages.login_page import LoginPage
+from tests.base_case import BaseCase
 from ui.pages.main_page.main_page import MainPage
-
-from selenium.common.exceptions import TimeoutException
 
 
 class TestMainPage(BaseCase):

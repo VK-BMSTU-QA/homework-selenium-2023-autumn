@@ -28,13 +28,26 @@ from ui.pages.site_page import SitePage
 
 
 @pytest.fixture(scope="session")
+def download_directory():
+    tmp_dir = "tmp"
+    os.makedirs(tmp_dir, exist_ok=True)
+    current_directory = os.getcwd()
+    return os.path.join(current_directory, tmp_dir)
+
+@pytest.fixture(scope="session")
+def mock_files():
+    upload_dir = "mock_files"
+    os.makedirs(upload_dir, exist_ok=True)
+    current_directory = os.getcwd()
+    return os.path.join(current_directory, upload_dir)
+
+@pytest.fixture(scope="session")
 def service(config):
     browser = config["browser"]
     if browser == "chrome":
         service = ServiceChrome(
             executable_path=ChromeDriverManager().install()
         )
-        # service  = ServiceChrome(executable_path='/usr/local/bin/geckodriver')
 
     elif browser == "firefox":
         service = ServiceFirefox(
@@ -42,9 +55,7 @@ def service(config):
         )
 
     elif browser == "yandex":
-        service = ServiceChrome(
-            executable_path="/Users/mochalovskiy/Technopark/QA/homework-selenium-2023-autumn/chromedriver-mac-x64/chromedriver"
-        )
+        service = ServiceChrome(executable_path=config["yandex_driver_path"])
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
 
@@ -52,10 +63,10 @@ def service(config):
 
 
 @pytest.fixture(scope="session")
-def driver(config, service):
+def driver(config, service, download_directory):
     browser = config["browser"]
 
-    driver = get_driver(browser, service)
+    driver = get_driver(browser, service, config, download_directory)
     yield driver
 
     # Teardown
@@ -63,10 +74,9 @@ def driver(config, service):
     service.stop()
 
 
-def get_driver(browser, service):
+def get_driver(browser, service, config, download_directory):
     options = webdriver.ChromeOptions()
-    current_directory = os.getcwd()
-    download_directory = os.path.join(current_directory, "tmp")
+
     prefs = {"download.default_directory": download_directory}
     options.add_experimental_option("prefs", prefs)
 
@@ -78,9 +88,7 @@ def get_driver(browser, service):
         driver = webdriver.Firefox(options=options, service=service)
 
     elif browser == "yandex":
-        options.binary_location = (
-            "/Applications/Yandex.app/Contents/MacOS/Yandex"
-        )
+        options.binary_location = config["yandex_browser_path"]
 
         driver = webdriver.Chrome(options=options, service=service)
     else:

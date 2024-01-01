@@ -1,7 +1,3 @@
-import re
-import pytest
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.main_page.cases_page import CasesPage
 from ui.pages.main_page.events_page import EventsPage
 from ui.pages.main_page.ideas_forum_page import IdeasForumPage
@@ -17,10 +13,7 @@ from ui.pages.consts import (
 )
 from ui.locators.main import MainPageLocators
 
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 
 
 class MainPage(BasePage):
@@ -79,7 +72,7 @@ class MainPage(BasePage):
         return EventsPage(self.driver)
 
     def go_to_sertification_page(self):
-       with self.wait_for_new_tab_open():
+        with self.wait_for_new_tab_open():
             self._dropdown_and_move_to(
                 self.NAVBAR_TITLES.STUDY_DROPDOWN.SERTIFICATION
             )

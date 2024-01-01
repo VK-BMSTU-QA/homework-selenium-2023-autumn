@@ -1,5 +1,4 @@
 import json
-import time
 from typing import Dict
 from contextlib import contextmanager
 import os
@@ -8,12 +7,11 @@ from pytest import FixtureRequest
 import pytest
 from dotenv import load_dotenv
 from ui.pages.base_page import BasePage
-from ui.pages.lk_page import LKPage
-from ui.fixtures import driver, get_driver
+from ui.fixtures import driver, get_driver, download_directory
 from conftest import config
 from ui.pages.login_page import LoginPage
 from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
-from selenium.webdriver.chrome.webdriver import WebDriver as FireFoxWebDriver
+from selenium.webdriver.firefox.webdriver import WebDriver as FireFoxWebDriver
 
 from selenium.common.exceptions import NoAlertPresentException
 
@@ -23,7 +21,7 @@ class SwithToWindowException(Exception):
 
 
 class BaseCase:
-    driver: ChromeWebDriver | FireFoxWebDriver | None = None
+    driver: ChromeWebDriver | FireFoxWebDriver
     authorize = True
 
     @contextmanager
@@ -99,13 +97,15 @@ def save_localstorage_cookies_to_env(localstorage, cookies):
 
 
 @pytest.fixture(scope="session")
-def cookies_and_local_storage(credentials, config, service):
+def cookies_and_local_storage(
+    credentials, config, service, download_directory
+):
     browser = config["browser"]
 
     if os.path.exists(os.path.join(os.path.dirname(__file__), "cookies.json")):
         [cookies, local] = load_localstorage_cookies_from_env()
         return [cookies, local]
-    new_driver = get_driver(browser, service)
+    new_driver = get_driver(browser, service, config, download_directory)
 
     login_page = LoginPage(new_driver)
     login_page.login(credentials["user"], credentials["password"])

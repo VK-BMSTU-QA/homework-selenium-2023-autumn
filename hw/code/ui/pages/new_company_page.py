@@ -32,7 +32,7 @@ class NewCompanyPage(BasePage):
         return self
 
     def continue_click(self, timeout=10):
-        button = WebDriverWait(self.driver, timeout).until(
+        button = self.wait(timeout).until(
             EC.element_to_be_clickable(self.locators.CONTINUE_BUTTON)
         )
 
@@ -53,7 +53,7 @@ class NewCompanyPage(BasePage):
     def delete_symbols_from_field(self, field_locator, count_delete):
         el = self.find(field_locator)
         el.send_keys(Keys.END)
-        for i in range(count_delete):
+        for _ in range(count_delete):
             el.send_keys(Keys.BACKSPACE)
         return self
 
@@ -93,8 +93,8 @@ class NewCompanyPage(BasePage):
         self.click(self.locators.SPLIT_CHECKBOX)
         return self
 
-    def select_lead_click(self, what_lead: int):
-        element = WebDriverWait(self.driver, 10).until(
+    def select_lead_click(self, what_lead: int, timeout=10):
+        element = self.wait(timeout).until(
             EC.presence_of_all_elements_located(
                 (By.XPATH, '//*[@data-testid="lead-form-select"]')
             )
@@ -103,8 +103,8 @@ class NewCompanyPage(BasePage):
         self.action_click(element[what_lead])
         return self
 
-    def select_lead_option(self, what_option: int):
-        option = WebDriverWait(self.driver, 10).until(
+    def select_lead_option(self, what_option: int, timeout=10):
+        option = self.wait(timeout).until(
             EC.presence_of_all_elements_located(
                 self.locators.SELECT_LEAD_OPTION
             )
@@ -134,19 +134,6 @@ class NewCompanyPage(BasePage):
 
     def is_less_than_hundred(self):
         return self.find(self.locators.ERROR_LESS_THAN_HUN)
-
-    def is_on_site_text(self, text: str, timeout: int = 5):
-        returnVal = False
-        try:
-            returnVal = self.wait(timeout).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, f"//*[contains(text(), '{text}')]")
-                )
-            )
-        except Exception as e:
-            returnVal = False
-
-        return returnVal
 
     def get_to_next(self):
         self.site_region_click().send_keys_site("ababababba.com").send_cost(

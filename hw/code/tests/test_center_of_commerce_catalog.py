@@ -1,6 +1,7 @@
 from datetime import datetime, timezone, timedelta
 import pytest
 import time
+from ui.fixtures import download_directory
 from tests.base_case import BaseCase, credentials
 from ui.pages.center_of_commerce import CenterOfCommercePage
 from tests.base_case import cookies_and_local_storage
@@ -15,6 +16,7 @@ strftime("%Y-%m-%d %H:%M:%S", gmtime())
 class TestCenterOfCommerceCatalog(BaseCase):
     authorize = True
 
+    # TODO: fix files
     @pytest.mark.parametrize(
         "tab, second_field",
         [
@@ -28,9 +30,11 @@ class TestCenterOfCommerceCatalog(BaseCase):
         second_field,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
+        files,
     ):
         center_of_commerce_page.go_to_create_catalog(
-            tab, second_field, TIMEOUT
+            tab, second_field, TIMEOUT,
+            download_directory=download_directory
         )
         center_of_commerce_page.create_catalog_finish(TIMEOUT)
 

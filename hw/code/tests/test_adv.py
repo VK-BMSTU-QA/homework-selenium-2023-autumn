@@ -41,8 +41,8 @@ class TestAdv(BaseCase):
         )
 
     @pytest.fixture
-    def upload_logo(self, get_page: AdvPage):
-        get_page.upload_logo()
+    def upload_logo(self, get_page: AdvPage, download_directory):
+        get_page.upload_logo(download_directory)
         yield get_page
 
     def test_after_create_company(self, upload_logo: AdvPage):

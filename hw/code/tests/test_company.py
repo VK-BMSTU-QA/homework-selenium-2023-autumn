@@ -96,7 +96,7 @@ class TestCompany(BaseCase):
         new_company_page.close_banner()
         page = AdvPage.__new__(AdvPage)
         page.driver = new_company_page.driver
-        page.create_company()
+        page.create_company("https://vk.com/")
 
         company_page = CompanyPage(new_company_page.driver)
         company_page.select_filter().select_started_filter().apply_filters()

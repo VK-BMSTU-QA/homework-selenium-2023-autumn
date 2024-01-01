@@ -1,6 +1,5 @@
-import time
-
 from selenium.webdriver.support.wait import WebDriverWait
+from ui.pages.consts import GROUP_ADV_INVALID_UTM
 from ui.pages.base_page import BasePage
 from ui.locators.group_adv import GroupAdvLocators
 
@@ -17,9 +16,7 @@ class GroupAdvPage(BasePage):
     locators = GroupAdvLocators
 
     def action_click(self, element):
-        self.driver.execute_script(
-            "arguments[0].scrollIntoView(true);", element
-        )
+        self.scroll_into_view(element)
         actions = ActionChains(self.driver, 500)
         actions.move_to_element(element)
         actions.click(element)
@@ -100,7 +97,7 @@ class GroupAdvPage(BasePage):
         return self
 
     def send_key_phrases(self, text: str, timeout=10):
-        el = WebDriverWait(self.driver, timeout).until(
+        el = self.wait(timeout).until(
             EC.element_to_be_clickable(self.locators.KEY_PHRASE_INPUTS)
         )
 
@@ -150,20 +147,7 @@ class GroupAdvPage(BasePage):
         return self
 
     def is_utm_not_correct(self):
-        return "Неверный формат utm-метки" in self.driver.page_source
-
-    def is_on_site_text(self, text: str, timeout: int = 5):
-        returnVal = False
-        try:
-            returnVal = self.wait(timeout).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, f"//*[contains(text(), '{text}')]")
-                )
-            )
-        except Exception as e:
-            returnVal = False
-
-        return returnVal
+        return GROUP_ADV_INVALID_UTM in self.driver.page_source
 
     def get_to_next(self):
         self.get_page().site_region_click().click_continue_button()

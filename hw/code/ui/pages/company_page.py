@@ -1,12 +1,9 @@
-import re
 from ui.pages.base_page import BasePage
 from ui.locators.company import CompanyPageLocators
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.remote.webelement import WebElement
 
@@ -17,9 +14,7 @@ class CompanyPage(BasePage):
     locators = CompanyPageLocators
 
     def action_click(self, element):
-        self.driver.execute_script(
-            "arguments[0].scrollIntoView(true);", element
-        )
+        self.scroll_into_view(element)
         actions = ActionChains(self.driver, 500)
         actions.move_to_element(element)
         actions.click(element)
@@ -47,7 +42,7 @@ class CompanyPage(BasePage):
     def advertisment_view(self, timeout=None):
         self.click(self.locators.ADVERTISEMENTS_BUTTON, timeout=timeout)
 
-    def select_filter(self, timoeut=None):
+    def select_filter(self, timeout=None):
         self.click(self.locators.FILTER_BUTTON, 5)
         return self
 
@@ -83,19 +78,6 @@ class CompanyPage(BasePage):
         self.action_click(element)
         return self
 
-    def is_on_site_text(self, text: str, timeout: int = 5):
-        returnVal = False
-        try:
-            returnVal = self.wait(timeout).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, f"//*[contains(text(), '{text}')]")
-                )
-            )
-        except Exception as e:
-            returnVal = False
-
-        return returnVal
-
     def group_view(self, timeout=None):
         self.click(self.locators.GROUP_BUTTON, timeout=timeout)
 
@@ -124,9 +106,9 @@ class CompanyPage(BasePage):
         res = self.is_on_site_text(text)
         return not res
 
-    def wait_until_draft_delete(self, el: WebElement):
+    def wait_until_draft_delete(self, el: WebElement, timeout=15):
         try:
-            WebDriverWait(self.driver, 15).until(EC.staleness_of(el))
+            self.wait(timeout).until(EC.staleness_of(el))
         except TimeoutException:
             pass
 

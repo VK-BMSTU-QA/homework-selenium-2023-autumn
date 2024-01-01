@@ -6,6 +6,10 @@ from ui.locators.adv import AdvLocators
 from ui.pages.base_page import BasePage
 from ui.pages.group_adv_page import GroupAdvPage
 
+from ui.pages.consts import (
+    TEST_FILE_ADV_PAGE_NAME as TEST_FILE_NAME,
+)
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -46,19 +50,6 @@ class AdvPage(BasePage):
 
         return count_chars_value
 
-    def is_on_site_text(self, text: str, timeout: int = 10):
-        returnVal = False
-        try:
-            returnVal = self.wait(timeout).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, f"//*[contains(text(), '{text}')]")
-                )
-            )
-        except Exception as e:
-            returnVal = False
-
-        return returnVal
-
     def send_url(self, url: str):
         el = self.find(self.locators.URL_INPUT)
         el.clear()
@@ -98,15 +89,15 @@ class AdvPage(BasePage):
         return self
 
     # Return name of company, that was created
-    def create_company(self) -> str:
+    def create_company(self, url, timeout=20) -> str:
         self.get_page()
         self.select_logo(0).write_to_inputs(
-            "https://vk.com/"
-        ).write_to_textarea("https://vk.com/")
+            url,
+        ).write_to_textarea(url)
         name = self.get_company_name()
 
         self.click_media_upload().select_media_options().add_media_option()
-        self.click_continue_button().click_send_button(20)
+        self.click_continue_button().click_send_button(timeout)
 
         return name
 
@@ -116,37 +107,34 @@ class AdvPage(BasePage):
 
     def select_media_options(self, options=0):
         elements = self.multiple_find(self.locators.MEDIA_OPTIONS)
-        WebDriverWait(self.driver, 10).until(
+        self.wait(10).until(
             EC.visibility_of_element_located(self.locators.MEDIA_OPTIONS)
         )
-        self.driver.execute_script(
-            "arguments[0].scrollIntoView(true);", elements[options]
-        )
+        self.scroll_into_view(elements[options])
         self.action_click(elements[options])
         return self
 
-    def add_media_option(self):
+    def add_media_option(self, timeout=10):
         el = self.find(self.locators.ADD_MEDIA)
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", el)
-        el = WebDriverWait(self.driver, 10).until(
+        self.scroll_into_view(el)
+        el = self.wait(timeout).until(
             EC.visibility_of_element_located(self.locators.ADD_MEDIA)
         )
 
         self.action_click(el)
         return self
 
-    def upload_logo(self):
+    def upload_logo(self, download_directory):
         self.action_click(self.find(self.locators.LOGO_INPUT, 20))
         file_input = self.find(self.locators.LOGO_INPUT_FILE)
 
-        current_directory = os.getcwd()
-        download_directory = os.path.join(current_directory, "test.jpg")
+        test_file = os.path.join(download_directory, TEST_FILE_NAME)
 
         file_input.clear()
-        file_input.send_keys(download_directory)
+        file_input.send_keys(test_file)
 
         el = self.find(self.locators.LOADING_IMG)
-        WebDriverWait(self.driver, 90).until(EC.staleness_of(el))
+        self.wait(90).until(EC.staleness_of(el))
 
         self.action_click(self.find(self.locators.CLOSE_MODAL))
         return self

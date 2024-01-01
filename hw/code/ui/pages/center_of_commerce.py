@@ -1,25 +1,43 @@
 import os
 import time
 from typing import List
+from hw.code.ui.fixtures import download_directory
 
 from ui.pages.base_page import BasePage
 from ui.locators.center_of_commerce import CenterOfCommerceLocators
+
+from ui.pages.consts import (
+    CENTER_OF_COMMERCE_TABLE_SETTINGS,
+    CenterOfCommerceTabs,
+    INVALID_API_KEY_ENCODING_ERROR,
+    INVALID_API_KEY_ERROR,
+    CENTER_OF_COMMERCE_CLIENT_ID_INPUT_TXT,
+    CENTER_OF_COMMERCE_VK_PRODUCT_HREF,
+)
 
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
 
-FEED = "feed"
-MARKETPLACE = "marketplace"
-MANUAL = "manual"
+
+class InvalidClientIDException(Exception):
+    pass
+
+
+class CatalogsStartTabException(Exception):
+    pass
+
+class DownloadDirectoryException(Exception):
+    pass
 
 
 class CenterOfCommercePage(BasePage):
     url = "https://ads.vk.com/hq/ecomm/catalogs"
     locators = CenterOfCommerceLocators
 
-    # find methods
+    TABS = CenterOfCommerceTabs
 
+    # find methods
     def find_https_error(self, timeout=None):
         return self.find_with_text(
             "div", "Необходимо указать протокол http(s)", timeout
@@ -53,11 +71,11 @@ class CenterOfCommercePage(BasePage):
         return self.find_with_text(element, text, timeout)
 
     def find_invalid_apikey_error(self, timeout=None):
-        return self.find_with_text("div", "Указан неверный ключ", timeout)
+        return self.find_with_text("div", INVALID_API_KEY_ERROR, timeout)
 
     def find_invalid_apikey_string_encoding_error(self, timeout=None):
         return self.find_with_text(
-            "div", "String is not compatible with encoding", timeout
+            "div", INVALID_API_KEY_ENCODING_ERROR, timeout
         )
 
     def find_category_on_download(self, category, timeout=None):
@@ -89,13 +107,17 @@ class CenterOfCommercePage(BasePage):
         )
 
     def find_table_settings_title(self, timeout=None) -> WebElement:
-        return self.find_with_text("span", "Настройка таблицы", timeout)
+        return self.find_with_text(
+            "span", CENTER_OF_COMMERCE_TABLE_SETTINGS, timeout
+        )
 
     def find_h2_with_text(self, text, timeout=None) -> WebElement:
         return self.find(self.locators.H2_WITH_TEXT(text), timeout)
 
     def find_products_checkboxes(self, timeout=None) -> List[WebElement]:
-        return self.find(self.locators.PRODUCTS_CHECKBOX_INPUTS, timeout)
+        return self.multiple_find(
+            self.locators.PRODUCTS_CHECKBOX_INPUTS, timeout
+        )
 
     def find_product_by_id(self, product_id, timeout=None) -> WebElement:
         return self.find(self.locators.PRODUCT_ID_SVG(product_id), timeout)
@@ -108,19 +130,21 @@ class CenterOfCommercePage(BasePage):
     def fill_client_id_input(self, client_id, timeout=None) -> WebElement:
         if client_id:
             return self.fill_input_with_placeholder(
-                "Введите Client ID", client_id, timeout
+                CENTER_OF_COMMERCE_CLIENT_ID_INPUT_TXT, client_id, timeout
             )
+
+        raise InvalidClientIDException()
 
     def fill_api_key_input(
         self, placeholder, apikey, timeout=None
     ) -> WebElement:
         return self.fill_input_with_placeholder(placeholder, apikey, timeout)
 
-    def fill_file_input(self, file_path, timeout=None):
-        current_directory = os.getcwd()
-        download_directory = os.path.join(current_directory, file_path)
+    # TODO: fix files
+    def fill_file_input(self, file_path, download_directory, timeout=None):
+        download_file_path = os.path.join(download_directory, file_path)
         return self.fill(
-            self.locators.MANUAL_FILE_INPUT, download_directory, timeout
+            self.locators.MANUAL_FILE_INPUT, download_file_path, timeout
         )
 
     # clear methods
@@ -135,17 +159,17 @@ class CenterOfCommercePage(BasePage):
         )
 
     def clear_title_input(self, timeout=None):
-        self.clear(self.locators.CATALOG_TITLE_UNPUT, timeout)
+        self.clear(self.locators.CATALOG_TITLE_INPUT, timeout)
 
     # click methods
 
     def click_on_tab(self, type: str, timeout=None):
         match type:
-            case "feed":
+            case self.TABS.FEED:
                 self.click(self.locators.FEED_TAB, timeout)
-            case "marketplace":
+            case self.TABS.MARKETPLACE:
                 self.click(self.locators.MARKET_TAB, timeout)
-            case "manual":
+            case self.TABS.MANUAL:
                 self.click(self.locators.MANUAL_TAB, timeout)
 
     def click_on_clear_utm_checkbox(self, timeout=None):
@@ -193,30 +217,35 @@ class CenterOfCommercePage(BasePage):
     def go_to_create_feed_catalog(self, timeout=None):
         self.close_banner()
         self.start_creating_catalog(timeout)
-        self.click_on_tab(FEED, timeout)
+        self.click_on_tab(self.TABS.FEED, timeout)
 
     def go_to_create_marketplace_catalog(self, timeout=None):
         self.close_banner()
         self.start_creating_catalog(timeout)
-        self.click_on_tab(MARKETPLACE, timeout)
+        self.click_on_tab(self.TABS.MARKETPLACE, timeout)
 
     def go_to_create_manual_catalog(self, timeout=None):
         self.close_banner()
         self.start_creating_catalog(timeout)
-        self.click_on_tab(MANUAL, timeout)
+        self.click_on_tab(self.TABS.MANUAL, timeout)
 
-    def go_to_create_catalog(self, tab, second_field, timeout=None):
+    # TODO: fix files
+    def go_to_create_catalog(self, tab, second_field, timeout=None, **kwargs):
+        download_directory = kwargs['download_directory'] if 'download_directory' in kwargs else None
+
         match tab:
-            case "feed":
+            case self.TABS.FEED:
                 self.go_to_create_feed_catalog(timeout)
                 self.fill_url_input(second_field)
                 time.sleep(2)
-            case "marketplace":
+            case self.TABS.MARKETPLACE:
                 self.go_to_create_marketplace_catalog(timeout)
                 self.fill_url_input(second_field)
-            case "manual":
+            case self.TABS.MANUAL:
                 self.go_to_create_manual_catalog(timeout)
-                self.fill_file_input(second_field)
+                if download_directory is None:
+                    raise DownloadDirectoryException('not provided')
+                self.fill_file_input(second_field, download_directory)
 
     def go_to_catalog(self, title, timeout=None):
         self.close_banner()
@@ -274,14 +303,16 @@ class CenterOfCommercePage(BasePage):
             title,
             timeout,
         )
-        self.click_element_with_text_and_class(
+        return self.click_element_with_text_and_class(
             "span", title, "vkuiHeader__content-in", timeout
         )
 
     def switch_catalog_tab(self, tab_id, timeout=None) -> WebElement:
         # check "Товары" by id, because it is start tab
         if tab_id != "tab_catalogs.catalogMain":
-            self.click(self.locators.TAB_BY_ID(tab_id), timeout)
+            return self.click(self.locators.TAB_BY_ID(tab_id), timeout)
+
+        raise CatalogsStartTabException()
 
     def check_catalog_tab_switched(self, tab, timeout=None) -> bool:
         match tab:
@@ -332,10 +363,10 @@ class CenterOfCommercePage(BasePage):
 
         return False
 
-    def check_vk_product_found(
-        self, product_title, timeout=None
-    ) -> WebElement:
-        link = self.find_link_with_href("https://vk.com/market", timeout)
+    def check_vk_product_found(self, product_title, timeout=None) -> bool:
+        link = self.find_link_with_href(
+            CENTER_OF_COMMERCE_VK_PRODUCT_HREF, timeout
+        )
         self.driver.get(link.get_attribute("href"))
         try:
             alert = self.driver.switch_to.alert
