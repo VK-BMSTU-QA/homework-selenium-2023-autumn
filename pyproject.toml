@@ -1,0 +1,16 @@
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+    \.git
+  |\.mypy_cache
+  |\.pytest_cache
+  |\.tox
+  |\.venv
+  |venv
+  )/
+)
+'''
+line-break-after-function-definition = 2

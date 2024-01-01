@@ -1,1 +1,1 @@
-# homework-selenium
+# selenium-seminar

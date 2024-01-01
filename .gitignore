@@ -1,0 +1,10 @@
+**/.env
+**/*.json
+**/__pycache__
+**/.pytest_cache
+**/venv
+**/.vscode
+**/tmp
+**/mock_files
+**/*.env
+
