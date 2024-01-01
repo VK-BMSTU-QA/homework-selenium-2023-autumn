@@ -61,3 +61,8 @@ class MainPageLocators:
     ALL_CASES_BUTTON = (By.XPATH, "//a[text()='Смотреть все']")
 
     TOP_NEWS = (By.XPATH, "//div[contains(@class, 'News')]")
+
+    ACTIVE_NAVBAR_TAB = (
+        By.XPATH,
+        "//*[contains(@class, 'Navigation') and contains(@class, 'active')]",
+    )

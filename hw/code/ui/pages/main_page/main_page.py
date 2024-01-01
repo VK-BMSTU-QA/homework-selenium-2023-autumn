@@ -8,9 +8,14 @@ from ui.pages.main_page.ideas_forum_page import IdeasForumPage
 from ui.pages.main_page.monetisation_page import MonetisationPage
 from ui.pages.main_page.news_page import NewsPage
 from ui.pages.main_page.useful_materials_page import UsefulMaterialsPage
+from ui.pages.main_page.help_page import HelpPage
 from ui.pages.base_page import BasePage
+from ui.pages.consts import (
+    NavbarTabsTitles,
+    MainPageExternalLinks,
+    MainPageNavigationClass as Navigation,
+)
 from ui.locators.main import MainPageLocators
-from selenium.webdriver.support.ui import Select
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -22,12 +27,14 @@ class MainPage(BasePage):
     url = "https://ads.vk.com"
     locators = MainPageLocators
 
+    EXTERNAL_LINKS = MainPageExternalLinks
+    NAVBAR_TITLES = NavbarTabsTitles
+
     def __init__(self, driver):
         super().__init__(driver)
         self.is_opened()
 
     def open_all_cases(self):
-        # self.click_element_with_text('a', 'Смотреть все')
         elem = self.multiple_find(self.locators.ALL_CASES_BUTTON)[0]
         self.action_click(elem)
 
@@ -44,7 +51,6 @@ class MainPage(BasePage):
         return EventsPage(self.driver)
 
     def click_on_know_more(self):
-        # button = self.find(self.locators.KNOW_MORE_BUTTONS)[0]
         with self.wait_for_url_change():
             self.click(self.locators.KNOW_MORE_BUTTONS)
 
@@ -52,51 +58,65 @@ class MainPage(BasePage):
         carousel_top_elem = self.find(self.locators.CAROUSEL_TOP_TEXT)
         return carousel_top_elem.text
 
+    # Navbar navigation
+
     def click_on_logo(self):
         self.click_element_with_class("a", "HeaderLeft")
         return MainPage(self.driver)
 
     def go_to_news_page(self):
-        self._click_on_navigation_element("Новости")
+        self._click_on_navigation_element(self.NAVBAR_TITLES.NEWS)
         return NewsPage(self.driver)
 
     def go_to_usefull_materials_page(self):
-        self._dropdown_and_move_to("Полезные материалы")
+        self._dropdown_and_move_to(
+            self.NAVBAR_TITLES.STUDY_DROPDOWN.USEFULL_MATERIALS
+        )
         return UsefulMaterialsPage(self.driver)
 
     def go_to_events_page(self):
-        self._dropdown_and_move_to("Мероприятия")
+        self._dropdown_and_move_to(self.NAVBAR_TITLES.STUDY_DROPDOWN.EVENTS)
         return EventsPage(self.driver)
 
     def go_to_sertification_page(self):
-        self._dropdown_and_move_to("Сертификация")
+       with self.wait_for_new_tab_open():
+            self._dropdown_and_move_to(
+                self.NAVBAR_TITLES.STUDY_DROPDOWN.SERTIFICATION
+            )
 
     def go_to_video_courses_page(self):
-        self._dropdown_and_move_to("Видеокурсы")
+        with self.wait_for_new_tab_open():
+            self._dropdown_and_move_to(
+                self.NAVBAR_TITLES.STUDY_DROPDOWN.COURSES
+            )
 
     def go_to_ideas_forum_page(self):
-        self._click_on_navigation_element("Форум идей")
+        self._click_on_navigation_element(self.NAVBAR_TITLES.IDEAS_FORUM)
         return IdeasForumPage(self.driver)
 
     def go_to_monetisation_page(self):
-        self._click_on_navigation_element("Монетизация")
+        self._click_on_navigation_element(self.NAVBAR_TITLES.MONETISATION)
         return MonetisationPage(self.driver)
 
     def go_to_help_page(self):
-        self._click_on_navigation_element("Справка")
+        self._click_on_navigation_element(self.NAVBAR_TITLES.HELP)
+        return HelpPage(self.driver)
+
+    def get_active_tab_text(self):
+        return self.find(self.locators.ACTIVE_NAVBAR_TAB).text
 
     def _click_on_navigation_element(self, text: str, element="*"):
-        self.click_element_with_text_and_class(element, text, "Navigation")
+        self.click_element_with_text_and_class(element, text, Navigation)
 
     def _dropdown_and_move_to(self, header: str):
         dropdown = self.find(
             self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS(
-                "*", "Обучение", "Navigation"
+                "*", self.NAVBAR_TITLES.STUDY, Navigation
             )
         )
         events = self.find(
             self.basic_locators.ELEMENT_WITH_TEXT_AND_CLASS(
-                "*", header, "Navigation"
+                "*", header, Navigation
             )
         )
 

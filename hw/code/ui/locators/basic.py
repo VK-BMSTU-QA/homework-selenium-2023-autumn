@@ -33,8 +33,3 @@ class BasePageLocators:
         By.XPATH,
         f"//*[contains(text(), '{text}')]",
     )
-    """QUERY_LOCATOR = (By.NAME, "q")
-    QUERY_LOCATOR_ID = (By.ID, "id-search-field")
-    GO_BUTTON_LOCATOR = (By.XPATH, '//*[@id="submit"]')
-    START_SHELL = (By.ID, "start-shell")
-    PYTHON_CONSOLE = (By.ID, "hterm:row-nodes")"""

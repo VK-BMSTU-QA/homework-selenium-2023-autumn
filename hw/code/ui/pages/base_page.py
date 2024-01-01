@@ -25,8 +25,11 @@ class BasePage(object):
     def open(self):
         self.driver.get(self.url)
 
+    def url_cmp_pref(self, url: str, url_pref: str):
+        return url.startswith(url_pref)
+
     def url_cmp(self):
-        return self.driver.current_url.startswith(self.url)
+        return self.url_cmp_pref(self.driver.current_url, self.url)
 
     # Check url of opened page and page set in url
     def is_opened(self, timeout=15):
@@ -63,7 +66,7 @@ class BasePage(object):
         return WebDriverWait(self.driver, timeout=timeout)
 
     # Wait timeout to find element by locator
-    def find(self, locator, timeout=None, first=False) -> WebElement:
+    def find(self, locator, timeout=5, first=False) -> WebElement:
         return self.wait(timeout).until(self._located_cond(locator, first))
 
     def find_with_text(
@@ -219,14 +222,22 @@ class BasePage(object):
         return self
 
     @contextmanager
-    def wait_for_url_change(self):
+    def wait_for_url_change(self, timeout=10, **kwargs):
         start_url = self.driver.current_url
-        yield
-        WebDriverWait(self.driver, 10).until(
-            lambda driver: driver.current_url != start_url
-        )
 
-    """
-    def contains_text(self, text) -> bool:
-        self.find(self.basic_locators.CONTAINS_ANY_TEXT(text))
-    """
+        yield
+
+        url_checker = (
+            lambda driver: driver.current_url != start_url
+            if "url" not in kwargs
+            else self.url_cmp_pref(driver.current_url, kwargs["url"])
+        )
+        WebDriverWait(self.driver, timeout).until(url_checker, f'curent url = {self.driver.current_url}')
+
+    @contextmanager
+    def wait_for_new_tab_open(self, timeout=10):
+        tabs_num = len(self.driver.window_handles)
+
+        yield
+
+        WebDriverWait(self.driver, timeout).until(EC.number_of_windows_to_be(tabs_num + 1))
