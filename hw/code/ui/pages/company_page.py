@@ -1,3 +1,5 @@
+import re
+from ui.pages.consts import WaitTime
 from ui.pages.base_page import BasePage
 from ui.locators.company import CompanyPageLocators
 
@@ -43,7 +45,7 @@ class CompanyPage(BasePage):
         self.click(self.locators.ADVERTISEMENTS_BUTTON, timeout=timeout)
 
     def select_filter(self, timeout=None):
-        self.click(self.locators.FILTER_BUTTON, 5)
+        self.click(self.locators.FILTER_BUTTON, timeout)
         return self
 
     def select_deleted_filter(self):

@@ -1,3 +1,5 @@
+from ui.pages.consts import WaitTime
+
 from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.consts import GROUP_ADV_INVALID_UTM
 from ui.pages.base_page import BasePage
@@ -17,7 +19,7 @@ class GroupAdvPage(BasePage):
 
     def action_click(self, element):
         self.scroll_into_view(element)
-        actions = ActionChains(self.driver, 500)
+        actions = ActionChains(self.driver, WaitTime.LONG_WAIT)
         actions.move_to_element(element)
         actions.click(element)
         actions.perform()
@@ -85,13 +87,13 @@ class GroupAdvPage(BasePage):
 
         return self
 
-    def click_interest_region(self, timeout=10):
+    def click_interest_region(self, timeout=WaitTime.MEDIUM_WAIT):
         self.action_click(
             self.multiple_find(self.locators.INTEREST_REGION, timeout)[0]
         )
         return self
 
-    def click_key_phrases(self, timeout=10):
+    def click_key_phrases(self, timeout=WaitTime.MEDIUM_WAIT):
         self.action_click(self.find(self.locators.KEY_PHRASES, timeout))
 
         return self

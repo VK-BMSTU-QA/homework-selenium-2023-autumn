@@ -52,3 +52,9 @@ TEST_FILE_ADV_PAGE_NAME = "test.jpg"
 
 # Group adv page
 GROUP_ADV_INVALID_UTM = "Неверный формат utm-метки"
+
+
+class WaitTime:
+    LONG_WAIT = 20
+    MEDIUM_WAIT = 10
+    SHORT_WAIT = 5

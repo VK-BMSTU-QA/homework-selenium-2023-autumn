@@ -14,6 +14,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+from ui.pages.consts import WaitTime
+
 
 class AdvPage(BasePage):
     url = "https://ads.vk.com/hq/new_create/ad_plan"
@@ -84,7 +86,7 @@ class AdvPage(BasePage):
     def get_company_name(self):
         return self.find(self.locators.COMPANY_NAME).text
 
-    def click_send_button(self, timeout=10):
+    def click_send_button(self, timeout=WaitTime.MEDIUM_WAIT):
         self.action_click(self.find(self.locators.SEND_BUTTON, timeout))
         return self
 
@@ -107,7 +109,7 @@ class AdvPage(BasePage):
 
     def select_media_options(self, options=0):
         elements = self.multiple_find(self.locators.MEDIA_OPTIONS)
-        self.wait(10).until(
+        self.wait(WaitTime.SHORT_WAIT).until(
             EC.visibility_of_element_located(self.locators.MEDIA_OPTIONS)
         )
         self.scroll_into_view(elements[options])
@@ -125,14 +127,15 @@ class AdvPage(BasePage):
         return self
 
     def upload_logo(self, file):
-        self.action_click(self.find(self.locators.LOGO_INPUT, 20))
+        self.action_click(
+            self.find(self.locators.LOGO_INPUT, WaitTime.LONG_WAIT))
         file_input = self.find(self.locators.LOGO_INPUT_FILE)
 
         file_input.clear()
         file_input.send_keys(file)
 
         el = self.find(self.locators.LOADING_IMG)
-        self.wait(90).until(EC.staleness_of(el))
+        self.wait(WaitTime.LONG_WAIT).until(EC.staleness_of(el))
 
         self.action_click(self.find(self.locators.CLOSE_MODAL))
         return self

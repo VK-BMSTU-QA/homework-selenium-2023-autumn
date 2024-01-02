@@ -1,4 +1,5 @@
 import re
+from ui.pages.consts import WaitTime
 
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
@@ -18,7 +19,7 @@ class SitePage(BasePage):
     locators = SiteLocators
 
     def click_add_button(self):
-        self.click(self.locators.ADD_PIXEL_BUTTON, 15)
+        self.click(self.locators.ADD_PIXEL_BUTTON, WaitTime.MEDIUM_WAIT)
         return self
 
     def is_domen_input_exist(self):
@@ -54,6 +55,15 @@ class SitePage(BasePage):
         input.clear()
         input.send_keys(text, Keys.RETURN)
         return self
+
+    def is_error_on_page(self, text):
+        try:
+            WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+                EC.text_to_be_present_in_element((By.XPATH, "//*"), text)
+            )
+            return True
+        except Exception:
+            return False
 
     def click_events(self):
         el = self.find(self.locators.EVENTS_REG)

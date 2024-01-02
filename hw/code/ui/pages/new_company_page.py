@@ -1,3 +1,4 @@
+from ui.pages.consts import WaitTime
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.base_page import BasePage
@@ -6,6 +7,7 @@ from ui.locators.new_company import NewCompanyPageLocators
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException
 
 
 class NewCompanyPage(BasePage):
@@ -19,7 +21,7 @@ class NewCompanyPage(BasePage):
 
         return self
 
-    def site_region_click(self, timeout=15):
+    def site_region_click(self, timeout=WaitTime.LONG_WAIT):
         self.click(self.locators.SITE_REGION, timeout)
         return self
 
@@ -39,12 +41,12 @@ class NewCompanyPage(BasePage):
         self.action_click(button)
         return self
 
-    def send_keys_site(self, text, timeout=10):
+    def send_keys_site(self, text, timeout=WaitTime.MEDIUM_WAIT):
         el = self.find(self.locators.SITE_INPUT, timeout)
         self.send_keys_with_enter(el, text)
         return self
 
-    def send_cost(self, cost, timeout=30):
+    def send_cost(self, cost, timeout=WaitTime.LONG_WAIT):
         el = self.find(self.locators.COST_INPUT, timeout)
         el.clear()
         el.send_keys(cost, Keys.RETURN)
@@ -58,7 +60,8 @@ class NewCompanyPage(BasePage):
         return self
 
     def click_selector_strategy(self):
-        selector = self.find(self.locators.SELECTOR_STRATEGY, 5)
+        selector = self.find(
+            self.locators.SELECTOR_STRATEGY, WaitTime.SHORT_WAIT)
         self.action_click(selector)
 
         return self
@@ -93,7 +96,7 @@ class NewCompanyPage(BasePage):
         self.click(self.locators.SPLIT_CHECKBOX)
         return self
 
-    def select_lead_click(self, what_lead: int, timeout=10):
+    def select_lead_click(self, what_lead: int, timeout=WaitTime.MEDIUM_WAIT):
         element = self.wait(timeout).until(
             EC.presence_of_all_elements_located(
                 (By.XPATH, '//*[@data-testid="lead-form-select"]')
@@ -103,7 +106,7 @@ class NewCompanyPage(BasePage):
         self.action_click(element[what_lead])
         return self
 
-    def select_lead_option(self, what_option: int, timeout=10):
+    def select_lead_option(self, what_option: int, timeout=WaitTime.MEDIUM_WAIT):
         option = self.wait(timeout).until(
             EC.presence_of_all_elements_located(
                 self.locators.SELECT_LEAD_OPTION

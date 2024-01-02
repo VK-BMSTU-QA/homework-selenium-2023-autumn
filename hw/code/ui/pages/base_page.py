@@ -6,6 +6,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 from ui.pages.consts import (
     AUTH_COOKIE_NAME,
@@ -20,6 +21,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
 from selenium.webdriver.firefox.webdriver import WebDriver as FireFoxWebDriver
 
 from contextlib import contextmanager
+from ui.pages.consts import WaitTime
 
 
 class PageNotOpenedExeption(Exception):
