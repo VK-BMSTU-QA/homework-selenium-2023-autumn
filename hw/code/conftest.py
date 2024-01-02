@@ -1,7 +1,4 @@
-from ui.fixtures import (
-    driver,
-    service
-)
+from ui.fixtures import driver, service
 import pytest
 
 DEFAULT_YANDEX_BROWSER_PATH = "/Applications/Yandex.app/Contents/MacOS/Yandex"

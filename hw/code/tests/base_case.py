@@ -1,4 +1,3 @@
-
 from contextlib import contextmanager
 
 from pytest import FixtureRequest
@@ -16,6 +15,7 @@ from selenium.common.exceptions import NoAlertPresentException
 
 class SwithToWindowException(Exception):
     pass
+
 
 class BaseCase:
     driver: ChromeWebDriver | FireFoxWebDriver

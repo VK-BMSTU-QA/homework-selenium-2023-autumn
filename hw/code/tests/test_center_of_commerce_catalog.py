@@ -34,7 +34,9 @@ class TestCenterOfCommerceCatalog(BaseCase):
             second_field = os.path.join(mock_files, second_field)
 
         center_of_commerce_page.go_to_create_catalog(
-            tab, second_field, TIMEOUT,
+            tab,
+            second_field,
+            TIMEOUT,
         )
         center_of_commerce_page.create_catalog_finish(TIMEOUT)
 

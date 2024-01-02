@@ -190,15 +190,12 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
         center_of_commerce_page.go_to_create_feed_catalog(TIMEOUT)
 
         utm_label_class = center_of_commerce_page.hover_on_utm_label(
-                TIMEOUT
-            ).get_attribute("class")
-        
+            TIMEOUT
+        ).get_attribute("class")
+
         assert utm_label_class
 
-        assert (
-            "vkuiTappable--hover-background"
-            in utm_label_class
-        )
+        assert "vkuiTappable--hover-background" in utm_label_class
 
     @pytest.mark.parametrize("url", ["https://vk.com/ninoauto"])
     def test_creation_marketplace_error_incorrect_url(

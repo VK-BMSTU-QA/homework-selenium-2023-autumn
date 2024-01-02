@@ -138,9 +138,7 @@ class CenterOfCommercePage(BasePage):
 
     # TODO: fix files
     def fill_file_input(self, file_path, timeout=None):
-        return self.fill(
-            self.locators.MANUAL_FILE_INPUT, file_path, timeout
-        )
+        return self.fill(self.locators.MANUAL_FILE_INPUT, file_path, timeout)
 
     # clear methods
 

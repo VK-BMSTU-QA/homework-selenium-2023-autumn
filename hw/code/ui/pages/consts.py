@@ -3,6 +3,7 @@ CHECKED_JS_SCRIPT = "return arguments[0].checked"
 
 AUTH_COOKIE_NAME = "remixnsid"
 
+
 # Main page and navbar
 class NavbarStudyTabsTitles:
     USEFULL_MATERIALS = "Полезные материалы"

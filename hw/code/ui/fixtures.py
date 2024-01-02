@@ -31,7 +31,8 @@ from ui.pages.adv_page import AdvPage
 from ui.pages.audience_page import AudiencePage
 from ui.pages.site_page import SitePage
 
-logger = logging.getLogger('tests')
+logger = logging.getLogger("tests")
+
 
 @pytest.fixture(scope="session", autouse=True)
 def download_directory():
@@ -42,6 +43,7 @@ def download_directory():
     logger.info("download dir: %s", download_dir)
     return download_dir
 
+
 # TODO
 @pytest.fixture(scope="session", autouse=True)
 def mock_files():
@@ -51,6 +53,7 @@ def mock_files():
     files_dir = os.path.join(current_directory, upload_dir)
     logger.debug("mock dir: %s", files_dir)
     return files_dir
+
 
 @pytest.fixture(scope="session")
 def service(config):

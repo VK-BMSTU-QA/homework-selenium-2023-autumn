@@ -3,10 +3,8 @@ from ui.fixtures import (
     save_localstorage_cookies_to_env,
     cookies_and_local_storage,
     credentials,
-
     download_directory,
     mock_files,
-    
     base_page,
     login_page,
     lk_page,

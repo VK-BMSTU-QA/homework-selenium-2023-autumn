@@ -2,6 +2,7 @@ from ui.pages.lk_page import LKPage
 from ui.pages.base_page import BasePage
 from ui.locators.login import LoginPageLocators
 
+
 class LoginPage(BasePage):
     url = "https://ads.vk.com/hq"
     locators = LoginPageLocators
