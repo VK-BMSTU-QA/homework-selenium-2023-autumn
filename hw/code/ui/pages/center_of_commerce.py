@@ -1,7 +1,6 @@
 import os
 import time
 from typing import List
-from hw.code.ui.fixtures import download_directory
 
 from ui.pages.base_page import BasePage
 from ui.locators.center_of_commerce import CenterOfCommerceLocators
@@ -25,9 +24,6 @@ class InvalidClientIDException(Exception):
 
 
 class CatalogsStartTabException(Exception):
-    pass
-
-class DownloadDirectoryException(Exception):
     pass
 
 
@@ -141,10 +137,9 @@ class CenterOfCommercePage(BasePage):
         return self.fill_input_with_placeholder(placeholder, apikey, timeout)
 
     # TODO: fix files
-    def fill_file_input(self, file_path, download_directory, timeout=None):
-        download_file_path = os.path.join(download_directory, file_path)
+    def fill_file_input(self, file_path, timeout=None):
         return self.fill(
-            self.locators.MANUAL_FILE_INPUT, download_file_path, timeout
+            self.locators.MANUAL_FILE_INPUT, file_path, timeout
         )
 
     # clear methods
@@ -229,10 +224,7 @@ class CenterOfCommercePage(BasePage):
         self.start_creating_catalog(timeout)
         self.click_on_tab(self.TABS.MANUAL, timeout)
 
-    # TODO: fix files
     def go_to_create_catalog(self, tab, second_field, timeout=None, **kwargs):
-        download_directory = kwargs['download_directory'] if 'download_directory' in kwargs else None
-
         match tab:
             case self.TABS.FEED:
                 self.go_to_create_feed_catalog(timeout)
@@ -243,9 +235,7 @@ class CenterOfCommercePage(BasePage):
                 self.fill_url_input(second_field)
             case self.TABS.MANUAL:
                 self.go_to_create_manual_catalog(timeout)
-                if download_directory is None:
-                    raise DownloadDirectoryException('not provided')
-                self.fill_file_input(second_field, download_directory)
+                self.fill_file_input(second_field)
 
     def go_to_catalog(self, title, timeout=None):
         self.close_banner()

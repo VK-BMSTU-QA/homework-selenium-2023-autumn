@@ -1,4 +1,11 @@
+import os
+import json
+from typing import Dict
+from dotenv import load_dotenv
+import logging
+
 import pytest
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ServiceChrome
@@ -18,28 +25,32 @@ from ui.pages.lk_page import LKPage
 from ui.pages.login_page import LoginPage
 from ui.pages.base_page import BasePage
 from ui.pages.center_of_commerce import CenterOfCommercePage
-
-import os
 from ui.pages.new_company_page import NewCompanyPage
 from ui.pages.group_adv_page import GroupAdvPage
 from ui.pages.adv_page import AdvPage
 from ui.pages.audience_page import AudiencePage
 from ui.pages.site_page import SitePage
 
+logger = logging.getLogger('tests')
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def download_directory():
     tmp_dir = "tmp"
     os.makedirs(tmp_dir, exist_ok=True)
     current_directory = os.getcwd()
-    return os.path.join(current_directory, tmp_dir)
+    download_dir = os.path.join(current_directory, tmp_dir)
+    logger.info("download dir: %s", download_dir)
+    return download_dir
 
-@pytest.fixture(scope="session")
+# TODO
+@pytest.fixture(scope="session", autouse=True)
 def mock_files():
     upload_dir = "mock_files"
     os.makedirs(upload_dir, exist_ok=True)
     current_directory = os.getcwd()
-    return os.path.join(current_directory, upload_dir)
+    files_dir = os.path.join(current_directory, upload_dir)
+    logger.debug("mock dir: %s", files_dir)
+    return files_dir
 
 @pytest.fixture(scope="session")
 def service(config):
@@ -97,6 +108,72 @@ def get_driver(browser, service, config, download_directory):
     # Setup
     driver.maximize_window()
     return driver
+
+
+def load_localstorage_cookies_from_env():
+    with open(
+        os.path.join(os.path.dirname(__file__), "cookies.json"), "r"
+    ) as f:
+        cookies = json.load(f)
+
+    with open(
+        os.path.join(os.path.dirname(__file__), "localstorage.json"), "r"
+    ) as f:
+        localstorage = json.load(f)
+
+    return cookies, localstorage
+
+
+def save_localstorage_cookies_to_env(localstorage, cookies):
+    with open(
+        os.path.join(os.path.dirname(__file__), "localstorage.json"), "w"
+    ) as f:
+        json.dump(localstorage, f)
+
+    with open(
+        os.path.join(os.path.dirname(__file__), "cookies.json"), "w"
+    ) as f:
+        json.dump(cookies, f)
+
+
+@pytest.fixture(scope="session")
+def cookies_and_local_storage(
+    credentials, config, service, download_directory
+):
+    browser = config["browser"]
+
+    if os.path.exists(os.path.join(os.path.dirname(__file__), "cookies.json")):
+        [cookies, local] = load_localstorage_cookies_from_env()
+        return [cookies, local]
+    new_driver = get_driver(browser, service, config, download_directory)
+
+    login_page = LoginPage(new_driver)
+    login_page.login(credentials["user"], credentials["password"])
+
+    new_driver.refresh()
+    co = new_driver.get_cookies()
+
+    all_local_storage = new_driver.execute_script(
+        "return Object.entries(localStorage);"
+    )
+    local_storage_dict = list(all_local_storage)
+
+    save_localstorage_cookies_to_env(all_local_storage, co)
+
+    return [co, local_storage_dict]
+
+
+@pytest.fixture(scope="session")
+def credentials() -> Dict[str, str | None]:
+    dotenv_path = os.path.join(os.path.dirname(__file__), "../.env")
+
+    if os.path.exists(dotenv_path):
+        load_dotenv(dotenv_path)
+
+    return {
+        "user": os.getenv("USER_CRED"),
+        "password": os.getenv("PASSWORD_CRED"),
+    }
 
 
 @pytest.fixture

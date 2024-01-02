@@ -1,13 +1,11 @@
 from datetime import datetime, timezone, timedelta
+import os
 import pytest
 import time
+from tests.base_case import BaseCase
 from ui.fixtures import download_directory
-from tests.base_case import BaseCase, credentials
 from ui.pages.center_of_commerce import CenterOfCommercePage
-from tests.base_case import cookies_and_local_storage
 from time import gmtime, strftime
-import os
-from selenium.common.exceptions import TimeoutException
 
 TIMEOUT = 30
 strftime("%Y-%m-%d %H:%M:%S", gmtime())
@@ -21,7 +19,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         "tab, second_field",
         [
             ("feed", "https://vk.com/luxvisage_cosmetics"),
-            ("manual", "mock_files/catalog_products.csv"),
+            ("manual", "catalog_products.csv"),
         ],
     )
     def test_catalog_creation_works(
@@ -30,11 +28,13 @@ class TestCenterOfCommerceCatalog(BaseCase):
         second_field,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        files,
+        mock_files,
     ):
+        if tab == center_of_commerce_page.TABS.MANUAL:
+            second_field = os.path.join(mock_files, second_field)
+
         center_of_commerce_page.go_to_create_catalog(
             tab, second_field, TIMEOUT,
-            download_directory=download_directory
         )
         center_of_commerce_page.create_catalog_finish(TIMEOUT)
 

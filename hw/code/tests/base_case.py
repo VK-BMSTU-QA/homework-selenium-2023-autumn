@@ -1,13 +1,11 @@
-import json
-from typing import Dict
+
 from contextlib import contextmanager
-import os
 
 from pytest import FixtureRequest
 import pytest
-from dotenv import load_dotenv
+
 from ui.pages.base_page import BasePage
-from ui.fixtures import driver, get_driver, download_directory
+from ui.fixtures import driver, get_driver
 from conftest import config
 from ui.pages.login_page import LoginPage
 from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
@@ -18,7 +16,6 @@ from selenium.common.exceptions import NoAlertPresentException
 
 class SwithToWindowException(Exception):
     pass
-
 
 class BaseCase:
     driver: ChromeWebDriver | FireFoxWebDriver
@@ -68,69 +65,3 @@ class BaseCase:
 
             for cookie in cookies[0]:
                 self.driver.add_cookie(cookie)
-
-
-def load_localstorage_cookies_from_env():
-    with open(
-        os.path.join(os.path.dirname(__file__), "cookies.json"), "r"
-    ) as f:
-        cookies = json.load(f)
-
-    with open(
-        os.path.join(os.path.dirname(__file__), "localstorage.json"), "r"
-    ) as f:
-        localstorage = json.load(f)
-
-    return cookies, localstorage
-
-
-def save_localstorage_cookies_to_env(localstorage, cookies):
-    with open(
-        os.path.join(os.path.dirname(__file__), "localstorage.json"), "w"
-    ) as f:
-        json.dump(localstorage, f)
-
-    with open(
-        os.path.join(os.path.dirname(__file__), "cookies.json"), "w"
-    ) as f:
-        json.dump(cookies, f)
-
-
-@pytest.fixture(scope="session")
-def cookies_and_local_storage(
-    credentials, config, service, download_directory
-):
-    browser = config["browser"]
-
-    if os.path.exists(os.path.join(os.path.dirname(__file__), "cookies.json")):
-        [cookies, local] = load_localstorage_cookies_from_env()
-        return [cookies, local]
-    new_driver = get_driver(browser, service, config, download_directory)
-
-    login_page = LoginPage(new_driver)
-    login_page.login(credentials["user"], credentials["password"])
-
-    new_driver.refresh()
-    co = new_driver.get_cookies()
-
-    all_local_storage = new_driver.execute_script(
-        "return Object.entries(localStorage);"
-    )
-    local_storage_dict = list(all_local_storage)
-
-    save_localstorage_cookies_to_env(all_local_storage, co)
-
-    return [co, local_storage_dict]
-
-
-@pytest.fixture(scope="session")
-def credentials() -> Dict[str, str | None]:
-    dotenv_path = os.path.join(os.path.dirname(__file__), "../.env")
-
-    if os.path.exists(dotenv_path):
-        load_dotenv(dotenv_path)
-
-    return {
-        "user": os.getenv("USER_CRED"),
-        "password": os.getenv("PASSWORD_CRED"),
-    }

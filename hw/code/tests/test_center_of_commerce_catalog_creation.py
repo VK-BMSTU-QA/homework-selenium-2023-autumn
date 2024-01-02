@@ -1,10 +1,7 @@
-from datetime import datetime, timezone, timedelta
 import pytest
 import time
-from ui.fixtures import download_directory
-from tests.base_case import BaseCase, credentials
+from tests.base_case import BaseCase
 from ui.pages.center_of_commerce import CenterOfCommercePage
-from tests.base_case import cookies_and_local_storage
 from time import gmtime, strftime
 import os
 from selenium.common.exceptions import TimeoutException
@@ -192,11 +189,15 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
     ):
         center_of_commerce_page.go_to_create_feed_catalog(TIMEOUT)
 
-        assert (
-            "vkuiTappable--hover-background"
-            in center_of_commerce_page.hover_on_utm_label(
+        utm_label_class = center_of_commerce_page.hover_on_utm_label(
                 TIMEOUT
             ).get_attribute("class")
+        
+        assert utm_label_class
+
+        assert (
+            "vkuiTappable--hover-background"
+            in utm_label_class
         )
 
     @pytest.mark.parametrize("url", ["https://vk.com/ninoauto"])
@@ -409,29 +410,31 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
 
         assert existence
 
+    # TODO: fix files
     @pytest.mark.parametrize(
-        "category, file_path",
+        "category, file",
         [
-            ("Авто", "mock_files/catalog_auto_google.csv"),
-            ("Авиарейсы", "mock_files/feed_flight_google.csv"),
-            ("Товары", "mock_files/catalog_products.csv"),
-            ("Гостиницы", "mock_files/hotels_feed_example.csv"),
-            ("Недвижимость", "mock_files/catalog_realty.csv"),
-            ("Услуги", "mock_files/catalog_services.csv"),
+            ("Авто", "catalog_auto_google.csv"),
+            ("Авиарейсы", "feed_flight_google.csv"),
+            ("Товары", "catalog_products.csv"),
+            ("Гостиницы", "hotels_feed_example.csv"),
+            ("Недвижимость", "catalog_realty.csv"),
+            ("Услуги", "catalog_services.csv"),
         ],
     )
-    # TODO: fix files
     def test_manual_creation_files_uploading(
         self,
         category,
-        file_path,
+        file,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
         mock_files,
     ):
         center_of_commerce_page.go_to_create_manual_catalog(TIMEOUT)
         center_of_commerce_page.set_category(category, TIMEOUT)
-        center_of_commerce_page.fill_file_input(file_path, download_directory, TIMEOUT)
+
+        file_path = os.path.join(mock_files, file)
+        center_of_commerce_page.fill_file_input(file_path, TIMEOUT)
         with pytest.raises(TimeoutException):
             center_of_commerce_page.find_file_downloading_error(10)
 

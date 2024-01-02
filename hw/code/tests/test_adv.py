@@ -1,3 +1,4 @@
+import os
 import pytest
 
 from tests.base_case import BaseCase
@@ -41,8 +42,8 @@ class TestAdv(BaseCase):
         )
 
     @pytest.fixture
-    def upload_logo(self, get_page: AdvPage, download_directory):
-        get_page.upload_logo(download_directory)
+    def upload_logo(self, get_page: AdvPage, mock_files):
+        get_page.upload_logo(os.path.join(mock_files, "test.jpg"))
         yield get_page
 
     def test_after_create_company(self, upload_logo: AdvPage):

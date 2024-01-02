@@ -1,6 +1,5 @@
 import pytest
-from tests.base_case import BaseCase, credentials
-from tests.base_case import cookies_and_local_storage
+from tests.base_case import BaseCase
 from ui.pages.lk_page import LKPage
 
 TIMEOUT = 30

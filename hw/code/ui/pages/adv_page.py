@@ -124,14 +124,12 @@ class AdvPage(BasePage):
         self.action_click(el)
         return self
 
-    def upload_logo(self, download_directory):
+    def upload_logo(self, file):
         self.action_click(self.find(self.locators.LOGO_INPUT, 20))
         file_input = self.find(self.locators.LOGO_INPUT_FILE)
 
-        test_file = os.path.join(download_directory, TEST_FILE_NAME)
-
         file_input.clear()
-        file_input.send_keys(test_file)
+        file_input.send_keys(file)
 
         el = self.find(self.locators.LOADING_IMG)
         self.wait(90).until(EC.staleness_of(el))

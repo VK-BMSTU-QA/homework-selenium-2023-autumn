@@ -1,6 +1,6 @@
 import pytest
 import time
-from tests.base_case import BaseCase, credentials
+from tests.base_case import BaseCase
 from ui.pages.login_page import LoginPage
 from ui.pages.main_page.main_page import MainPage
 

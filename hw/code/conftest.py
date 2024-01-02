@@ -1,24 +1,6 @@
 from ui.fixtures import (
     driver,
-    download_directory,
-    service,
-    base_page,
-    login_page,
-    lk_page,
-    company_page,
-    center_of_commerce_page,
-    new_company_page,
-    group_adv_page,
-    adv_page,
-    audience_page,
-    site_page,
-    main_page,
-    cases_page,
-    events_page,
-    ideas_forum_page,
-    monetisation_page,
-    news_page,
-    useful_materials_page,
+    service
 )
 import pytest
 
