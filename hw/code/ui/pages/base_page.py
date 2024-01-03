@@ -243,6 +243,28 @@ class BasePage(object):
     def scroll_into_view(self, element):
         self.driver.execute_script(SCROLL_INTO_VIEW_JS_SCRIPT, element)
 
+    def action_click_not_clickable(self, element, timeout):
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView(true);", element
+        )
+        actions = ActionChains(self.driver, timeout)
+        actions.move_to_element(element)
+        actions.click(element)
+        actions.perform()
+        return self
+
+    def search_action_click(self, locator, what_choose: int | None = 0, timeout: int | None = WaitTime.LONG_WAIT):
+        el = self.multiple_find(locator, timeout)[what_choose]
+        self.action_click(el, timeout)
+
+        return self
+
+    def search_action_click_not_clickable(self, locator, what_choose: int | None = 0, timeout: int | None = WaitTime.LONG_WAIT):
+        el = self.multiple_find(locator, timeout)[what_choose]
+        self.action_click_not_clickable(el, timeout)
+
+        return self
+
     def is_on_site_text(self, text: str, timeout=None):
         try:
             return self.find(

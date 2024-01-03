@@ -11,17 +11,8 @@ from selenium.webdriver.remote.webelement import WebElement
 
 
 class CompanyPage(BasePage):
-    # TODO
     url = "https://ads.vk.com/hq/dashboard/ad_plans?mode=ads&attribution=impression&sort=-created"
     locators = CompanyPageLocators
-
-    def action_click(self, element):
-        self.scroll_into_view(element)
-        actions = ActionChains(self.driver, 500)
-        actions.move_to_element(element)
-        actions.click(element)
-        actions.perform()
-        return self
 
     def get_current_url(self):
         return self.driver.current_url
@@ -31,32 +22,29 @@ class CompanyPage(BasePage):
         return self
 
     def download(self, timeout=None):
-        element = self.find(self.locators.DOWNLOAD_BUTTON, timeout=timeout)
-
-        self.action_click(element)
+        self.search_action_click_not_clickable(
+            self.locators.DOWNLOAD_BUTTON, 0, timeout)
         return self
 
     def settings(self, timeout=None):
-        element = self.find(self.locators.SETTINGS_BUTTON, timeout=timeout)
-        self.action_click(element)
+        self.search_action_click_not_clickable(
+            self.locators.SETTINGS_BUTTON, timeout=timeout)
         return self
 
     def advertisment_view(self, timeout=None):
         self.click(self.locators.ADVERTISEMENTS_BUTTON, timeout=timeout)
+        return self
 
     def select_filter(self, timeout=None):
         self.click(self.locators.FILTER_BUTTON, timeout)
         return self
 
     def select_deleted_filter(self):
-        element = self.find(self.locators.DELETED_FILTER)
-
-        self.action_click(element)
+        self.search_action_click_not_clickable(self.locators.DELETED_FILTER)
         return self
 
     def select_started_filter(self):
-        element = self.find(self.locators.STARTED_FILTER)
-        self.action_click(element)
+        self.search_action_click_not_clickable(self.locators.STARTED_FILTER)
         return self
 
     def apply_filters(self):
@@ -64,33 +52,29 @@ class CompanyPage(BasePage):
         return self
 
     def select_company(self, number_of_company=0):
-        elements = self.multiple_find(self.locators.COMPANY_OPTIONS)
-
-        self.action_click(elements[number_of_company])
+        self.search_action_click_not_clickable(
+            self.locators.COMPANY_OPTIONS, number_of_company)
         return self
 
     def select_action_list(self):
-        element = self.find(self.locators.ACTION_SELECTOR)
-
-        self.action_click(element)
+        self.search_action_click_not_clickable(self.locators.ACTION_SELECTOR)
         return self
 
     def select_delete_action(self):
-        element = self.find(self.locators.DELETE_ACTION)
-        self.action_click(element)
+        self.search_action_click_not_clickable(self.locators.DELETE_ACTION)
         return self
 
     def group_view(self, timeout=None):
         self.click(self.locators.GROUP_BUTTON, timeout=timeout)
+        return self
 
     def go_to_drafts(self):
         self.click(self.locators.DRAFT_BUTTON)
         return self
 
     def select_draft_option(self, what_to_select=0):
-        elements = self.multiple_find(self.locators.DRAFT_OPTIONS)
-        el = elements[what_to_select]
-        self.action_click(el)
+        self.search_action_click_not_clickable(
+            self.locators.DRAFT_OPTIONS, what_to_select)
         return el
 
     def delete_draft(self):
@@ -101,7 +85,7 @@ class CompanyPage(BasePage):
         return self.find(self.locators.ACTION_SELECTOR).get_attribute("class")
 
     def click_approve_delete(self):
-        self.action_click(self.find(self.locators.DELETE_MODAL))
+        self.self.search_action_click_not_clickable(self.locators.DELETE_MODAL)
         return self
 
     def not_on_site(self, text: str):

@@ -58,3 +58,4 @@ class WaitTime:
     LONG_WAIT = 20
     MEDIUM_WAIT = 10
     SHORT_WAIT = 5
+    SUPER_SHORT_WAIT = 1
