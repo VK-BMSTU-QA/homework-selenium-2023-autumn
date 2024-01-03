@@ -1,7 +1,7 @@
 SCROLL_INTO_VIEW_JS_SCRIPT = "arguments[0].scrollIntoView(true);"
 CHECKED_JS_SCRIPT = "return arguments[0].checked"
 
-AUTH_COOKIE_NAME = "remixnsid"
+AUTH_COOKIE_NAME = "remixsid"
 
 
 # Main page and navbar

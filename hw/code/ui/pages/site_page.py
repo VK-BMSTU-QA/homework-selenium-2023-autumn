@@ -44,13 +44,13 @@ class SitePage(BasePage):
         self.action_click(settings[what_settings])
         return self
 
-    def select_collection_checkbox(self):
-        checkboxes = self.find(self.locators.CHECBOX_SETTINGS)
+    def select_collection_checkbox(self, timeout=None):
+        checkboxes = self.find(self.locators.CHECBOX_SETTINGS, timeout)
         self.action_click(checkboxes)
         return self
 
-    def input_collection_data(self, text: str):
-        input = self.find(self.locators.DATA_INPUT)
+    def input_collection_data(self, text: str, timeout=None):
+        input = self.find(self.locators.DATA_INPUT, timeout)
         input.clear()
         input.send_keys(text, Keys.RETURN)
         return self

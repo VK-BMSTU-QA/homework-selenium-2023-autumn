@@ -13,15 +13,15 @@ class TestSite(BaseCase):
 
     @pytest.fixture
     def teardown_checkbox(self, site_page: SitePage):
-        site_page.create_pixel().click_settings().select_collection_checkbox()
+        site_page.create_pixel().click_settings().select_collection_checkbox(20)
         yield site_page
         site_page.select_collection_checkbox()
 
     def test_valid_input(self, teardown_checkbox: SitePage):
-        teardown_checkbox.input_collection_data("привет")
+        teardown_checkbox.input_collection_data("привет", 20)
 
         assert teardown_checkbox.is_on_site_text(
-            "Недопустимое значение переменной"
+            "Недопустимое значение переменной", 20
         )
 
     def test_click_events(self, site_page: SitePage):

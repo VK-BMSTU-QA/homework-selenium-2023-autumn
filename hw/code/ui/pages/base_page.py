@@ -226,7 +226,7 @@ class BasePage(object):
             EC.presence_of_all_elements_located(locator)
         )
 
-    def action_click(self, element, timeout=50):
+    def action_click(self, element, timeout=500):
         self.scroll_into_view(element)
         self.wait(10).until(EC.visibility_of(element))
 
