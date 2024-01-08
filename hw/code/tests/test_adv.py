@@ -43,7 +43,8 @@ class TestAdv(BaseCase):
 
     @pytest.fixture
     def upload_logo(self, get_page: AdvPage, mock_files):
-        get_page.upload_logo(os.path.join(mock_files, "test.jpg"))
+        get_page.upload_logo(os.path.join(
+            mock_files, "test.jpg")).wait_logo_dissapper()
         yield get_page
 
     def test_after_create_company(self, upload_logo: AdvPage):
@@ -54,6 +55,6 @@ class TestAdv(BaseCase):
 
         upload_logo.click_media_upload().select_media_options()
         upload_logo.add_media_option()
-        upload_logo.click_continue_button().click_send_button(10)
+        upload_logo.click_continue_until_modal().click_send_button()
 
         assert upload_logo.is_on_site_text(name, 5)

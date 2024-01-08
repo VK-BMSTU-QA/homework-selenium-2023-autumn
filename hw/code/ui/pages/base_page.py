@@ -243,7 +243,7 @@ class BasePage(object):
     def scroll_into_view(self, element):
         self.driver.execute_script(SCROLL_INTO_VIEW_JS_SCRIPT, element)
 
-    def action_click_not_clickable(self, element, timeout):
+    def action_click_not_clickable(self, element, timeout=WaitTime.MEDIUM_WAIT):
         self.driver.execute_script(
             "arguments[0].scrollIntoView(true);", element
         )
