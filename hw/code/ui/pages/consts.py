@@ -119,6 +119,7 @@ class URLS:
     site_url = "https://ads.vk.com/hq/pixels"
     audience_url = "https://ads.vk.com/hq/audience"
     company_url = "https://ads.vk.com/hq/dashboard/ad_plans?mode=ads&attribution=impression&sort=-created"
+    lead_url = "https://ads.vk.com/hq/leadads/leadforms"
 
     base_url = "https://ads.vk.com"
 
@@ -163,6 +164,7 @@ class INPUT_TEXT:
     corrected_cost = 200
 
     incorrect_input_collection_data = "привет"
+    lead_info = "asdfawfafwafaw"
 
 
 class LABELS:
