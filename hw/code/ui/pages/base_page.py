@@ -21,7 +21,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
 from selenium.webdriver.firefox.webdriver import WebDriver as FireFoxWebDriver
 
 from contextlib import contextmanager
-from ui.pages.consts import WaitTime
+from ui.pages.consts import URLS, WaitTime
 
 
 class PageNotOpenedExeption(Exception):
@@ -31,7 +31,7 @@ class PageNotOpenedExeption(Exception):
 class BasePage(object):
     driver: ChromeWebDriver | FireFoxWebDriver
     basic_locators = basic.BasePageLocators()
-    url = "https://ads.vk.com"
+    url = URLS.base_url
 
     # Open url
     def open(self):
