@@ -8,7 +8,6 @@ from urllib.parse import urlparse
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.remote.webelement import WebElement
@@ -49,16 +48,16 @@ class LeadPage(BasePage):
         return self
 
     def wait_for_result_page(self):
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.MEDIUM_WAIT).until(
             EC.presence_of_all_elements_located(self.locators.ADD_SITE))
         return self
 
     def wait_for_questions_page(self):
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.MEDIUM_WAIT).until(
             EC.presence_of_all_elements_located(self.locators.CONTACT_INFO))
         return self
 
     def wait_for_modal_dissappear(self):
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until_not(
+        self.wait(WaitTime.MEDIUM_WAIT).until_not(
             EC.presence_of_element_located(self.locators.MODAL))
         return self

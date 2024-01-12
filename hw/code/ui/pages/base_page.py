@@ -12,6 +12,9 @@ from ui.pages.consts import (
     AUTH_COOKIE_NAME,
     CHECKED_JS_SCRIPT,
     SCROLL_INTO_VIEW_JS_SCRIPT,
+    GLOBAL_ACTIONS_DURATION,
+    URLS,
+    WaitTime,
 )
 
 from selenium.webdriver.common.keys import Keys
@@ -21,7 +24,6 @@ from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
 from selenium.webdriver.firefox.webdriver import WebDriver as FireFoxWebDriver
 
 from contextlib import contextmanager
-from ui.pages.consts import URLS, WaitTime
 
 
 class PageNotOpenedExeption(Exception):
@@ -228,24 +230,28 @@ class BasePage(object):
             EC.presence_of_all_elements_located(locator)
         )
 
-    def action_click(self, element, timeout=500):
+    def action_click(self, element, timeout=WaitTime.MEDIUM_WAIT, duration=GLOBAL_ACTIONS_DURATION):
         self.scroll_into_view(element)
-        self.wait(10).until(EC.visibility_of(element))
+        self.wait(timeout).until(EC.visibility_of(element))
 
-        actions = ActionChains(self.driver, timeout)
+        actions = ActionChains(self.driver, duration)
         actions.move_to_element(
-            self.wait(10).until(EC.element_to_be_clickable(element))
+            self.wait(timeout).until(
+                EC.element_to_be_clickable(element)
+            )
         )
         actions.click(element)
         actions.perform()
         return self
 
+    def scroll_into_view(self, element):
+        self.driver.execute_script(SCROLL_INTO_VIEW_JS_SCRIPT, element)
+
     def action_click_not_clickable(self, element,
-                                   timeout=WaitTime.MEDIUM_WAIT):
-        self.driver.execute_script(
-            "arguments[0].scrollIntoView(true);", element
-        )
-        actions = ActionChains(self.driver, timeout)
+                                   timeout=WaitTime.MEDIUM_WAIT, duration=GLOBAL_ACTIONS_DURATION):
+        self.scroll_into_view(element)
+
+        actions = ActionChains(self.driver, duration)
         actions.move_to_element(element)
         actions.click(element)
         actions.perform()

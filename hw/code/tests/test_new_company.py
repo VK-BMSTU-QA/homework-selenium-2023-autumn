@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import time
 import pytest
 from ui.pages.lead_page import LeadPage
-from tests.base_case import BaseCase, cookies_and_local_storage, credentials
+from tests.base_case import BaseCase
 from ui.pages.new_company_page import NewCompanyPage
 
 from selenium.webdriver.support import expected_conditions as EC

@@ -1,6 +1,6 @@
 import pytest
 
-from tests.base_case import BaseCase, cookies_and_local_storage, credentials
+from tests.base_case import BaseCase
 from ui.pages.site_page import SitePage
 
 from ui.pages.consts import URLS, ERR_TEXT, INPUT_TEXT
@@ -15,9 +15,11 @@ class TestSite(BaseCase):
 
     @pytest.fixture
     def create_pixel_go_settings(self, site_page: SitePage):
+        site_page.delete_all_pixels()
         id = str(site_page.create_pixel())
         site_page.wait_for_pixel(id)
         site_page.click_settings_until_change()
+
         yield site_page
 
         site_page.open()

@@ -61,9 +61,6 @@ class WaitTime:
     SUPER_SHORT_WAIT = 1
 
 
-FILENAME_TEST_PICTURE = "test.jpg"
-
-
 class BASE_POSITIONS:
     first_search_pos = 0
     last_search_pos = -1
@@ -98,8 +95,6 @@ class POSITIONS_AUDIENCE:
 
 
 class URLS:
-    user_url = "https://ads.vk.com/hq/audience/user_lists"
-
     banned_url = "https://labudiduba.com/"
     redirect_url_err = "Ссылка содержит запрещённый редирект на домен"
 
@@ -181,3 +176,6 @@ class LABELS:
 
 class CLASSES:
     pop_down = "vkuiCustomSelect--pop-down"
+
+
+GLOBAL_ACTIONS_DURATION = 20

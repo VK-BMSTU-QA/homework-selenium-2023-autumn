@@ -1,7 +1,6 @@
 import time
 from ui.pages.consts import WaitTime
 
-from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.consts import GROUP_ADV_INVALID_UTM
 from ui.pages.base_page import BasePage
 from ui.locators.group_adv import GroupAdvLocators
@@ -150,14 +149,14 @@ class GroupAdvPage(BasePage):
         return False
 
     def wait_for_checkbox_load(self):
-        WebDriverWait(self.driver, WaitTime.SHORT_WAIT).until(
+        self.wait(WaitTime.SHORT_WAIT).until(
             lambda _: self.is_checkbox_checked())
 
         return self
 
     def is_utm_renders(self):
         try:
-            el = WebDriverWait(self.driver, WaitTime.SUPER_SHORT_WAIT).until(
+            el = self.wait(WaitTime.SUPER_SHORT_WAIT).until(
                 EC.visibility_of_all_elements_located(
                     self.locators.URL_OPTIONS)
             )
@@ -168,7 +167,7 @@ class GroupAdvPage(BasePage):
         return False
 
     def wait_for_utm_render(self):
-        WebDriverWait(self.driver, WaitTime.SHORT_WAIT).until(
+        self.wait(WaitTime.SHORT_WAIT).until(
             lambda _: self.is_utm_renders())
 
         return self
@@ -183,7 +182,7 @@ class GroupAdvPage(BasePage):
     def wait_for_adv_page(self, filter_btn) -> bool:
         try:
             self.action_click(filter_btn)
-            WebDriverWait(self.driver, WaitTime.SUPER_SHORT_WAIT).until(
+            self.wait(WaitTime.SUPER_SHORT_WAIT).until(
                 lambda _: self.is_on_site_text('Предпросмотр'))
             return True
         except TimeoutException:
@@ -200,14 +199,14 @@ class GroupAdvPage(BasePage):
         return False
 
     def wait_key_phrase_render(self):
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.MEDIUM_WAIT).until(
             lambda _: self.is_region_visible())
 
         return self
 
     def click_until_next_page(self):
         btn_to_click = self.multiple_find(self.locators.CONTINUE_BUTTON)[-1]
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.MEDIUM_WAIT).until(
             lambda _: self.wait_for_adv_page(btn_to_click))
 
         return self

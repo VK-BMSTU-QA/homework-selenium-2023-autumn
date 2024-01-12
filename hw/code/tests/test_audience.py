@@ -1,7 +1,6 @@
 import time
 
-from tests.base_case import BaseCase, cookies_and_local_storage, credentials
-
+from tests.base_case import BaseCase
 from ui.pages.audience_page import AudiencePage
 from ui.pages.consts import URLS, ERR_TEXT, INPUT_TEXT, LABELS
 
@@ -85,7 +84,7 @@ class TestAudience(BaseCase):
             URLS.vk_group_url).select_vk_group()
         audience_page.click_save_button_modal()
 
-        audience_page.delte_source()
+        audience_page.delete_source()
 
         audience_page.click_save_button()
 

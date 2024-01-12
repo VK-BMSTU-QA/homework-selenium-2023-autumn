@@ -81,8 +81,12 @@ class AudienceLocators(BasePageLocators):
         By.XPATH,
         '//div[contains(@class, "Filter_buttons")]//button//*[contains(text(), "Применить")]',
     )
-    
-    DELETE_BUTTON = (By.XPATH, '//div[contains(@class, "SourceListItem_sourceListItem")]//div[contains(@class, "Header_buttons")]//*[name()="svg"]')
+
+    DELETE_ICON = (
+        By.XPATH, '//div[contains(@class, "SourceListItem_sourceListItem")]//div[contains(@class, "Header_buttons")]//*[name()="svg"]')
+
+    CONFRIM_BUTTONS = (
+        By.XPATH, '//*[contains(@class, "ModalConfirm")]//button')
 
     FILTER_DROPDOWN_EXIST = (
         By.XPATH, '//div[contains(@class, "Filter_wrapper")]')

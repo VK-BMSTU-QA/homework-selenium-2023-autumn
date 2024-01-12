@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.common.exceptions import TimeoutException
 
 
 class CompanyPage(BasePage):
@@ -103,7 +104,7 @@ class CompanyPage(BasePage):
 
     def wait_until_draft_delete(self, el: WebElement):
         try:
-            self.wait(timeout).until(EC.staleness_of(el))
+            self.wait(WaitTime.LONG_WAIT).until(EC.staleness_of(el))
         except TimeoutException:
             pass
 
@@ -112,7 +113,7 @@ class CompanyPage(BasePage):
     def wait_for_dropdown_filter(self, filter_btn) -> bool:
         try:
             self.action_click(filter_btn)
-            WebDriverWait(self.driver, WaitTime.SUPER_SHORT_WAIT).until(
+            self.wait(WaitTime.SUPER_SHORT_WAIT).until(
                 EC.presence_of_element_located(self.locators.FILTER_EXIST))
             return True
         except TimeoutException:
@@ -122,7 +123,7 @@ class CompanyPage(BasePage):
 
     def filter_click(self):
         filter_btn = self.find(self.locators.FILTER_BUTTON)
-        WebDriverWait(self.driver, WaitTime.LONG_WAIT).until(
+        self.wait(WaitTime.LONG_WAIT).until(
             lambda _: self.wait_for_dropdown_filter(filter_btn))
 
         return self
@@ -189,7 +190,7 @@ class CompanyPage(BasePage):
         return 0
 
     def wait_until_company_changes(self, previous_company_number):
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until_not(
+        self.wait(WaitTime.MEDIUM_WAIT).until_not(
             EC.text_to_be_present_in_element(
                 (By.XPATH, '//*'), f"Итого: {previous_company_number}")
         )

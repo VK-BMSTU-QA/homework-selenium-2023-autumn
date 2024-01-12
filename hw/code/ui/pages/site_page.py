@@ -63,7 +63,7 @@ class SitePage(BasePage):
 
     def is_error_on_page(self, text):
         try:
-            WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+            self.wait(WaitTime.MEDIUM_WAIT).until(
                 EC.text_to_be_present_in_element((By.XPATH, "//*"), text)
             )
             return True
@@ -138,6 +138,7 @@ class SitePage(BasePage):
 
     def delete_pixel(self, what_delete: int = BASE_POSITIONS.first_search_pos):
         element = self.multiple_find(self.locators.MORE_OPTIONS)[what_delete]
+        # TODO const
         self.driver.execute_script("arguments[0].click();", element)
 
         self.search_action_click(
@@ -149,15 +150,14 @@ class SitePage(BasePage):
             POSITIONS_SITE.delete_modal_btn]
         self.action_click(delete_button)
 
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.MEDIUM_WAIT).until(
             EC.staleness_of(delete_button))
         return self
 
     def wait_for_settings(self, locator, what_element) -> bool:
         try:
-            el = self.multiple_find(locator)[what_element]
-            self.action_click(el)
-            WebDriverWait(self.driver, WaitTime.SHORT_WAIT).until(
+            self.search_action_click(locator, what_element)
+            self.wait(WaitTime.SHORT_WAIT).until(
                 EC.presence_of_element_located(
                     self.locators.SETTINGS_PAGE_ELEMENT)
             )
@@ -168,7 +168,7 @@ class SitePage(BasePage):
         return False
 
     def click_settings_until_change(self, what_element=0):
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.LONG_WAIT).until(
             lambda _: self.wait_for_settings(
                 self.locators.SETTINGS,
                 what_element)

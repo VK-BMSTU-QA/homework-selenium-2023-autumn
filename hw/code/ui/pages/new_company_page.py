@@ -2,7 +2,6 @@ import time
 from ui.pages.lead_page import LeadPage
 from ui.pages.consts import BASE_POSITIONS, INPUT_TEXT, LABELS, URLS, WaitTime
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.base_page import BasePage
 from ui.locators.new_company import NewCompanyPageLocators
 
@@ -139,7 +138,7 @@ class NewCompanyPage(BasePage):
     def wait_for_next_page(self, filter_btn) -> bool:
         try:
             self.action_click(filter_btn)
-            WebDriverWait(self.driver, WaitTime.SUPER_SHORT_WAIT).until(
+            self.wait(WaitTime.SUPER_SHORT_WAIT).until(
                 lambda _: self.is_on_site_text(LABELS.show_regions))
             return True
         except TimeoutException:
@@ -150,7 +149,7 @@ class NewCompanyPage(BasePage):
     def click_until_next_page(self):
         filter_btn = self.multiple_find(self.locators.CONTINUE_BUTTON)[
             BASE_POSITIONS.last_search_pos]
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.MEDIUM_WAIT).until(
             lambda _: self.wait_for_next_page(filter_btn))
 
         return self

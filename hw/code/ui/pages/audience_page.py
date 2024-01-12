@@ -1,6 +1,6 @@
 import re
+import time
 
-from selenium.webdriver.support.wait import WebDriverWait
 from ui.pages.base_page import BasePage
 
 from ui.pages.consts import AUDIENCE_USER_LIST_URL as USER_LIST_URL
@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from ui.locators.audience import AudienceLocators
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, JavascriptException
 
 from ui.pages.consts import BASE_POSITIONS, POSITIONS_AUDIENCE, URLS, WaitTime
 
@@ -110,8 +110,20 @@ class AudiencePage(BasePage):
         assert value != None
         return int(value)
 
+    def is_modal_exist(self):
+        try:
+            el = self.multiple_find(self.locators.SAVE_BUTTON,
+                                    WaitTime.SUPER_SHORT_WAIT)
+            if not el:
+                return True
+            self.action_click(el)
+            return False
+        except (TimeoutException, JavascriptException):
+            pass
+        return True
+
     def click_save_button(self):
-        self.search_action_click(self.locators.SAVE_BUTTON)
+        self.wait_until_func_true(lambda _: self.is_modal_exist())
         return self
 
     def click_save_button_modal(self):
@@ -162,21 +174,36 @@ class AudiencePage(BasePage):
 
         return self
 
-    def delte_source(self, what_source=BASE_POSITIONS.first_search_pos):
+    def delete_source(self, what_source=BASE_POSITIONS.first_search_pos):
         self.search_action_click(
             self.locators.SOURCE_BUTTONS, what_source * 2 + 1
         )
 
-        self.search_action_click_not_clickable(
-            self.locators.DELETE_BUTTON, POSITIONS_AUDIENCE.delete_source_btn
-        )
+        self.click_until_confirm_show(
+            self.locators.DELETE_ICON, POSITIONS_AUDIENCE.delete_source_btn)
 
+        # TODO const
+        self.search_action_click(self.locators.CONFRIM_BUTTONS, 1)
+        self.wait_for_confirm_box_dissappear()
+        return self
+
+    def is_confirm(self, locator, position):
+        try:
+            self.search_action_click(
+                locator, position, WaitTime.SUPER_SHORT_WAIT)
+            return self.find(self.locators.CONFRIM_BUTTONS)
+        except TimeoutException:
+            pass
+        return False
+
+    def click_until_confirm_show(self, locator, position):
+        self.wait_until_func_true(lambda _: self.is_confirm(locator, position))
         return self
 
     def wait_for_dropdown_filter(self, filter_btn) -> bool:
         try:
             self.action_click(filter_btn)
-            WebDriverWait(self.driver, WaitTime.SUPER_SHORT_WAIT).until(
+            self.wait(WaitTime.SUPER_SHORT_WAIT).until(
                 EC.presence_of_element_located(self.locators.FILTER_DROPDOWN_EXIST))
             return True
         except TimeoutException:
@@ -187,7 +214,7 @@ class AudiencePage(BasePage):
     def filter_click(self):
         filter_btn = self.multiple_find(self.locators.FILTER_BUTTON)[
             POSITIONS_AUDIENCE.filter_btn]
-        WebDriverWait(self.driver, WaitTime.LONG_WAIT).until(
+        self.wait(WaitTime.LONG_WAIT).until(
             lambda _: self.wait_for_dropdown_filter(filter_btn))
 
         return self
@@ -202,10 +229,14 @@ class AudiencePage(BasePage):
         return False
 
     def wait_until_value_equal(self, locator, what_element, old_value):
-        WebDriverWait(self.driver, WaitTime.LONG_WAIT).until(
+        self.wait(WaitTime.LONG_WAIT).until(
             lambda _: self.is_value_equal(locator, what_element, old_value)
         )
 
+        return self
+
+    def wait_until_func_true(self, func):
+        self.wait(WaitTime.LONG_WAIT).until(func)
         return self
 
     def wait_to_filed_equal(self, value):
@@ -227,4 +258,9 @@ class AudiencePage(BasePage):
             self.locators.KEY_DAYS_PERIOD,
             POSITIONS_AUDIENCE.period_pos,
             value)
+        return self
+
+    def wait_for_confirm_box_dissappear(self):
+        self.wait(WaitTime.LONG_WAIT).until_not(
+            EC.presence_of_all_elements_located(self.locators.CONFRIM_BUTTONS))
         return self

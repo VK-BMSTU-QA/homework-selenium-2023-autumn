@@ -2,20 +2,22 @@ import os
 import re
 import time
 
-from selenium.webdriver.support.wait import WebDriverWait
 from ui.locators.adv import AdvLocators
 from ui.pages.base_page import BasePage
 from ui.pages.group_adv_page import GroupAdvPage
 
 from ui.pages.consts import (
     TEST_FILE_ADV_PAGE_NAME as TEST_FILE_NAME,
+    URLS,
+    WaitTime,
+    BASE_POSITIONS,
+    POSITIONS_ADV
 )
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-
-from ui.pages.consts import FILENAME_TEST_PICTURE, URLS, WaitTime, BASE_POSITIONS, POSITIONS_ADV
+from selenium.common.exceptions import TimeoutException
 
 
 class AdvPage(BasePage):
@@ -64,7 +66,7 @@ class AdvPage(BasePage):
     def wait_logo_dissapper(self):
         el = self.multiple_find(self.locators.LOG_VARIANTS)[
             BASE_POSITIONS.first_search_pos]
-        WebDriverWait(self.driver, WaitTime.SUPER_SHORT_WAIT).until(
+        self.wait(WaitTime.SUPER_SHORT_WAIT).until(
             EC.staleness_of(el))
         return self
 
@@ -131,12 +133,7 @@ class AdvPage(BasePage):
             locator=self.locators.LOGO_INPUT, timeout=WaitTime.LONG_WAIT)
         file_input = self.find(self.locators.LOGO_INPUT_FILE)
 
-        current_directory = os.getcwd()
-        download_directory = os.path.join(
-            current_directory, FILENAME_TEST_PICTURE)
-
-        file_input.clear()
-        file_input.send_keys(download_directory)
+        file_input.send_keys(file)
 
         el = self.find(self.locators.LOADING_IMG)
         self.wait(WaitTime.LONG_WAIT).until(EC.staleness_of(el))
@@ -144,10 +141,11 @@ class AdvPage(BasePage):
         self.search_action_click(self.locators.CLOSE_MODAL)
         return self
 
-    def wait_for_modal(self, filter_btn) -> bool:
+    def wait_for_modal(self, locator, position) -> bool:
         try:
-            self.action_click(filter_btn)
-            WebDriverWait(self.driver, WaitTime.SUPER_SHORT_WAIT).until(
+            btn = self.multiple_find(locator)[position]
+            self.action_click(btn)
+            self.wait(timeout=WaitTime.SUPER_SHORT_WAIT).until(
                 EC.presence_of_element_located(self.locators.MODAL_WIN)
             )
             return True
@@ -157,15 +155,15 @@ class AdvPage(BasePage):
         return False
 
     def click_continue_until_modal(self):
-        btn_to_click = self.multiple_find(self.locators.FOOTER_BUTTONS)[
-            BASE_POSITIONS.last_search_pos]
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
-            lambda _: self.wait_for_modal(btn_to_click)
+        self.wait(timeout=WaitTime.MEDIUM_WAIT).until(
+            lambda _: self.wait_for_modal(
+                self.locators.FOOTER_BUTTONS,
+                BASE_POSITIONS.last_search_pos)
         )
 
         return self
 
     def wait_load_upload_modal(self):
-        WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
+        self.wait(timeout=WaitTime.MEDIUM_WAIT).until(
             EC.visibility_of_all_elements_located(self.locators.MEDIA_OPTIONS))
         return self
