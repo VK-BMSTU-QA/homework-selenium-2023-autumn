@@ -117,7 +117,7 @@ class GroupAdvPage(BasePage):
             self.locators.DEVICES_OPTIONS, what_device)
         return self
 
-    def is_disabled_and_cheked_device(self, what_device: int):
+    def is_disabled_and_checked_device(self, what_device: int):
         el = self.multiple_find(self.locators.DEVICES_OPTIONS)[what_device]
         disalbed_att = el.get_attribute("disabled")
         checked_att = el.get_attribute("checked")

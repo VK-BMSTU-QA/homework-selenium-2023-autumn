@@ -265,7 +265,7 @@ class BasePage(object):
 
         return self
 
-    def is_on_site_text(self, text: str, timeout=None):
+    def is_on_site_text(self, text: str, timeout=WaitTime.SHORT_WAIT):
         try:
             return self.find(
                 self.basic_locators.CONTAINS_ANY_TEXT(text), timeout

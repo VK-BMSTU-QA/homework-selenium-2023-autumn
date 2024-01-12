@@ -35,7 +35,7 @@ class SitePage(BasePage):
         input.send_keys(site, Keys.RETURN)
 
         self.search_action_click(self.locators.ADD_BUTTON_MODAL)
-        if self.is_on_site_text("Нашли пиксели"):
+        if self.is_on_site_text("Нашли пиксели", WaitTime.MEDIUM_WAIT):
             self.search_action_click(self.locators.CREATE_NEW_PIXEL_REGION)
 
         value = self.find(self.locators.PIXEL_ID, WaitTime.LONG_WAIT)
@@ -62,7 +62,6 @@ class SitePage(BasePage):
         input.send_keys(text, Keys.RETURN)
         return self
 
-    # TODO Maybe is_on_page
     def is_error_on_page(self, text):
         try:
             WebDriverWait(self.driver, WaitTime.MEDIUM_WAIT).until(
@@ -75,9 +74,6 @@ class SitePage(BasePage):
     def click_events(self):
         self.search_action_click(self.locators.EVENTS_REG)
         return self
-
-    def get_url(self) -> str:
-        return self.driver.current_url
 
     def current_id(self):
         match = re.search(r"/(\d+)/code$", self.driver.current_url)
@@ -169,3 +165,30 @@ class SitePage(BasePage):
             lambda _: self.wait_for_settings(self.locators.SETTINGS, what_element))
 
         return self
+
+    def delete_all_pixels(self):
+        while True:
+            try:
+                self.delete_pixel()
+            except TimeoutException as e:
+                break
+
+        return self
+
+    def is_events_page(self, pixel_id):
+        return (
+            self.driver.current_url
+            == f"https://ads.vk.com/hq/pixels/{pixel_id}/events"
+        )
+
+    def is_tags_page(self, pixel_id):
+        return (
+            self.driver.current_url
+            == f"https://ads.vk.com/hq/pixels/{pixel_id}/tags"
+        )
+
+    def is_access_page(self, pixel_id):
+        return (
+            self.driver.current_url
+            == f"https://ads.vk.com/hq/pixels/{pixel_id}/pixel_access"
+        )

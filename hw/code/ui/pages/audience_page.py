@@ -160,7 +160,8 @@ class AudiencePage(BasePage):
 
     def delte_source(self, what_source=0):
         self.search_action_click(
-            self.locators.SOURCE_BUTTONS, what_source * 2 + 1)
+            self.locators.SOURCE_BUTTONS, what_source * 2 + 1
+        )
 
         self.search_action_click_not_clickable(
             locator=self.locators.DELETE_BUTTON, what_choose=1)
@@ -196,7 +197,8 @@ class AudiencePage(BasePage):
 
     def wait_until_value_equal(self, locator, what_element, old_value):
         WebDriverWait(self.driver, WaitTime.LONG_WAIT).until(
-            lambda _: self.is_value_equal(locator, what_element, old_value))
+            lambda _: self.is_value_equal(locator, what_element, old_value)
+        )
 
         return self
 

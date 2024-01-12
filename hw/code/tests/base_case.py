@@ -74,4 +74,5 @@ class BaseCase:
 
         if after_failed != before_failed:
             node_name = request.node.name
+            # TODO const
             self.driver.save_screenshot(f"screenshots/fail_{node_name}.png")

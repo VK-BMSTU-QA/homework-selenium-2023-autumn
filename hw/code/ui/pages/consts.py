@@ -98,6 +98,10 @@ class URLS:
     test_site = "ababababba.com"
     domen_vk_link = "vk.com"
 
+    ad_plan_url = "https://ads.vk.com/hq/new_create/ad_plan"
+    ad_groups_url = "https://ads.vk.com/hq/dashboard/ad_groups"
+    ads_url = "https://ads.vk.com/hq/dashboard/ads"
+
 
 class ERR_TEXT:
     latin_err_text = "Используйте латиницу только там, где без неё не обойтись"
@@ -138,16 +142,20 @@ class INPUT_TEXT:
     empty_value = ""
     corrected_cost = 200
 
-    incorrect_input_data = "привет"
+    incorrect_input_collection_data = "привет"
 
 
 class LABELS:
     create_auditory_text = "Создание аудитории"
 
-    date_sum = "Отчет по датам"
+    date_sum = "Отчёт по датам"
     config_table = "Настроить столбцы"
 
     nothing_found = "Ничего не нашлось"
     create_first = "Создайте первую рекламную кампанию"
     show_regions = 'Регионы показа'
     pixel_found = "Нашли пиксели"
+
+
+class CLASSES:
+    pop_down = "vkuiCustomSelect--pop-down"
