@@ -73,7 +73,7 @@ class AudienceLocators(BasePageLocators):
 
     FILTER_BUTTON = (
         By.XPATH,
-        '//*[contains(@class, "Hint_hintTrigger")]//button',
+        '//*[contains(@class, "Hint_hintTrigger")]',
     )
 
     SUBSCRIBER_VK_GROUP = (By.XPATH, '//*[text()="Подписчики VK сообществ"]')
@@ -82,4 +82,11 @@ class AudienceLocators(BasePageLocators):
         '//div[contains(@class, "Filter_buttons")]//button//*[contains(text(), "Применить")]',
     )
 
-    DELETE_BUTTON = (By.XPATH, '//button//*[contains(text(), "Удалить")]')
+    DELETE_ICON = (
+        By.XPATH, '//div[contains(@class, "SourceListItem_sourceListItem")]//div[contains(@class, "Header_buttons")]//*[name()="svg"]')
+
+    CONFRIM_BUTTONS = (
+        By.XPATH, '//*[contains(@class, "ModalConfirm")]//button')
+
+    FILTER_DROPDOWN_EXIST = (
+        By.XPATH, '//div[contains(@class, "Filter_wrapper")]')

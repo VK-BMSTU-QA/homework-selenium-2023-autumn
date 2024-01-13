@@ -6,11 +6,16 @@ from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 from ui.pages.consts import (
     AUTH_COOKIE_NAME,
     CHECKED_JS_SCRIPT,
+    JS_CLICK,
     SCROLL_INTO_VIEW_JS_SCRIPT,
+    GLOBAL_ACTIONS_DURATION,
+    URLS,
+    WaitTime,
 )
 
 from selenium.webdriver.common.keys import Keys
@@ -29,7 +34,7 @@ class PageNotOpenedExeption(Exception):
 class BasePage(object):
     driver: ChromeWebDriver | FireFoxWebDriver
     basic_locators = basic.BasePageLocators()
-    url = "https://ads.vk.com"
+    url = URLS.base_url
 
     # Open url
     def open(self):
@@ -232,13 +237,18 @@ class BasePage(object):
             EC.presence_of_all_elements_located(locator)
         )
 
-    def action_click(self, element, timeout=500):
+    def action_click(self,
+                     element,
+                     timeout=WaitTime.MEDIUM_WAIT,
+                     duration=GLOBAL_ACTIONS_DURATION):
         self.scroll_into_view(element)
-        self.wait(10).until(EC.visibility_of(element))
+        self.wait(timeout).until(EC.visibility_of(element))
 
-        actions = ActionChains(self.driver, timeout)
+        actions = ActionChains(self.driver, duration)
         actions.move_to_element(
-            self.wait(10).until(EC.element_to_be_clickable(element))
+            self.wait(timeout).until(
+                EC.element_to_be_clickable(element)
+            )
         )
         actions.click(element)
         actions.perform()
@@ -247,7 +257,38 @@ class BasePage(object):
     def scroll_into_view(self, element):
         self.driver.execute_script(SCROLL_INTO_VIEW_JS_SCRIPT, element)
 
-    def is_on_site_text(self, text: str, timeout=None):
+    def js_click(self, element):
+        self.driver.execute_script(JS_CLICK, element)
+
+    def action_click_not_clickable(self, element,
+                                   timeout=WaitTime.MEDIUM_WAIT,
+                                   duration=GLOBAL_ACTIONS_DURATION):
+        self.scroll_into_view(element)
+
+        actions = ActionChains(self.driver, duration)
+        actions.move_to_element(element)
+        actions.click(element)
+        actions.perform()
+        return self
+
+    def search_action_click(self, locator, what_choose: int = 0,
+                            timeout: int = WaitTime.LONG_WAIT):
+        el = self.multiple_find(locator, timeout)[what_choose]
+        self.action_click(el, timeout)
+
+        return self
+
+    def search_action_click_not_clickable(self, locator,
+                                          what_choose: int = 0,
+                                          timeout: int = WaitTime.LONG_WAIT):
+        if not timeout:
+            timeout = WaitTime.LONG_WAIT
+        el = self.multiple_find(locator, timeout)[what_choose]
+        self.action_click_not_clickable(el, timeout)
+
+        return self
+
+    def is_on_site_text(self, text: str, timeout=WaitTime.SHORT_WAIT):
         try:
             return self.find(
                 self.basic_locators.CONTAINS_ANY_TEXT(text), timeout
@@ -265,6 +306,13 @@ class BasePage(object):
                 return True
             
         return found
+
+    def send_keys_with_enter(self, element: WebElement, keys_to_send: str):
+        element.click()
+        element.clear()
+        element.send_keys(keys_to_send, Keys.RETURN)
+
+        return self
 
     @contextmanager
     def wait_for_url_change(self, timeout=10, **kwargs):
@@ -293,8 +341,3 @@ class BasePage(object):
         for _ in range(len):
             el.send_keys(Keys.BACKSPACE)
         return self
-    
-    # def stale_reference_retry(self, reties_num: int, func):
-    #     for _ in range(reties_num):
-    #         try:
-    #             return 

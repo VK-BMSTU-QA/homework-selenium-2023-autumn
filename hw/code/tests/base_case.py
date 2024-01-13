@@ -2,6 +2,7 @@ from contextlib import contextmanager
 
 from pytest import FixtureRequest
 import pytest
+from ui.pages.consts import get_screenshots_path
 
 from ui.pages.base_page import BasePage
 from ui.fixtures import get_driver
@@ -59,3 +60,13 @@ class BaseCase:
 
             for cookie in cookies[0]:
                 self.driver.add_cookie(cookie)
+
+        before_failed = request.session.testsfailed
+
+        yield
+
+        after_failed = request.session.testsfailed
+
+        if after_failed != before_failed:
+            node_name = request.node.name
+            self.driver.save_screenshot(get_screenshots_path(node_name))
