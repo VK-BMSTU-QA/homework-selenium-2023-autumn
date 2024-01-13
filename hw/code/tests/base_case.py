@@ -2,6 +2,7 @@ from contextlib import contextmanager
 
 from pytest import FixtureRequest
 import pytest
+from hw.code.ui.pages.consts import get_screenshots_path
 
 from ui.pages.base_page import BasePage
 from ui.fixtures import driver, get_driver
@@ -74,5 +75,4 @@ class BaseCase:
 
         if after_failed != before_failed:
             node_name = request.node.name
-            # TODO const
-            self.driver.save_screenshot(f"screenshots/fail_{node_name}.png")
+            self.driver.save_screenshot(get_screenshots_path(node_name))

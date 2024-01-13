@@ -31,9 +31,7 @@ class CompanyPage(BasePage):
             and parsed_link.path.startswith(parsed_base_url.path)
         )
 
-    def create_company(self, timeout=None):
-        if not timeout:
-            timeout = WaitTime.MEDIUM_WAIT
+    def create_company(self, timeout=WaitTime.MEDIUM_WAIT):
         self.click(self.locators.CREATE_BUTTON, timeout)
         return self
 
@@ -117,7 +115,7 @@ class CompanyPage(BasePage):
         self.search_action_click_not_clickable(self.locators.DELETE_MODAL)
         return self
 
-    def wait_until_draft_delete(self, el: WebElement):
+    def _wait_until_draft_delete(self, el: WebElement):
         try:
             self.wait(WaitTime.LONG_WAIT).until(EC.staleness_of(el))
         except TimeoutException:
@@ -178,7 +176,7 @@ class CompanyPage(BasePage):
             try:
                 cnt = self.select_draft_option()
                 self.delete_draft().click_approve_delete()
-                self.wait_until_draft_delete(cnt)
+                self._wait_until_draft_delete(cnt)
             except TimeoutException:
                 break
         return self
@@ -189,7 +187,7 @@ class CompanyPage(BasePage):
                 cnt = self.get_company_numbers()
                 self.select_company().select_action_list()
                 self.select_delete_action()
-                self.wait_until_company_changes(cnt)
+                self._wait_until_company_changes(cnt)
             except TimeoutException:
                 break
         return self
@@ -204,7 +202,7 @@ class CompanyPage(BasePage):
 
         return 0
 
-    def wait_until_company_changes(self, previous_company_number):
+    def _wait_until_company_changes(self, previous_company_number):
         self.is_on_site_text(get_count_string(previous_company_number))
 
         return self

@@ -123,7 +123,7 @@ class AudiencePage(BasePage):
         return True
 
     def click_save_button(self):
-        self.wait_until_func_true(lambda _: self.is_modal_exist())
+        self._wait_until_func_true(lambda _: self.is_modal_exist())
         return self
 
     def click_save_button_modal(self):
@@ -203,7 +203,8 @@ class AudiencePage(BasePage):
         return False
 
     def click_until_confirm_show(self, locator, position):
-        self.wait_until_func_true(lambda _: self.is_confirm(locator, position))
+        self._wait_until_func_true(
+            lambda _: self.is_confirm(locator, position))
         return self
 
     def wait_for_dropdown_filter(self, filter_btn) -> bool:
@@ -226,7 +227,7 @@ class AudiencePage(BasePage):
 
         return self
 
-    def is_value_equal(self, locator, what_element, value):
+    def _is_value_equal(self, locator, what_element, value):
         try:
             el = self.multiple_find(locator)[what_element]
 
@@ -236,33 +237,33 @@ class AudiencePage(BasePage):
 
         return False
 
-    def wait_until_func_true(self, func):
+    def _wait_until_func_true(self, func):
         self.wait(WaitTime.LONG_WAIT).until(func)
         return self
 
-    def wait_until_value_equal(self, locator, what_element, old_value):
+    def _wait_until_value_equal(self, locator, what_element, old_value):
         self.wait(WaitTime.LONG_WAIT).until(
-            lambda _: self.is_value_equal(locator, what_element, old_value)
+            lambda _: self._is_value_equal(locator, what_element, old_value)
         )
 
         return self
 
-    def wait_to_filed_equal(self, value):
-        self.wait_until_value_equal(
+    def wait_to_field_equal(self, value):
+        self._wait_until_value_equal(
             self.locators.LEAD_INPUT_DAYS,
             POSITIONS_AUDIENCE.from_input_days,
             value)
         return self
 
     def wait_from_filed_equal(self, value):
-        self.wait_until_value_equal(
+        self._wait_until_value_equal(
             self.locators.LEAD_INPUT_DAYS,
             POSITIONS_AUDIENCE.to_input_days,
             value)
         return self
 
     def wait_period_filed_equal(self, value):
-        self.wait_until_value_equal(
+        self._wait_until_value_equal(
             self.locators.KEY_DAYS_PERIOD,
             POSITIONS_AUDIENCE.period_pos,
             value)

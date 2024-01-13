@@ -11,12 +11,12 @@ class LeadPage(BasePage):
     url = URLS.lead_url
     locators = LeadPageLocators
 
-    def create_lead(self):
+    def create_lead(self, lead_info=INPUT_TEXT.lead_info):
         self.search_action_click(self.locators.CREATE_BUTTON)
 
         self.select_logo()
 
-        self.write_to_inputs(INPUT_TEXT.lead_info, 1)
+        self.write_to_inputs(lead_info, 1)
         self.search_action_click(self.locators.CONTINUE_BUTTON)
 
         self.wait_for_questions_page()
@@ -25,7 +25,7 @@ class LeadPage(BasePage):
         self.wait_for_result_page()
         self.search_action_click(self.locators.CONTINUE_BUTTON)
 
-        self.write_to_inputs(INPUT_TEXT.lead_info, 0, 2)
+        self.write_to_inputs(lead_info, 0, 2)
         self.search_action_click(self.locators.SAVE_BUTTON)
 
         self.wait_for_modal_dissappear()

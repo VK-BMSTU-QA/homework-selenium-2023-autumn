@@ -219,3 +219,7 @@ def get_access_url(pixel_id):
 
 def get_count_string(cnt: int):
     return f"Итого: {cnt}"
+
+
+def get_screenshots_path(name_of_test):
+    return f"screenshots/fail_{name_of_test}.png"

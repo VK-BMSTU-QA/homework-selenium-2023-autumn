@@ -124,7 +124,7 @@ class NewCompanyPage(BasePage):
     def is_less_than_hundred(self):
         return self.find(self.locators.ERROR_LESS_THAN_HUN)
 
-    def wait_for_next_page(self, filter_btn) -> bool:
+    def _wait_for_next_page(self, filter_btn) -> bool:
         try:
             self.action_click(filter_btn)
             self.wait(WaitTime.SUPER_SHORT_WAIT).until(
@@ -140,13 +140,13 @@ class NewCompanyPage(BasePage):
         filter_btn = self.multiple_find(self.locators.CONTINUE_BUTTON)[
             BASE_POSITIONS.last_search_pos]
         self.wait(WaitTime.MEDIUM_WAIT).until(
-            lambda _: self.wait_for_next_page(filter_btn))
+            lambda _: self._wait_for_next_page(filter_btn))
 
         return self
 
-    def get_to_next(self):
-        self.site_region_click().send_keys_site(URLS.test_site).send_cost(
-            INPUT_TEXT.corrected_cost
+    def get_to_next(self, site_url=URLS.test_site, cost=INPUT_TEXT.corrected_cost):
+        self.site_region_click().send_keys_site(site_url).send_cost(
+            cost
         )
         self.click_until_next_page()
 

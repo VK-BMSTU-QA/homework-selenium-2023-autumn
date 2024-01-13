@@ -158,7 +158,7 @@ class SitePage(BasePage):
             EC.staleness_of(delete_button))
         return self
 
-    def wait_for_settings(self, locator, what_element) -> bool:
+    def _wait_for_settings(self, locator, what_element) -> bool:
         try:
             self.search_action_click(locator, what_element)
             self.wait(WaitTime.SHORT_WAIT).until(
@@ -174,7 +174,7 @@ class SitePage(BasePage):
 
     def click_settings_until_change(self, what_element=0):
         self.wait(WaitTime.LONG_WAIT).until(
-            lambda _: self.wait_for_settings(
+            lambda _: self._wait_for_settings(
                 self.locators.SETTINGS,
                 what_element)
         )

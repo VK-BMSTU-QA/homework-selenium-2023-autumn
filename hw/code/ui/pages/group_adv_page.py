@@ -174,7 +174,7 @@ class GroupAdvPage(BasePage):
 
         return self
 
-    def is_utm_renders(self):
+    def _is_utm_renders(self):
         try:
             el = self.wait(WaitTime.SUPER_SHORT_WAIT).until(
                 EC.visibility_of_all_elements_located(
@@ -191,7 +191,7 @@ class GroupAdvPage(BasePage):
 
     def wait_for_utm_render(self):
         self.wait(WaitTime.SHORT_WAIT).until(
-            lambda _: self.is_utm_renders())
+            lambda _: self._is_utm_renders())
 
         return self
 
@@ -214,7 +214,7 @@ class GroupAdvPage(BasePage):
 
         return False
 
-    def is_region_visible(self):
+    def _is_region_visible(self):
         try:
             el = self.multiple_find(self.locators.KEY_PHRASES_REGION)[
                 POSITIONS_GROUP.key_phrase_minus_input]
@@ -227,7 +227,7 @@ class GroupAdvPage(BasePage):
 
     def wait_key_phrase_render(self):
         self.wait(WaitTime.MEDIUM_WAIT).until(
-            lambda _: self.is_region_visible())
+            lambda _: self._is_region_visible())
 
         return self
 

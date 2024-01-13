@@ -30,7 +30,7 @@ class TestAudience(BaseCase):
         audience_page.write_to_to_field(
             INPUT_TEXT.small_value_for_days)
 
-        assert audience_page.wait_to_filed_equal(INPUT_TEXT.big_value_for_days)
+        assert audience_page.wait_to_field_equal(INPUT_TEXT.big_value_for_days)
 
     def test_change_number_to_smaller(self, audience_page: AudiencePage):
         audience_page.click_create_button().click_add_source()
