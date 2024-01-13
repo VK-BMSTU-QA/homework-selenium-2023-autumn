@@ -4,7 +4,7 @@ import pytest
 from tests.base_case import BaseCase
 
 from ui.pages.adv_page import AdvPage
-from ui.pages.consts import URLS, ERR_TEXT, INPUT_TEXT
+from ui.pages.consts import TEST_FILE_ADV_PAGE_NAME, URLS, ERR_TEXT, INPUT_TEXT
 
 
 class TestAdv(BaseCase):
@@ -23,13 +23,14 @@ class TestAdv(BaseCase):
         max_size = get_page.get_title_max()
 
         get_page.send_text_to_title(
-            INPUT_TEXT.text_to_max_size * (max_size // 5 + 1)
+            INPUT_TEXT.text_to_max_size *
+            (max_size // len(INPUT_TEXT.text_to_max_size) + 1)
         ).click_continue_button()
 
         assert get_page.is_on_site_text(ERR_TEXT.len_err_text)
 
     def test_latin_symbols(self, get_page: AdvPage):
-        get_page.send_text_to_title("word")
+        get_page.send_text_to_title(INPUT_TEXT.title_text)
 
         assert get_page.is_on_site_text(
             ERR_TEXT.latin_err_text
@@ -45,7 +46,7 @@ class TestAdv(BaseCase):
     @pytest.fixture
     def upload_logo(self, get_page: AdvPage, mock_files):
         get_page.upload_logo(os.path.join(
-            mock_files, "test.jpg")).wait_logo_dissapper()
+            mock_files, TEST_FILE_ADV_PAGE_NAME)).wait_logo_dissapper()
         yield get_page
 
     def test_after_create_company(self, upload_logo: AdvPage):

@@ -180,6 +180,8 @@ class INPUT_TEXT:
     lead_info: str = "asdfawfafwafaw"
     URL_OPTIONS_LEN = 3
 
+    title_text = "word"
+
 
 class LABELS:
     create_auditory_text = "Создание аудитории"
@@ -197,6 +199,7 @@ class LABELS:
 
 class CLASSES:
     pop_down = "vkuiCustomSelect--pop-down"
+    disabled_selector = "vkuiFormField--disabled"
 
 
 GLOBAL_ACTIONS_DURATION = 20

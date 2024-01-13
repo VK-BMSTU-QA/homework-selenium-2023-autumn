@@ -97,7 +97,7 @@ class AdvPage(BasePage):
     def create_company(self, url, timeout=WaitTime.LONG_WAIT) -> str:
         self.get_page()
 
-        self.select_logo(0).write_to_inputs(
+        self.select_logo(BASE_POSITIONS.first_search_pos).write_to_inputs(
             url,
         )
         self.write_to_textarea(url)
@@ -116,7 +116,10 @@ class AdvPage(BasePage):
         return self
 
     def wait_for_only_one_upload_field(self):
-        return len(self.multiple_find(self.locators.CHOOSE_MEDIA, WaitTime.SUPER_SHORT_WAIT)) == 1
+        return len(self.multiple_find(
+            self.locators.CHOOSE_MEDIA,
+            WaitTime.SUPER_SHORT_WAIT)
+        ) == 1
 
     def click_media_upload(self):
         self.wait(WaitTime.LONG_WAIT).until(

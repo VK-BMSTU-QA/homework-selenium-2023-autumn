@@ -73,8 +73,9 @@ class CompanyPage(BasePage):
         return self
 
     def is_action_active(self):
-        #    TODO const
-        return "vkuiFormField--disabled" not in str(self.get_selector_attribute())
+        return CLASSES.disabled_selector not in str(
+            self.get_selector_attribute()
+        )
 
     def select_action_list(self):
         self.wait(WaitTime.LONG_WAIT).until(lambda _: self.is_action_active())

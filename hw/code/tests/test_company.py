@@ -75,6 +75,7 @@ class TestCompany(BaseCase):
         company_page = CompanyPage(new_company_page.driver)
         company_page.select_filter().select_started_filter().apply_filters()
         yield company_page
+        company_page.delete_all_companies()
 
     def test_company_deletion(self, create_company: CompanyPage):
         create_company.delete_all_companies()
