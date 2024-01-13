@@ -30,9 +30,9 @@ class TestCompany(BaseCase):
         assert preparations.is_advertisment()
 
     def test_list(self, preparations):
-        preparations.select_action_list()
+        preparations.select_action_list_without_wait()
 
-        assert preparations.selector_has_pop_down()
+        assert preparations.selector_has_not_pop_down()
 
     @pytest.fixture
     def setup_started_filters(self, preparations):

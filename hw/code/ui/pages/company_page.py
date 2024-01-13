@@ -72,7 +72,16 @@ class CompanyPage(BasePage):
             self.locators.COMPANY_OPTIONS, number_of_company)
         return self
 
+    def is_action_active(self):
+        #    TODO const
+        return "vkuiFormField--disabled" not in str(self.get_selector_attribute())
+
     def select_action_list(self):
+        self.wait(WaitTime.LONG_WAIT).until(lambda _: self.is_action_active())
+        self.search_action_click_not_clickable(self.locators.ACTION_SELECTOR)
+        return self
+
+    def select_action_list_without_wait(self):
         self.search_action_click_not_clickable(self.locators.ACTION_SELECTOR)
         return self
 
@@ -151,7 +160,7 @@ class CompanyPage(BasePage):
             URLS.ads_url
         )
 
-    def selector_has_pop_down(self):
+    def selector_has_not_pop_down(self):
         return CLASSES.pop_down not in str(self.get_selector_attribute())
 
     def delete_all_actions(self):

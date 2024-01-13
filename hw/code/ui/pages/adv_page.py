@@ -115,9 +115,13 @@ class AdvPage(BasePage):
         self.multiple_find(self.locators.FILTER_BUTTON, WaitTime.LONG_WAIT)
         return self
 
+    def wait_for_only_one_upload_field(self):
+        return len(self.multiple_find(self.locators.CHOOSE_MEDIA, WaitTime.SUPER_SHORT_WAIT)) == 1
+
     def click_media_upload(self):
-        self.search_action_click(
-            self.locators.CHOOSE_MEDIA, BASE_POSITIONS.last_search_pos)
+        self.wait(WaitTime.LONG_WAIT).until(
+            lambda _: self.wait_for_only_one_upload_field())
+        self.click(self.locators.CHOOSE_MEDIA)
         return self
 
     def select_media_options(self, options=BASE_POSITIONS.first_search_pos):
@@ -153,7 +157,7 @@ class AdvPage(BasePage):
         return False
 
     def click_continue_until_modal(self):
-        self.wait(timeout=WaitTime.MEDIUM_WAIT).until(
+        self.wait(timeout=WaitTime.LONG_WAIT).until(
             lambda _: self.wait_for_modal(
                 self.locators.FOOTER_BUTTONS,
                 BASE_POSITIONS.last_search_pos)
