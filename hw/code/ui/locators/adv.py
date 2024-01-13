@@ -81,3 +81,5 @@ class AdvLocators(BasePageLocators):
 
     MODAL_WIN = (
         By.XPATH, '//*[contains(@class, "vkuiModalCardBase__container")]')
+
+    FILTER_BUTTON = (By.XPATH, '//*[@data-testid="filter-button"]')

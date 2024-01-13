@@ -1,6 +1,4 @@
-import os
 import re
-import time
 
 from ui.locators.adv import AdvLocators
 from ui.pages.base_page import BasePage
@@ -15,8 +13,6 @@ from ui.pages.consts import (
 )
 
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 
 
@@ -39,8 +35,7 @@ class AdvPage(BasePage):
     def send_text_to_title(self, text: str):
         el = self.multiple_find(self.locators.INPUT_TITLE)[
             POSITIONS_ADV.title_position]
-        el.clear()
-        el.send_keys(text, Keys.RETURN)
+        self.send_keys_with_enter(el, text)
 
         return self
 
@@ -58,14 +53,14 @@ class AdvPage(BasePage):
 
     def send_url(self, url: str):
         el = self.find(self.locators.URL_INPUT)
-        el.clear()
-        el.send_keys(url, Keys.RETURN)
+        self.send_keys_with_enter(el, url)
 
         return self
 
     def wait_logo_dissapper(self):
         el = self.multiple_find(self.locators.LOG_VARIANTS)[
             BASE_POSITIONS.first_search_pos]
+
         self.wait(WaitTime.SUPER_SHORT_WAIT).until(
             EC.staleness_of(el))
         return self
@@ -81,16 +76,14 @@ class AdvPage(BasePage):
         inputs = self.multiple_find(self.locators.TEXT_INPUTS)
 
         for i in inputs:
-            i.clear()
-            i.send_keys(text, Keys.RETURN)
+            self.send_keys_with_enter(i, text)
 
         return self
 
     def write_to_textarea(self, text: str):
         areas = self.multiple_find(self.locators.AREA_INPUTS)
         for i in areas:
-            i.clear()
-            i.send_keys(text, Keys.RETURN)
+            self.send_keys_with_enter(i, text)
 
         return self
 
@@ -98,26 +91,33 @@ class AdvPage(BasePage):
         return self.find(self.locators.COMPANY_NAME).text
 
     def click_send_button(self, timeout=WaitTime.LONG_WAIT):
-        self.search_action_click(
-            locator=self.locators.SEND_BUTTON, timeout=timeout)
+        self.click(self.locators.SEND_BUTTON)
         return self
 
-    # Return name of company, that was created
-    def create_company(self, url, timeout=20) -> str:
+    def create_company(self, url, timeout=WaitTime.LONG_WAIT) -> str:
         self.get_page()
+
         self.select_logo(0).write_to_inputs(
             url,
-        ).write_to_textarea(url)
+        )
+        self.write_to_textarea(url)
+
         name = self.get_company_name()
 
-        self.click_media_upload().wait_load_upload_modal(
-        ).select_media_options().add_media_option()
+        self.click_media_upload().wait_load_upload_modal()
+        self.select_media_options().add_media_option()
         self.click_continue_until_modal().click_send_button()
+        self.wait_for_company_page()
 
         return name
 
+    def wait_for_company_page(self):
+        self.multiple_find(self.locators.FILTER_BUTTON, WaitTime.LONG_WAIT)
+        return self
+
     def click_media_upload(self):
-        self.search_action_click(self.locators.CHOOSE_MEDIA)
+        self.search_action_click(
+            self.locators.CHOOSE_MEDIA, BASE_POSITIONS.last_search_pos)
         return self
 
     def select_media_options(self, options=BASE_POSITIONS.first_search_pos):
@@ -131,8 +131,8 @@ class AdvPage(BasePage):
     def upload_logo(self, file):
         self.search_action_click(
             locator=self.locators.LOGO_INPUT, timeout=WaitTime.LONG_WAIT)
-        file_input = self.find(self.locators.LOGO_INPUT_FILE)
 
+        file_input = self.find(self.locators.LOGO_INPUT_FILE)
         file_input.send_keys(file)
 
         el = self.find(self.locators.LOADING_IMG)
@@ -143,11 +143,9 @@ class AdvPage(BasePage):
 
     def wait_for_modal(self, locator, position) -> bool:
         try:
-            btn = self.multiple_find(locator)[position]
-            self.action_click(btn)
-            self.wait(timeout=WaitTime.SUPER_SHORT_WAIT).until(
-                EC.presence_of_element_located(self.locators.MODAL_WIN)
-            )
+            self.search_action_click(locator, position)
+            self.find(self.locators.MODAL_WIN)
+
             return True
         except TimeoutException:
             pass

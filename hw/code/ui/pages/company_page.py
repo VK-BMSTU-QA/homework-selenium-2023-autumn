@@ -1,14 +1,18 @@
 import re
-import time
-from ui.pages.consts import BASE_POSITIONS, CLASSES, URLS, WaitTime
+
+from ui.pages.consts import (
+    BASE_POSITIONS,
+    CLASSES,
+    URLS,
+    WaitTime,
+    get_count_string
+)
+
 from ui.pages.base_page import BasePage
 from ui.locators.company import CompanyPageLocators
 from urllib.parse import urlparse
 
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import TimeoutException
 
@@ -88,6 +92,7 @@ class CompanyPage(BasePage):
         el = self.multiple_find(self.locators.DRAFT_OPTIONS)[
             BASE_POSITIONS.first_search_pos]
         self.click(self.locators.DRAFT_OPTIONS)
+
         return el
 
     def delete_draft(self):
@@ -113,8 +118,8 @@ class CompanyPage(BasePage):
     def wait_for_dropdown_filter(self, filter_btn) -> bool:
         try:
             self.action_click(filter_btn)
-            self.wait(WaitTime.SUPER_SHORT_WAIT).until(
-                EC.presence_of_element_located(self.locators.FILTER_EXIST))
+            self.find(self.locators.FILTER_EXIST)
+
             return True
         except TimeoutException:
             pass
@@ -190,8 +195,6 @@ class CompanyPage(BasePage):
         return 0
 
     def wait_until_company_changes(self, previous_company_number):
-        self.wait(WaitTime.MEDIUM_WAIT).until_not(
-            EC.text_to_be_present_in_element(
-                (By.XPATH, '//*'), f"Итого: {previous_company_number}")
-        )
+        self.is_on_site_text(get_count_string(previous_company_number))
+
         return self

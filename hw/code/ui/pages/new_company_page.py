@@ -6,7 +6,6 @@ from ui.pages.base_page import BasePage
 from ui.locators.new_company import NewCompanyPageLocators
 
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 
@@ -14,13 +13,6 @@ from selenium.common.exceptions import TimeoutException
 class NewCompanyPage(BasePage):
     url = URLS.new_ad
     locators = NewCompanyPageLocators
-
-    def send_keys_with_enter(self, element: WebElement, keys_to_send: str):
-        element.click()
-        element.clear()
-        element.send_keys(keys_to_send, Keys.RETURN)
-
-        return self
 
     def site_region_click(self, timeout=WaitTime.LONG_WAIT):
         self.click(self.locators.SITE_REGION, timeout)
@@ -39,24 +31,20 @@ class NewCompanyPage(BasePage):
             self.locators.CONTINUE_BUTTON,
             BASE_POSITIONS.last_search_pos,
             timeout)
+
         return self
 
     def send_keys_site(self, text, timeout=WaitTime.MEDIUM_WAIT):
         el = self.find(self.locators.SITE_INPUT, timeout)
         self.send_keys_with_enter(el, text)
+
         return self
 
     def send_cost(self, cost, timeout=WaitTime.LONG_WAIT):
         el = self.find(self.locators.COST_INPUT, timeout)
-        el.clear()
-        el.send_keys(cost, Keys.RETURN)
-        return self
 
-    def delete_symbols_from_field(self, field_locator, count_delete):
-        el = self.find(field_locator)
-        el.send_keys(Keys.END)
-        for _ in range(count_delete):
-            el.send_keys(Keys.BACKSPACE)
+        self.send_keys_with_enter(el, cost)
+
         return self
 
     def click_selector_strategy(self):
@@ -69,16 +57,19 @@ class NewCompanyPage(BasePage):
     def select_min_cost(self):
         elements = self.find(self.locators.MIN_STRATEGY)
         self.action_click(elements)
+
         return self
 
     def select_pred_cost(self):
         elements = self.find(self.locators.PRED_STRATEGY)
         self.action_click(elements)
+
         return self
 
     def send_max_click_cost(self, cost):
         el = self.find(self.locators.MAX_CLICK_COST)
         self.send_keys_with_enter(el, cost)
+
         return self
 
     def select_vk_group(self, group: str):
@@ -90,6 +81,7 @@ class NewCompanyPage(BasePage):
         self.send_keys_with_enter(input_group, group)
 
         self.click(self.locators.ADD_BUTTON_GROUP)
+
         return self
 
     def select_split(self):
@@ -97,13 +89,10 @@ class NewCompanyPage(BasePage):
         return self
 
     def select_lead_click(self, what_lead: int, timeout=WaitTime.MEDIUM_WAIT):
-        element = self.wait(timeout).until(
-            EC.presence_of_all_elements_located(
-                self.locators.SELECTOR_LEAD
-            )
-        )
+        element = self.multiple_find(self.locators.SELECTOR_LEAD)
 
         self.action_click(element[what_lead])
+
         return self
 
     def select_lead_option(self,
@@ -140,6 +129,7 @@ class NewCompanyPage(BasePage):
             self.action_click(filter_btn)
             self.wait(WaitTime.SUPER_SHORT_WAIT).until(
                 lambda _: self.is_on_site_text(LABELS.show_regions))
+
             return True
         except TimeoutException:
             pass
@@ -159,4 +149,5 @@ class NewCompanyPage(BasePage):
             INPUT_TEXT.corrected_cost
         )
         self.click_until_next_page()
+
         return self

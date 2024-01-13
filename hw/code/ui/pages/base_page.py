@@ -11,6 +11,7 @@ from selenium.common.exceptions import TimeoutException
 from ui.pages.consts import (
     AUTH_COOKIE_NAME,
     CHECKED_JS_SCRIPT,
+    JS_CLICK,
     SCROLL_INTO_VIEW_JS_SCRIPT,
     GLOBAL_ACTIONS_DURATION,
     URLS,
@@ -230,7 +231,10 @@ class BasePage(object):
             EC.presence_of_all_elements_located(locator)
         )
 
-    def action_click(self, element, timeout=WaitTime.MEDIUM_WAIT, duration=GLOBAL_ACTIONS_DURATION):
+    def action_click(self,
+                     element,
+                     timeout=WaitTime.MEDIUM_WAIT,
+                     duration=GLOBAL_ACTIONS_DURATION):
         self.scroll_into_view(element)
         self.wait(timeout).until(EC.visibility_of(element))
 
@@ -247,8 +251,12 @@ class BasePage(object):
     def scroll_into_view(self, element):
         self.driver.execute_script(SCROLL_INTO_VIEW_JS_SCRIPT, element)
 
+    def js_click(self, element):
+        self.driver.execute_script(JS_CLICK, element)
+
     def action_click_not_clickable(self, element,
-                                   timeout=WaitTime.MEDIUM_WAIT, duration=GLOBAL_ACTIONS_DURATION):
+                                   timeout=WaitTime.MEDIUM_WAIT,
+                                   duration=GLOBAL_ACTIONS_DURATION):
         self.scroll_into_view(element)
 
         actions = ActionChains(self.driver, duration)
@@ -283,7 +291,19 @@ class BasePage(object):
             return False
 
     def check_auth_cookie(self) -> bool:
-        return self.driver.get_cookie(AUTH_COOKIE_NAME) != None
+        return self.driver.get_cookie(AUTH_COOKIE_NAME) is not None
+
+    def send_keys_with_enter(self, element: WebElement, keys_to_send: str):
+        element.click()
+        element.clear()
+        element.send_keys(keys_to_send, Keys.RETURN)
+
+        return self
+
+    def remove_symbols_from_el(self, el, len: int):
+        for i in range(len):
+            el.send_keys(Keys.BACKSPACE)
+        return self
 
     @contextmanager
     def wait_for_url_change(self, timeout=10, **kwargs):

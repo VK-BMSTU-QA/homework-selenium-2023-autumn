@@ -1,16 +1,20 @@
 import re
-import time
-from ui.pages.consts import BASE_POSITIONS, LABELS, POSITIONS_SITE, URLS, WaitTime
 
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support.wait import WebDriverWait
-from ui.locators.adv import AdvLocators
+from ui.pages.consts import (
+    BASE_POSITIONS,
+    LABELS,
+    POSITIONS_SITE,
+    URLS,
+    WaitTime,
+    get_access_url,
+    get_events_url,
+    get_tags_url,
+)
+
 from ui.pages.base_page import BasePage
-from ui.pages.group_adv_page import GroupAdvPage
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from ui.locators.site import SiteLocators
 from selenium.common.exceptions import TimeoutException
@@ -31,8 +35,7 @@ class SitePage(BasePage):
         self.click_add_button()
 
         input = self.find(self.locators.INPUT_DOMEN)
-        input.clear()
-        input.send_keys(site, Keys.RETURN)
+        self.send_keys_with_enter(input, site)
 
         self.search_action_click(self.locators.ADD_BUTTON_MODAL)
         if self.is_on_site_text(LABELS.pixel_found, WaitTime.MEDIUM_WAIT):
@@ -57,15 +60,14 @@ class SitePage(BasePage):
 
     def input_collection_data(self, text: str, timeout=None):
         input = self.find(self.locators.DATA_INPUT, timeout)
-        input.clear()
-        input.send_keys(text, Keys.RETURN)
+        self.send_keys_with_enter(input, text)
+
         return self
 
     def is_error_on_page(self, text):
         try:
-            self.wait(WaitTime.MEDIUM_WAIT).until(
-                EC.text_to_be_present_in_element((By.XPATH, "//*"), text)
-            )
+            self.is_on_site_text(text)
+
             return True
         except TimeoutException:
             return False
@@ -103,27 +105,30 @@ class SitePage(BasePage):
 
     def input_event_name(self, text: str):
         input = self.find(self.locators.INPUT_EVENT_NAME)
-        input.clear()
-        input.send_keys(text, Keys.RETURN)
+
+        self.send_keys_with_enter(input, text)
+
         return self
 
     def select_event_category(self):
         self.search_action_click(
             self.locators.EVENT_SELECTOR, POSITIONS_SITE.category_event)
         self.search_action_click(self.locators.CATEGORY_BUY_OPTION)
+
         return self
 
     def select_event_condition(self):
         self.search_action_click(
             self.locators.EVENT_SELECTOR, POSITIONS_SITE.event_condition)
         self.search_action_click(self.locators.CONDITION_OPTION)
+
         return self
 
     def input_text_url(self, text: str):
         input = self.multiple_find(self.locators.URL_INPUT)[
             POSITIONS_SITE.text_url_pos]
-        input.clear()
-        input.send_keys(text, Keys.RETURN)
+        self.send_keys_with_enter(input, text)
+
         return self
 
     def click_add_tag(self):
@@ -132,14 +137,13 @@ class SitePage(BasePage):
 
     def input_name_tag(self, text: str):
         input = self.find(self.locators.INPUT_NAME_TAG)
-        input.clear()
-        input.send_keys(text, Keys.RETURN)
+        self.send_keys_with_enter(input, text)
+
         return self
 
     def delete_pixel(self, what_delete: int = BASE_POSITIONS.first_search_pos):
         element = self.multiple_find(self.locators.MORE_OPTIONS)[what_delete]
-        # TODO const
-        self.driver.execute_script("arguments[0].click();", element)
+        self.js_click(element)
 
         self.search_action_click(
             self.locators.DELETE_OPTION,
@@ -161,6 +165,7 @@ class SitePage(BasePage):
                 EC.presence_of_element_located(
                     self.locators.SETTINGS_PAGE_ELEMENT)
             )
+
             return True
         except TimeoutException:
             pass
@@ -188,17 +193,17 @@ class SitePage(BasePage):
     def is_events_page(self, pixel_id):
         return (
             self.driver.current_url
-            == f"https://ads.vk.com/hq/pixels/{pixel_id}/events"
+            == get_events_url(pixel_id)
         )
 
     def is_tags_page(self, pixel_id):
         return (
             self.driver.current_url
-            == f"https://ads.vk.com/hq/pixels/{pixel_id}/tags"
+            == get_tags_url(pixel_id)
         )
 
     def is_access_page(self, pixel_id):
         return (
             self.driver.current_url
-            == f"https://ads.vk.com/hq/pixels/{pixel_id}/pixel_access"
+            == get_access_url(pixel_id)
         )

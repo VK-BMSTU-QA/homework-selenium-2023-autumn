@@ -1,17 +1,18 @@
-import re
-import time
-
 from ui.pages.base_page import BasePage
 
 from ui.pages.consts import AUDIENCE_USER_LIST_URL as USER_LIST_URL
 
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from ui.locators.audience import AudienceLocators
 from selenium.common.exceptions import TimeoutException, JavascriptException
 
-from ui.pages.consts import BASE_POSITIONS, POSITIONS_AUDIENCE, URLS, WaitTime
+from ui.pages.consts import (
+    BASE_POSITIONS,
+    POSITIONS_AUDIENCE,
+    URLS,
+    WaitTime,
+)
 
 
 class AudiencePage(BasePage):
@@ -24,11 +25,12 @@ class AudiencePage(BasePage):
 
     def write_text_to_name(self, text, timeout=None):
         field = self.find(self.locators.CREATION_NAME_AUDITORY)
+
         self.wait(timeout).until(
             EC.element_to_be_clickable(self.locators.CREATION_NAME_AUDITORY)
         )
-        field.clear()
-        field.send_keys(text, Keys.RETURN)
+
+        self.send_keys_with_enter(field, text)
         return self
 
     def click_add_source(self):
@@ -52,26 +54,21 @@ class AudiencePage(BasePage):
         self.search_action_click(self.locators.LEAD_CHECKBOXES, what_checkbox)
         return self
 
-    def remove_symbols_from_el(self, el, len: int):
-        for i in range(len):
-            el.send_keys(Keys.BACKSPACE)
-        return self
-
     def write_to_from_field(self, form_days: int):
         input = self.multiple_find(self.locators.LEAD_INPUT_DAYS)
         from_input = input[POSITIONS_AUDIENCE.from_input_days]
+
         self.remove_symbols_from_el(
             from_input, len(str(self.get_from_value())))
-
-        from_input.send_keys(form_days, Keys.RETURN)
+        self.send_keys_with_enter(from_input, form_days)
         return self
 
     def write_to_to_field(self, form_days: int):
         input = self.multiple_find(self.locators.LEAD_INPUT_DAYS)
         from_input = input[POSITIONS_AUDIENCE.to_input_days]
-        self.remove_symbols_from_el(from_input, len(str(self.get_to_value())))
 
-        from_input.send_keys(form_days, Keys.RETURN)
+        self.remove_symbols_from_el(from_input, len(str(self.get_to_value())))
+        self.send_keys_with_enter(from_input, form_days)
         return self
 
     def get_from_value(self) -> int:
@@ -79,14 +76,14 @@ class AudiencePage(BasePage):
 
         value = input[POSITIONS_AUDIENCE.from_input_days].get_attribute(
             "value")
-        assert value != None
+        assert value is not None
         return int(value)
 
     def get_to_value(self) -> int:
         input = self.multiple_find(self.locators.LEAD_INPUT_DAYS)
 
         value = input[POSITIONS_AUDIENCE.to_input_days].get_attribute("value")
-        assert value != None
+        assert value is not None
         return int(value)
 
     def select_key_phrases_region(self):
@@ -99,7 +96,7 @@ class AudiencePage(BasePage):
         self.remove_symbols_from_el(
             period_field, len(str(self.get_period_value())))
 
-        period_field.send_keys(period, Keys.RETURN)
+        self.send_keys_with_enter(period_field, period)
 
         return self
 
@@ -107,19 +104,22 @@ class AudiencePage(BasePage):
         period_field = self.find(self.locators.KEY_DAYS_PERIOD)
 
         value = period_field.get_attribute("value")
-        assert value != None
+        assert value is not None
         return int(value)
 
     def is_modal_exist(self):
         try:
             el = self.multiple_find(self.locators.SAVE_BUTTON,
                                     WaitTime.SUPER_SHORT_WAIT)
+
             if not el:
                 return True
             self.action_click(el)
+
             return False
         except (TimeoutException, JavascriptException):
             pass
+
         return True
 
     def click_save_button(self):
@@ -145,8 +145,9 @@ class AudiencePage(BasePage):
 
     def write_to_vk_group(self, text: str):
         input = self.find(self.locators.VK_GROUP_INPUT)
-        input.clear()
-        input.send_keys(text, Keys.RETURN)
+
+        self.send_keys_with_enter(input, text)
+
         return self
 
     def select_vk_group(self):
@@ -163,7 +164,7 @@ class AudiencePage(BasePage):
     def get_name_audience(self) -> str:
         elem = self.find(self.locators.CREATION_NAME_AUDITORY)
         value = elem.get_attribute("value")
-        assert value != None
+        assert value is not None
         return value
 
     def select_vk_group_filter(self):
@@ -182,8 +183,11 @@ class AudiencePage(BasePage):
         self.click_until_confirm_show(
             self.locators.DELETE_ICON, POSITIONS_AUDIENCE.delete_source_btn)
 
-        # TODO const
-        self.search_action_click(self.locators.CONFRIM_BUTTONS, 1)
+        self.search_action_click(
+            self.locators.CONFRIM_BUTTONS,
+            POSITIONS_AUDIENCE.delete_confirm_btn
+        )
+
         self.wait_for_confirm_box_dissappear()
         return self
 
@@ -191,9 +195,11 @@ class AudiencePage(BasePage):
         try:
             self.search_action_click(
                 locator, position, WaitTime.SUPER_SHORT_WAIT)
+
             return self.find(self.locators.CONFRIM_BUTTONS)
         except TimeoutException:
             pass
+
         return False
 
     def click_until_confirm_show(self, locator, position):
@@ -203,8 +209,9 @@ class AudiencePage(BasePage):
     def wait_for_dropdown_filter(self, filter_btn) -> bool:
         try:
             self.action_click(filter_btn)
-            self.wait(WaitTime.SUPER_SHORT_WAIT).until(
-                EC.presence_of_element_located(self.locators.FILTER_DROPDOWN_EXIST))
+            self.find(self.locators.FILTER_DROPDOWN_EXIST,
+                      WaitTime.SUPER_SHORT_WAIT)
+
             return True
         except TimeoutException:
             pass
@@ -222,21 +229,22 @@ class AudiencePage(BasePage):
     def is_value_equal(self, locator, what_element, value):
         try:
             el = self.multiple_find(locator)[what_element]
+
             return el.get_attribute("value") == str(value)
         except TimeoutException:
             pass
 
         return False
 
+    def wait_until_func_true(self, func):
+        self.wait(WaitTime.LONG_WAIT).until(func)
+        return self
+
     def wait_until_value_equal(self, locator, what_element, old_value):
         self.wait(WaitTime.LONG_WAIT).until(
             lambda _: self.is_value_equal(locator, what_element, old_value)
         )
 
-        return self
-
-    def wait_until_func_true(self, func):
-        self.wait(WaitTime.LONG_WAIT).until(func)
         return self
 
     def wait_to_filed_equal(self, value):

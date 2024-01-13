@@ -1,5 +1,6 @@
 SCROLL_INTO_VIEW_JS_SCRIPT = "arguments[0].scrollIntoView(true);"
 CHECKED_JS_SCRIPT = "return arguments[0].checked"
+JS_CLICK = "arguments[0].click();"
 
 AUTH_COOKIE_NAME = "remixsid"
 
@@ -53,6 +54,8 @@ TEST_FILE_ADV_PAGE_NAME = "test.jpg"
 # Group adv page
 GROUP_ADV_INVALID_UTM = "Неверный формат utm-метки"
 
+PLACE = "Россия"
+
 
 class WaitTime:
     LONG_WAIT = 20
@@ -69,6 +72,20 @@ class BASE_POSITIONS:
 class POSITIONS_ADV:
     title_position = 0
     continue_button = 1
+
+
+class POSITIONS_GROUP:
+    bottom_age = 0
+    upper_age = 1
+
+    continue_btn = 1
+    save_btn = 0
+
+    interest_region = 0
+    key_phrase_minus_input = 1
+
+    utm = 1
+    checkbox = 1
 
 
 class POSITIONS_SITE:
@@ -92,6 +109,7 @@ class POSITIONS_AUDIENCE:
     filter_btn = 2
 
     period_pos = 0
+    delete_confirm_btn = 1
 
 
 class URLS:
@@ -159,7 +177,8 @@ class INPUT_TEXT:
     corrected_cost = 200
 
     incorrect_input_collection_data = "привет"
-    lead_info = "asdfawfafwafaw"
+    lead_info: str = "asdfawfafwafaw"
+    URL_OPTIONS_LEN = 3
 
 
 class LABELS:
@@ -173,9 +192,27 @@ class LABELS:
     show_regions = 'Регионы показа'
     pixel_found = "Нашли пиксели"
 
+    preview = "Предпросмотр"
+
 
 class CLASSES:
     pop_down = "vkuiCustomSelect--pop-down"
 
 
 GLOBAL_ACTIONS_DURATION = 20
+
+
+def get_events_url(pixel_id):
+    return f"https://ads.vk.com/hq/pixels/{pixel_id}/events"
+
+
+def get_tags_url(pixel_id):
+    return f"https://ads.vk.com/hq/pixels/{pixel_id}/tags"
+
+
+def get_access_url(pixel_id):
+    return f"https://ads.vk.com/hq/pixels/{pixel_id}/pixel_access"
+
+
+def get_count_string(cnt: int):
+    return f"Итого: {cnt}"
