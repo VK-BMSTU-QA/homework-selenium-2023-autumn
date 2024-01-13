@@ -19,7 +19,7 @@ class NewCompanyPage(BasePage):
         return self
 
     def catalog_region_click(self):
-        self.click(self.locators.CATALOG_REGION)
+        self.click(self.locators.CATALOG_REGION, WaitTime.SUPER_LONG_WAIT)
         return self
 
     def lead_region_click(self):

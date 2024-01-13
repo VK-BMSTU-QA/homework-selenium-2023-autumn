@@ -49,7 +49,7 @@ class CompanyPage(BasePage):
         self.click(self.locators.ADVERTISEMENTS_BUTTON, timeout=timeout)
         return self
 
-    def select_filter(self, timeout=None):
+    def select_filter(self, timeout=WaitTime.SUPER_LONG_WAIT):
         self.click(self.locators.FILTER_BUTTON, timeout)
         return self
 
@@ -67,7 +67,7 @@ class CompanyPage(BasePage):
 
     def select_company(self, number_of_company=0):
         self.search_action_click_not_clickable(
-            self.locators.COMPANY_OPTIONS, number_of_company)
+            self.locators.COMPANY_OPTIONS, number_of_company, WaitTime.SUPER_LONG_WAIT)
         return self
 
     def is_action_active(self):
@@ -76,7 +76,8 @@ class CompanyPage(BasePage):
         )
 
     def select_action_list(self):
-        self.wait(WaitTime.LONG_WAIT).until(lambda _: self.is_action_active())
+        self.wait(timeout=WaitTime.LONG_WAIT).until(
+            lambda _: self.is_action_active())
         self.search_action_click_not_clickable(self.locators.ACTION_SELECTOR)
         return self
 
@@ -93,7 +94,7 @@ class CompanyPage(BasePage):
         return self
 
     def go_to_drafts(self):
-        self.click(self.locators.DRAFT_BUTTON)
+        self.click(self.locators.DRAFT_BUTTON, WaitTime.SUPER_LONG_WAIT)
         return self
 
     def select_draft_option(self):
@@ -190,6 +191,12 @@ class CompanyPage(BasePage):
                 self._wait_until_company_changes(cnt)
             except TimeoutException:
                 break
+
+        self.wait(WaitTime.LONG_WAIT).until_not(
+            EC.presence_of_all_elements_located(
+                self.locators.COMPANY_NUMBER_PLACE)
+        )
+
         return self
 
     def get_company_numbers(self):
@@ -203,6 +210,7 @@ class CompanyPage(BasePage):
         return 0
 
     def _wait_until_company_changes(self, previous_company_number):
-        self.is_on_site_text(get_count_string(previous_company_number))
+        self.is_on_site_text(get_count_string(
+            previous_company_number), WaitTime.LONG_WAIT)
 
         return self

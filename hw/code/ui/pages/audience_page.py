@@ -140,19 +140,29 @@ class AudiencePage(BasePage):
         return USER_LIST_URL == self.driver.current_url
 
     def select_vk_group_region(self):
-        self.search_action_click(self.locators.VK_GROUP_REGION)
+        self.search_action_click(
+            self.locators.VK_GROUP_REGION,
+            timeout=WaitTime.SUPER_LONG_WAIT
+        )
+
         return self
 
     def write_to_vk_group(self, text: str):
-        input = self.find(self.locators.VK_GROUP_INPUT)
+        input = self.find(self.locators.VK_GROUP_INPUT, WaitTime.LONG_WAIT)
 
         self.send_keys_with_enter(input, text)
 
         return self
 
     def select_vk_group(self):
-        self.search_action_click(self.locators.VK_GROUPS)
-        self.search_action_click(self.locators.VK_GROUPS_OPTIONS)
+        self.search_action_click(
+            self.locators.VK_GROUPS,
+            timeout=WaitTime.SUPER_LONG_WAIT
+        )
+        self.search_action_click(
+            self.locators.VK_GROUPS_OPTIONS,
+            timeout=WaitTime.SUPER_LONG_WAIT
+        )
 
         self.empty_click()
         return self

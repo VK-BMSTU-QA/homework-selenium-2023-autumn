@@ -122,7 +122,7 @@ class AdvPage(BasePage):
         ) == 1
 
     def click_media_upload(self):
-        self.wait(WaitTime.LONG_WAIT).until(
+        self.wait(WaitTime.SUPER_LONG_WAIT).until(
             lambda _: self.wait_for_only_one_upload_field())
         self.click(self.locators.CHOOSE_MEDIA)
         return self

@@ -2,7 +2,7 @@ from contextlib import contextmanager
 
 from pytest import FixtureRequest
 import pytest
-from hw.code.ui.pages.consts import get_screenshots_path
+from ui.pages.consts import get_screenshots_path
 
 from ui.pages.base_page import BasePage
 from ui.fixtures import driver, get_driver

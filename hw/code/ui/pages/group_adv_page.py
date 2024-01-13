@@ -89,7 +89,7 @@ class GroupAdvPage(BasePage):
 
     def wait_load_page(self):
         self.search_action_click_not_clickable(
-            self.locators.SAVE_TEXT, POSITIONS_GROUP.save_btn)
+            self.locators.SAVE_TEXT, POSITIONS_GROUP.save_btn, WaitTime.SUPER_LONG_WAIT)
         return self
 
     def click_interest_region(self, timeout=WaitTime.MEDIUM_WAIT):
@@ -235,7 +235,7 @@ class GroupAdvPage(BasePage):
         btn_to_click = self.multiple_find(self.locators.CONTINUE_BUTTON)[
             BASE_POSITIONS.last_search_pos]
 
-        self.wait(WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.SUPER_LONG_WAIT).until(
             lambda _: self.wait_for_adv_page(btn_to_click))
 
         return self

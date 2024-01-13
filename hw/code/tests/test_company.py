@@ -17,11 +17,11 @@ class TestCompany(BaseCase):
         company_page.close_banner()
         yield company_page
 
-    def test_create(self, preparations):
+    def test_create(self, preparations: CompanyPage):
         preparations.create_company()
         assert preparations.is_ad_plan()
 
-    def test_group(self, preparations):
+    def test_group(self, preparations: CompanyPage):
         preparations.group_view()
         assert preparations.is_ad_groups()
 
@@ -35,14 +35,14 @@ class TestCompany(BaseCase):
         assert preparations.selector_has_not_pop_down()
 
     @pytest.fixture
-    def setup_started_filters(self, preparations):
+    def setup_started_filters(self, preparations: CompanyPage):
         preparations.select_filter().select_started_filter().apply_filters()
-        preparations.delete_all_actions()
+        preparations.delete_all_companies()
 
         yield preparations
         preparations.select_filter().select_started_filter().apply_filters()
 
-    def test_download(self, setup_started_filters):
+    def test_download(self, setup_started_filters: CompanyPage):
         setup_started_filters.download()
         assert not setup_started_filters.is_on_site_text(LABELS.date_sum)
 

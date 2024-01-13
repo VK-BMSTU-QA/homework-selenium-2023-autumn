@@ -58,6 +58,7 @@ PLACE = "Россия"
 
 
 class WaitTime:
+    SUPER_LONG_WAIT = 50
     LONG_WAIT = 20
     MEDIUM_WAIT = 10
     SHORT_WAIT = 5

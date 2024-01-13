@@ -38,7 +38,7 @@ class SitePage(BasePage):
         self.send_keys_with_enter(input, site)
 
         self.search_action_click(self.locators.ADD_BUTTON_MODAL)
-        if self.is_on_site_text(LABELS.pixel_found, WaitTime.MEDIUM_WAIT):
+        if self.is_on_site_text(LABELS.pixel_found, WaitTime.SUPER_LONG_WAIT):
             self.search_action_click(self.locators.CREATE_NEW_PIXEL_REGION)
 
         value = self.find(self.locators.PIXEL_ID, WaitTime.LONG_WAIT)
