@@ -39,7 +39,6 @@ class CompanyPageLocators(BasePageLocators):
 
     DRAFT_OPTIONS = (
         By.XPATH,
-        # "//div[@data-entityid]//label[contains(@class, 'vkuiCheckbox')]//input[@type='checkbox']",
         "//div[@data-entityid]//label[contains(@class, 'vkuiCheckbox')]",
     )
 
