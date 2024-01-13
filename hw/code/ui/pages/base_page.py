@@ -64,21 +64,27 @@ class BasePage(object):
             self.logger.debug("Banner didnt show:", e)
 
     # Open url that set in url of page and check if opened
-    def __init__(self, driver):
+    def __init__(self, driver, open_url=True, **kwargs):
         self.driver = driver
         self.logger = logging.getLogger(__name__)
-        self.open()
-        # self.is_opened()
+        if (open_url):
+            self.open()
+    
+        check_url = kwargs.get('check_url', False)
+        if (check_url):
+            self.is_opened()
+        
 
     # wait for timeout. Default timeout 5
     def wait(self, timeout=None):
         if timeout is None:
             timeout = 5
+
         return WebDriverWait(self.driver, timeout=timeout)
 
     # Wait timeout to find element by locator
     def find(self, locator, timeout=None, **kwargs) -> WebElement:
-        first = True if "first" in kwargs else False
+        first = kwargs.get("first", False)
 
         return self.wait(timeout).until(
             self._located_cond_for_one(locator, first)
@@ -180,9 +186,9 @@ class BasePage(object):
     def clear_with_validation(self, locator, timeout=None):
         elem = self.find(locator, timeout)
         self.click(locator, timeout)
-        elem.send_keys(Keys.END + Keys.SHIFT + Keys.HOME)
-        time.sleep(3)
-        elem.send_keys(Keys.BACKSPACE)
+        input_text = elem.get_attribute('text')
+        assert input_text is not None
+        self.remove_symbols_from_el(elem, len(input_text))
 
     def search(self, search_locator, query, timeout=None):
         elem = self.find(search_locator, timeout)
@@ -250,7 +256,15 @@ class BasePage(object):
             return False
 
     def check_auth_cookie(self) -> bool:
-        return self.driver.get_cookie(AUTH_COOKIE_NAME) != None
+        return self.driver.get_cookie(AUTH_COOKIE_NAME) is not None
+    
+    def contains_any_word(self, words: List[str]):
+        found = False
+        for word in words:
+            if word in self.driver.page_source:
+                return True
+            
+        return found
 
     @contextmanager
     def wait_for_url_change(self, timeout=10, **kwargs):
@@ -274,3 +288,13 @@ class BasePage(object):
         yield
 
         self.wait(timeout).until(EC.number_of_windows_to_be(tabs_num + 1))
+
+    def remove_symbols_from_el(self, el, len: int):
+        for _ in range(len):
+            el.send_keys(Keys.BACKSPACE)
+        return self
+    
+    # def stale_reference_retry(self, reties_num: int, func):
+    #     for _ in range(reties_num):
+    #         try:
+    #             return 

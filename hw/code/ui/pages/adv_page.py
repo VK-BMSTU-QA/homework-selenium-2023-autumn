@@ -6,10 +6,6 @@ from ui.locators.adv import AdvLocators
 from ui.pages.base_page import BasePage
 from ui.pages.group_adv_page import GroupAdvPage
 
-from ui.pages.consts import (
-    TEST_FILE_ADV_PAGE_NAME as TEST_FILE_NAME,
-)
-
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
