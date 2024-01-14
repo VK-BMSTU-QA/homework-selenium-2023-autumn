@@ -42,6 +42,11 @@ class BasePage(object):
     # Open url
     def open(self):
         self.driver.get(self.url)
+        try:
+            alert = self.driver.switch_to.alert
+            alert.accept()
+        except NoAlertPresentException:
+            pass
 
     def url_cmp_pref(self, url: str, url_pref: str):
         return url.startswith(url_pref)

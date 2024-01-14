@@ -1,4 +1,5 @@
 from collections.abc import Mapping
+import os
 from typing import List, NamedTuple
 
 SCROLL_INTO_VIEW_JS_SCRIPT = "arguments[0].scrollIntoView(true);"
@@ -341,6 +342,10 @@ def get_access_url(pixel_id):
 def get_count_string(cnt: int):
     return f"Итого: {cnt}"
 
+SCREENSHOTS_DIR = "screenshots"
 
 def get_screenshots_path(name_of_test):
+    if not os.path.exists(SCREENSHOTS_DIR):
+        os.makedirs(SCREENSHOTS_DIR)
+
     return f"screenshots/fail_{name_of_test}.png"
