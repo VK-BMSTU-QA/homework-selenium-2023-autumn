@@ -140,7 +140,7 @@ class NewCompanyPage(BasePage):
         return False
 
     def click_until_next_page(self):
-        filter_btn = self.multiple_find(self.locators.CONTINUE_BUTTON)[
+        filter_btn = self.multiple_find(self.locators.CONTINUE_BUTTON, WaitTime.LONG_WAIT)[
             BASE_POSITIONS.last_search_pos
         ]
         self.wait(WaitTime.MEDIUM_WAIT).until(
