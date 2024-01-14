@@ -193,7 +193,7 @@ class BasePage(object):
     def clear_with_validation(self, locator, timeout=None):
         elem = self.find(locator, timeout)
         self.click(locator, timeout)
-        input_text = elem.get_attribute("text")
+        input_text = elem.get_attribute("value")
         assert input_text is not None
         self.remove_symbols_from_el(elem, len(input_text))
 
