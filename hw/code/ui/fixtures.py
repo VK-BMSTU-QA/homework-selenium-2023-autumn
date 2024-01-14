@@ -44,7 +44,6 @@ def download_directory():
     return download_dir
 
 
-# TODO
 @pytest.fixture(scope="session", autouse=True)
 def mock_files():
     upload_dir = "mock_files"
@@ -202,6 +201,11 @@ def company_page(driver):
 
 @pytest.fixture
 def center_of_commerce_page(driver):
+    return CenterOfCommercePage(driver=driver)
+
+
+@pytest.fixture(scope="session")
+def center_of_commerce_page_session(driver):
     return CenterOfCommercePage(driver=driver)
 
 
