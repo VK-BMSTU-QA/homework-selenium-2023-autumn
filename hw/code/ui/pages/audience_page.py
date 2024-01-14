@@ -114,16 +114,25 @@ class AudiencePage(BasePage):
 
             if not el:
                 return True
-            self.action_click(el)
+            try:
+                self.search_action_click_not_clickable(
+                    self.locators.SAVE_BUTTON)
+            except (TimeoutException, JavascriptException) as e:
+                pass
 
             return False
-        except (TimeoutException, JavascriptException):
+        except TimeoutException:
             pass
 
         return True
 
     def click_save_button(self):
-        self._wait_until_func_true(lambda _: self.is_modal_exist())
+        self._wait_until_func_true(
+            lambda _: self.is_modal_exist(), WaitTime.SUPER_LONG_WAIT)
+        return self
+
+    def click_save_button_without_wait(self):
+        self.search_action_click(self.locators.SAVE_BUTTON)
         return self
 
     def click_save_button_modal(self):
@@ -247,8 +256,8 @@ class AudiencePage(BasePage):
 
         return False
 
-    def _wait_until_func_true(self, func):
-        self.wait(WaitTime.LONG_WAIT).until(func)
+    def _wait_until_func_true(self, func, timeout=WaitTime.LONG_WAIT):
+        self.wait(timeout).until(func)
         return self
 
     def _wait_until_value_equal(self, locator, what_element, old_value):

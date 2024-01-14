@@ -33,7 +33,7 @@ class AudienceLocators(BasePageLocators):
 
     SAVE_BUTTON = (
         By.XPATH,
-        '//*[contains(@class, "ModalSidebarPage_footer")]//button[@type="submit"]',
+        '//*[contains(@class, "ModalSidebarPage_footer")]//*[contains(text(), "Сохранить")]',
     )
 
     KEY_PHRASES_REGION = (

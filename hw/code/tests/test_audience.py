@@ -86,6 +86,6 @@ class TestAudience(BaseCase):
 
         audience_page.delete_source()
 
-        audience_page.click_save_button()
+        audience_page.click_save_button_without_wait()
 
         assert audience_page.is_on_site_text(LABELS.create_auditory_text)
