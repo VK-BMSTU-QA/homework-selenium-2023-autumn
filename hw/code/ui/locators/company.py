@@ -53,3 +53,5 @@ class CompanyPageLocators(BasePageLocators):
         By.XPATH,
         '//*[contains(@class, "nameCell_footerCell")]',
     )
+
+    ALL_CHECKBOX = (By.XPATH, '//*[contains(@id ,"checkbox-all")]')

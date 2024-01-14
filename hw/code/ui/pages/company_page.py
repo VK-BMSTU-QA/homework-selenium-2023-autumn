@@ -187,10 +187,14 @@ class CompanyPage(BasePage):
     def delete_all_companies(self):
         while True:
             try:
-                cnt = self.get_company_numbers()
-                self.select_company().select_action_list()
+                self.search_action_click_not_clickable(
+                    self.locators.ALL_CHECKBOX,
+                    0
+                )
+
+                self.select_action_list()
                 self.select_delete_action()
-                self._wait_until_company_changes(cnt)
+
             except TimeoutException:
                 break
 
@@ -198,22 +202,6 @@ class CompanyPage(BasePage):
             EC.presence_of_all_elements_located(
                 self.locators.COMPANY_NUMBER_PLACE
             )
-        )
-
-        return self
-
-    def get_company_numbers(self):
-        el = self.find(self.locators.COMPANY_NUMBER_PLACE)
-        match = re.search(r"\d+", el.text)
-
-        if match:
-            return int(match.group())
-
-        return 0
-
-    def _wait_until_company_changes(self, previous_company_number):
-        self.is_on_site_text(
-            get_count_string(previous_company_number), WaitTime.LONG_WAIT
         )
 
         return self
