@@ -73,8 +73,10 @@ class TestGroup(BaseCase):
 
         first_device = 0
         second_device = 1
-        
-        group_adv_page.click_device_region().remove_device(first_device).remove_device(second_device)
+
+        group_adv_page.click_device_region().remove_device(
+            first_device
+        ).remove_device(second_device)
 
         assert group_adv_page.is_disabled_and_checked_device(second_device)
 

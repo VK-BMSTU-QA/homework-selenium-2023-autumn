@@ -342,7 +342,9 @@ def get_access_url(pixel_id):
 def get_count_string(cnt: int):
     return f"Итого: {cnt}"
 
+
 SCREENSHOTS_DIR = "screenshots"
+
 
 def get_screenshots_path(name_of_test):
     if not os.path.exists(SCREENSHOTS_DIR):

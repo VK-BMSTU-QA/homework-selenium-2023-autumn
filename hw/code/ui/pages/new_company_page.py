@@ -108,7 +108,9 @@ class NewCompanyPage(BasePage):
 
     def select_prev_month(self):
         self.search_action_click(
-            self.locators.DATE_LAST_MONTH_BUTTON, timeout=WaitTime.SUPER_LONG_WAIT)
+            self.locators.DATE_LAST_MONTH_BUTTON,
+            timeout=WaitTime.SUPER_LONG_WAIT,
+        )
         return self
 
     def click_first_day(self):
@@ -141,9 +143,9 @@ class NewCompanyPage(BasePage):
         return False
 
     def click_until_next_page(self):
-        filter_btn = self.multiple_find(self.locators.CONTINUE_BUTTON, WaitTime.LONG_WAIT)[
-            BASE_POSITIONS.last_search_pos
-        ]
+        filter_btn = self.multiple_find(
+            self.locators.CONTINUE_BUTTON, WaitTime.LONG_WAIT
+        )[BASE_POSITIONS.last_search_pos]
         self.wait(WaitTime.MEDIUM_WAIT).until(
             lambda _: self._wait_for_next_page(filter_btn)
         )

@@ -4,7 +4,13 @@ import pytest
 from tests.base_case import BaseCase
 
 from ui.pages.adv_page import AdvPage
-from ui.pages.consts import TEST_FILE_ADV_PAGE_NAME, URLS, ERR_TEXT, INPUT_TEXT, WaitTime
+from ui.pages.consts import (
+    TEST_FILE_ADV_PAGE_NAME,
+    URLS,
+    ERR_TEXT,
+    INPUT_TEXT,
+    WaitTime,
+)
 
 
 class TestAdv(BaseCase):
@@ -39,7 +45,8 @@ class TestAdv(BaseCase):
         get_page.click_continue_button()
 
         assert get_page.is_on_site_text(
-            URLS.redirect_url_err, WaitTime.LONG_WAIT)
+            URLS.redirect_url_err, WaitTime.LONG_WAIT
+        )
 
     @pytest.fixture
     def upload_logo(self, get_page: AdvPage, mock_files):
