@@ -154,9 +154,9 @@ class SitePage(BasePage):
             WaitTime.SHORT_WAIT,
         )
 
-        delete_button = self.multiple_find(self.locators.MODAL_BUTTONS, WaitTime.LONG_WAIT)[
-            POSITIONS_SITE.delete_modal_btn
-        ]
+        delete_button = self.multiple_find(
+            self.locators.MODAL_BUTTONS, WaitTime.LONG_WAIT
+        )[POSITIONS_SITE.delete_modal_btn]
         self.action_click(delete_button)
 
         self.wait(WaitTime.MEDIUM_WAIT).until(EC.staleness_of(delete_button))

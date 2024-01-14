@@ -188,8 +188,7 @@ class CompanyPage(BasePage):
         while True:
             try:
                 self.search_action_click_not_clickable(
-                    self.locators.ALL_CHECKBOX,
-                    0
+                    self.locators.ALL_CHECKBOX, 0
                 )
 
                 self.select_action_list()
