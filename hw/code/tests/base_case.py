@@ -48,11 +48,6 @@ class BaseCase:
         if self.authorize:
             cookies = request.getfixturevalue("cookies_and_local_storage")
 
-            try:
-                alert = driver.switch_to.alert
-                alert.accept()
-            except NoAlertPresentException:
-                pass
             for key, value in cookies[1]:
                 self.driver.execute_script(
                     f"localStorage.setItem('{key}', '{value}');"
