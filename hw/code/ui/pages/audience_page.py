@@ -1,6 +1,6 @@
 from ui.pages.base_page import BasePage
 
-from ui.pages.consts import AUDIENCE_USER_LIST_URL as USER_LIST_URL
+from ui.pages.consts import AUDIENCE_USER_LIST_URL as USER_LIST_URL, POSITIONS_SITE
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
@@ -291,4 +291,28 @@ class AudiencePage(BasePage):
     def wait_for_confirm_box_dissappear(self):
         self.wait(WaitTime.LONG_WAIT).until_not(
             EC.presence_of_all_elements_located(self.locators.CONFRIM_BUTTONS))
+        return self
+
+    def delete_all_auditories(self):
+        while True:
+            try:
+                grid_id = self.multiple_find(self.locators.GRID_IDS)[0]
+                element = self.multiple_find(self.locators.MORE_OPTIONS)[0]
+                self.js_click(element)
+
+                self.search_action_click(
+                    self.locators.DELETE_OPTION,
+                    POSITIONS_AUDIENCE.delete_btn_pop_up,
+                    WaitTime.SHORT_WAIT)
+
+                delete_button = self.multiple_find(self.locators.MODAL_BUTTONS)[  # type: ignore
+                    POSITIONS_SITE.delete_modal_btn]
+                self.action_click(delete_button)
+
+                self.wait(WaitTime.MEDIUM_WAIT).until(
+                    EC.staleness_of(delete_button))
+                self.wait(WaitTime.LONG_WAIT).until(EC.staleness_of(grid_id))
+            except TimeoutException:
+                break
+
         return self

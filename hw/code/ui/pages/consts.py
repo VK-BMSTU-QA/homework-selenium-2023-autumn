@@ -111,6 +111,7 @@ class POSITIONS_AUDIENCE:
 
     period_pos = 0
     delete_confirm_btn = 1
+    delete_btn_pop_up = 2
 
 
 class URLS:
