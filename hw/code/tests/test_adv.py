@@ -4,7 +4,7 @@ import pytest
 from tests.base_case import BaseCase
 
 from ui.pages.adv_page import AdvPage
-from ui.pages.consts import TEST_FILE_ADV_PAGE_NAME, URLS, ERR_TEXT, INPUT_TEXT
+from ui.pages.consts import TEST_FILE_ADV_PAGE_NAME, URLS, ERR_TEXT, INPUT_TEXT, WaitTime
 
 
 class TestAdv(BaseCase):
@@ -36,8 +36,10 @@ class TestAdv(BaseCase):
 
     def test_wrong_site(self, get_page: AdvPage):
         get_page.send_url(URLS.banned_url)
+        get_page.click_continue_button()
 
-        assert get_page.is_on_site_text(URLS.redirect_url_err)
+        assert get_page.is_on_site_text(
+            URLS.redirect_url_err, WaitTime.LONG_WAIT)
 
     @pytest.fixture
     def upload_logo(self, get_page: AdvPage, mock_files):

@@ -234,7 +234,7 @@ class POSITIONS_AUDIENCE:
 
 
 class URLS:
-    banned_url = "https://labudiduba.com/"
+    banned_url = "https://labudiafasfduba.com/"
     redirect_url_err = "Ссылка содержит запрещённый редирект на домен"
 
     correct_url_text = "https://vk.com/"

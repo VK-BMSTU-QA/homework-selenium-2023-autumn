@@ -1,8 +1,9 @@
 import pytest
+from ui.pages.lead_page import LeadPage
 
 from tests.base_case import BaseCase
 from ui.pages.audience_page import AudiencePage
-from ui.pages.consts import URLS, ERR_TEXT, INPUT_TEXT, LABELS
+from ui.pages.consts import URLS, ERR_TEXT, INPUT_TEXT, LABELS, WaitTime
 
 
 class TestAudience(BaseCase):
@@ -30,6 +31,21 @@ class TestAudience(BaseCase):
         audience_page.write_to_to_field(INPUT_TEXT.small_value_for_days)
 
         assert audience_page.wait_to_field_equal(INPUT_TEXT.big_value_for_days)
+
+    @pytest.fixture
+    def create_lead(self, audience_page: AudiencePage):
+        driver = audience_page.driver
+        page = LeadPage.__new__(LeadPage)
+        page.driver = driver
+        page.open()
+        page.create_lead()
+
+        audience_page.open()
+
+        yield audience_page
+
+        page.open()
+        page.delete_leads()
 
     def test_change_number_to_smaller(self, audience_page: AudiencePage):
         audience_page.click_create_button().click_add_source()
@@ -78,7 +94,7 @@ class TestAudience(BaseCase):
         delete_auditores.click_save_button()
         delete_auditores.select_vk_group_filter()
 
-        assert delete_auditores.is_on_site_text(name)
+        assert delete_auditores.is_on_site_text(name, WaitTime.SUPER_LONG_WAIT)
 
     def test_delete_sources(self, audience_page: AudiencePage):
         audience_page.click_create_button().click_add_source()

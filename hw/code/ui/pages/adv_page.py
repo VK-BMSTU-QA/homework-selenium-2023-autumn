@@ -49,7 +49,7 @@ class AdvPage(BasePage):
         return count_chars_value
 
     def send_url(self, url: str):
-        el = self.find(self.locators.URL_INPUT)
+        el = self.find(self.locators.URL_INPUT, WaitTime.MEDIUM_WAIT)
         self.send_keys_with_enter(el, url)
 
         return self
@@ -89,7 +89,7 @@ class AdvPage(BasePage):
         return self.find(self.locators.COMPANY_NAME).text
 
     def click_send_button(self, timeout=WaitTime.LONG_WAIT):
-        self.click(self.locators.SEND_BUTTON)
+        self.click(self.locators.SEND_BUTTON, timeout)
         return self
 
     def create_company(self, url, timeout=WaitTime.LONG_WAIT) -> str:

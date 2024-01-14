@@ -28,7 +28,7 @@ class GroupAdvPage(BasePage):
         el = self.find(self.locators.SEARCH_INPUT)
         self.send_keys_with_enter(el, PLACE)
 
-        self.click(self.locators.REGION_VARIANTS)
+        self.click(self.locators.REGION_VARIANTS, WaitTime.MEDIUM_WAIT)
         return self
 
     def remove_selected_region(self):
