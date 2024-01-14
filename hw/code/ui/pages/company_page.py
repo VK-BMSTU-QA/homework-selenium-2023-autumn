@@ -28,7 +28,7 @@ class CompanyPage(BasePage):
         return (
             parsed_link.scheme == parsed_base_url.scheme
             and parsed_link.netloc == parsed_base_url.netloc
-            and parsed_link.path.startswith(parsed_base_url.path)
+            and self.url_cmp_pref(parsed_link.path, parsed_base_url.path)
         )
 
     def create_company(self, timeout=WaitTime.MEDIUM_WAIT):

@@ -71,9 +71,12 @@ class TestGroup(BaseCase):
     def test_key_devices(self, group_adv_page: GroupAdvPage):
         group_adv_page.get_page().wait_load_page()
 
-        group_adv_page.click_device_region().remove_device(0).remove_device(1)
+        first_device = 0
+        second_device = 1
+        
+        group_adv_page.click_device_region().remove_device(first_device).remove_device(second_device)
 
-        assert group_adv_page.is_disabled_and_checked_device(1)
+        assert group_adv_page.is_disabled_and_checked_device(second_device)
 
     def test_url(self, group_adv_page: GroupAdvPage):
         group_adv_page.get_page().wait_load_page()
