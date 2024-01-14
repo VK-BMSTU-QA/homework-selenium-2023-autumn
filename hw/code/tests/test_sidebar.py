@@ -1,7 +1,8 @@
 import pytest
-from tests.base_case import BaseCase, credentials
-from tests.base_case import cookies_and_local_storage
+from tests.base_case import BaseCase
 from ui.pages.lk_page import LKPage
+
+from ui.pages.consts import SidebarTabsTitles
 
 TIMEOUT = 30
 
@@ -12,16 +13,16 @@ class TestSidebar(BaseCase):
     @pytest.mark.parametrize(
         "tab",
         [
-            "Кампании",
-            "Аудитории",
-            "Бюджет",
-            "Обучение",
-            "Центр коммерции",
-            "Сайты",
-            "Мобильные приложения",
-            "Лид-формы",
-            "Настройки",
-            "Помощь",
+            SidebarTabsTitles.COMPANIES,
+            SidebarTabsTitles.AUDITORIES,
+            SidebarTabsTitles.BUDGET,
+            SidebarTabsTitles.LEARNING,
+            SidebarTabsTitles.CENTER_OF_COMMERCE,
+            SidebarTabsTitles.SITES,
+            SidebarTabsTitles.MOBILE_APPS,
+            SidebarTabsTitles.LEAD_FORMS,
+            SidebarTabsTitles.SETTINGS,
+            SidebarTabsTitles.HELP,
         ],
     )
     def test_tab_redirecting(

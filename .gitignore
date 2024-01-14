@@ -5,6 +5,6 @@
 **/venv
 **/.vscode
 **/tmp
-**/mock_files
 **/*.env
-
+**/*.png
+**/.DS_Store
