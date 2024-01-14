@@ -107,7 +107,8 @@ class NewCompanyPage(BasePage):
         return self
 
     def select_prev_month(self):
-        self.search_action_click(self.locators.DATE_LAST_MONTH_BUTTON)
+        self.search_action_click(
+            self.locators.DATE_LAST_MONTH_BUTTON, timeout=WaitTime.SUPER_LONG_WAIT)
         return self
 
     def click_first_day(self):
