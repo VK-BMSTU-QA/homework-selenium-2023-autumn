@@ -17,3 +17,12 @@ class LeadPageLocators(BasePageLocators):
     ADD_SITE = (By.XPATH, '//*[contains(text(), "Добавить сайт")]')
 
     MODAL = (By.XPATH, '//*[contains(@class, "ModalRoot")]')
+
+    ALL_LEAD_CHECKBOX = (
+        By.XPATH, "//div[contains(@class, 'BaseTable__header')]//input[@type='checkbox']")
+    SELECTORS = (By.XPATH, '//*[@data-testid="select-options"]')
+    DELETE_LABELS = (
+        By.XPATH, '//*[contains(@class, "vkuiPopperPortal")]//*[contains(text(), "Удалить")]')
+
+    MODAL_BUTTONS = (
+        By.XPATH, '//*[contains(@class, "ModalConfirm_wrapper")]//button')

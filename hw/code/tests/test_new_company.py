@@ -61,6 +61,9 @@ class TestNewCompany(BaseCase):
 
         yield new_company_page
 
+        page.open()
+        page.delete_leads()
+
     def test_select_lead_again(self, create_lead: NewCompanyPage):
         create_lead.lead_region_click().select_split()
         create_lead.select_lead_click(0).select_lead_option()
