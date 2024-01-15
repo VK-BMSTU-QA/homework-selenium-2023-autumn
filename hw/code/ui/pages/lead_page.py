@@ -31,6 +31,9 @@ class LeadPage(BasePage):
         return self
 
     def select_logo(self):
+        el = self.find(self.locators.UPLOAD_LOGO)
+        self.scroll_into_view(el)
+
         self.search_action_click(self.locators.UPLOAD_LOGO)
         self.search_action_click(
             self.locators.MEDIA_OPTIONS, 0, WaitTime.SUPER_LONG_WAIT)

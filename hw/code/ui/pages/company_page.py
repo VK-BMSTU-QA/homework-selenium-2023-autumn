@@ -76,9 +76,8 @@ class CompanyPage(BasePage):
         return self
 
     def is_action_active(self):
-        return CLASSES.disabled_selector not in str(
-            self.get_selector_attribute()
-        )
+        selector = self.find(locator=self.locators.ACTION_SELECTOR)
+        return "disabled" in str(selector.get_attribute("outerHTML"))
 
     def select_action_list(self, timeout=WaitTime.SUPER_LONG_WAIT):
         self.wait(timeout).until(
@@ -202,7 +201,7 @@ class CompanyPage(BasePage):
                 break
 
         self.wait(WaitTime.LONG_WAIT).until_not(
-            EC.presence_of_all_elements_located(
+            EC.presence_of_element_located(
                 self.locators.COMPANY_NUMBER_PLACE
             )
         )
