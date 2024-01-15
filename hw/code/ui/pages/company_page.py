@@ -80,21 +80,21 @@ class CompanyPage(BasePage):
             self.get_selector_attribute()
         )
 
-    def select_action_list(self):
-        self.wait(timeout=WaitTime.SUPER_LONG_WAIT).until(
+    def select_action_list(self, timeout=WaitTime.SUPER_LONG_WAIT):
+        self.wait(timeout).until(
             lambda _: self.is_action_active()
         )
         self.search_action_click_not_clickable(
-            self.locators.ACTION_SELECTOR, timeout=WaitTime.SUPER_LONG_WAIT)
+            self.locators.ACTION_SELECTOR, timeout=timeout)
         return self
 
     def select_action_list_without_wait(self):
         self.search_action_click_not_clickable(self.locators.ACTION_SELECTOR)
         return self
 
-    def select_delete_action(self):
+    def select_delete_action(self, timeout=WaitTime.SUPER_LONG_WAIT):
         self.search_action_click_not_clickable(
-            self.locators.DELETE_ACTION, timeout=WaitTime.SUPER_LONG_WAIT)
+            self.locators.DELETE_ACTION, timeout=timeout)
         return self
 
     def group_view(self, timeout=None):
@@ -190,10 +190,12 @@ class CompanyPage(BasePage):
         while True:
             try:
                 self.search_action_click_not_clickable(
-                    self.locators.ALL_CHECKBOX, 0, WaitTime.SUPER_LONG_WAIT
+                    self.locators.ALL_CHECKBOX, 0, WaitTime.MEDIUM_WAIT
                 )
 
                 self.select_action_list()
+                self.wait(WaitTime.MEDIUM_WAIT).until(
+                    EC.presence_of_all_elements_located(self.locators.DELETE_ACTION))
                 self.select_delete_action()
 
             except TimeoutException:
