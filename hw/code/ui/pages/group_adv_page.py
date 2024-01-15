@@ -98,19 +98,38 @@ class GroupAdvPage(BasePage):
         )
         return self
 
+    def _is_region_load(self):
+        try:
+            elements = self.multiple_find(self.locators.INTEREST_REGIONS)
+            if len(elements) == 4:
+                return True
+            return False
+        except TimeoutException:
+            return False
+
     def click_interest_region(self, timeout=WaitTime.MEDIUM_WAIT):
         self.search_action_click_not_clickable(
             self.locators.INTEREST_REGION,
             POSITIONS_GROUP.interest_region,
             timeout,
         )
+
+        self.wait(WaitTime.LONG_WAIT).until(lambda _: self._is_region_load())
         return self
 
-    def click_key_phrases(self, timeout=WaitTime.MEDIUM_WAIT):
-        self.search_action_click_not_clickable(
-            locator=self.locators.KEY_PHRASES, timeout=timeout
+    def _click_until_key_region_visible(self, timeout):
+        self.search_action_click(
+            self.locators.KEY_PHRASES, POSITIONS_GROUP.key_phrase_region, timeout
         )
+        try:
+            self.find(self.locators.KEY_PHRASE_INPUTS, WaitTime.SHORT_WAIT)
+            return True
+        except TimeoutException:
+            return False
 
+    def click_key_phrases(self, timeout=WaitTime.LONG_WAIT):
+        self.wait(WaitTime.LONG_WAIT).until(lambda _: self._click_until_key_region_visible(timeout))
+        
         return self
 
     def send_key_phrases(self, text: str, timeout=WaitTime.LONG_WAIT):
@@ -238,13 +257,6 @@ class GroupAdvPage(BasePage):
             pass
 
         return False
-
-    def wait_key_phrase_render(self):
-        self.wait(WaitTime.LONG_WAIT).until(
-            lambda _: self._is_region_visible()
-        )
-
-        return self
 
     def click_until_next_page(self):
         btn_to_click = self.multiple_find(self.locators.CONTINUE_BUTTON)[

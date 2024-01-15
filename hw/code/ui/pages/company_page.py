@@ -77,7 +77,7 @@ class CompanyPage(BasePage):
 
     def is_action_active(self):
         selector = self.find(locator=self.locators.ACTION_SELECTOR)
-        return "disabled" in str(selector.get_attribute("outerHTML"))
+        return "disabled" not in str(selector.get_attribute("outerHTML"))
 
     def select_action_list(self, timeout=WaitTime.SUPER_LONG_WAIT):
         self.wait(timeout).until(
@@ -193,8 +193,6 @@ class CompanyPage(BasePage):
                 )
 
                 self.select_action_list()
-                self.wait(WaitTime.MEDIUM_WAIT).until(
-                    EC.presence_of_all_elements_located(self.locators.DELETE_ACTION))
                 self.select_delete_action()
 
             except TimeoutException:

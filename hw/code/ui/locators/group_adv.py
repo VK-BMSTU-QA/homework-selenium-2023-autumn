@@ -42,7 +42,8 @@ class GroupAdvLocators(BasePageLocators):
 
     INTEREST_REGION = (By.XPATH, '//*[@data-testid="section-interests"]')
 
-    KEY_PHRASES = (By.XPATH, '//*[contains(text(), "Ключевые фразы")]')
+    KEY_PHRASES = (
+        By.XPATH, '//*[contains(@class, "InterestsSubSection")]//div[@role="button"]')
     KEY_PHRASES_REGION = (
         By.XPATH,
         '//*[contains(@class, "InterestsSubSection_content")]',
@@ -62,3 +63,5 @@ class GroupAdvLocators(BasePageLocators):
         '//*[@data-testid="section-urlUtm"]//fieldset[contains(@class, "DisabledBlock_fieldset")]//input',
     )
     URL_INPUT = (By.XPATH, '//*[@data-testid="section-urlUtm"]//textarea')
+
+    INTEREST_REGIONS = (By.XPATH, '//*[contains(@class, "InterestsSubSection_wrap")]')

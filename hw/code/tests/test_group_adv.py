@@ -51,7 +51,6 @@ class TestGroup(BaseCase):
         group_adv_page.get_page().wait_load_page()
 
         group_adv_page.click_interest_region().click_key_phrases()
-        group_adv_page.wait_key_phrase_render()
         group_adv_page.send_key_phrases(
             INPUT_TEXT.long_key_phrase_text
         ).click_continue_button()
@@ -62,7 +61,6 @@ class TestGroup(BaseCase):
         group_adv_page.get_page().wait_load_page()
 
         group_adv_page.click_interest_region().click_key_phrases()
-        group_adv_page.wait_key_phrase_render()
         group_adv_page.send_key_phrases(INPUT_TEXT.key_phrase_text)
         group_adv_page.send_keys_phrases_minus(INPUT_TEXT.key_phrase_text)
 

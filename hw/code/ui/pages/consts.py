@@ -203,6 +203,7 @@ class POSITIONS_GROUP:
     save_btn = 0
 
     interest_region = 0
+    key_phrase_region = 1
     key_phrase_minus_input = 1
 
     utm = 1
