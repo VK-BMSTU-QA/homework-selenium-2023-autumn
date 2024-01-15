@@ -17,9 +17,6 @@ class TestSite(BaseCase):
     def create_pixel_go_settings(self, site_page: SitePage):
         site_page.delete_all_pixels()
         id = str(site_page.create_pixel())
-
-        assert id != 0
-
         site_page.wait_for_pixel(id)
         site_page.click_settings_until_change()
 
