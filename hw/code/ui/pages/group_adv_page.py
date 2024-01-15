@@ -24,7 +24,7 @@ class GroupAdvPage(BasePage):
     locators = GroupAdvLocators
 
     def site_region_click(self):
-        self.click(self.locators.SEARCH_INPUT, WaitTime.MEDIUM_WAIT)
+        self.click(self.locators.SEARCH_INPUT, WaitTime.LONG_WAIT)
         el = self.find(self.locators.SEARCH_INPUT)
         self.send_keys_with_enter(el, PLACE)
 
@@ -240,7 +240,7 @@ class GroupAdvPage(BasePage):
         return False
 
     def wait_key_phrase_render(self):
-        self.wait(WaitTime.MEDIUM_WAIT).until(
+        self.wait(WaitTime.LONG_WAIT).until(
             lambda _: self._is_region_visible()
         )
 

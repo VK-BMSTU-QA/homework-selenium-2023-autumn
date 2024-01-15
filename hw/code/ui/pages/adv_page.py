@@ -73,7 +73,7 @@ class AdvPage(BasePage):
 
     def write_to_inputs(self, text: str):
         inputs = self.multiple_find(
-            self.locators.TEXT_INPUTS, WaitTime.SHORT_WAIT)
+            self.locators.TEXT_INPUTS, WaitTime.MEDIUM_WAIT)
 
         for i in inputs:
             self.send_keys_with_enter(i, text)
@@ -129,6 +129,7 @@ class AdvPage(BasePage):
         self.wait(WaitTime.SUPER_LONG_WAIT).until(
             lambda _: self.wait_for_only_one_upload_field()
         )
+        self.scroll_into_view(self.find(self.locators.CHOOSE_MEDIA))
         self.click(self.locators.CHOOSE_MEDIA)
         return self
 

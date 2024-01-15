@@ -81,10 +81,11 @@ class CompanyPage(BasePage):
         )
 
     def select_action_list(self):
-        self.wait(timeout=WaitTime.LONG_WAIT).until(
+        self.wait(timeout=WaitTime.SUPER_LONG_WAIT).until(
             lambda _: self.is_action_active()
         )
-        self.search_action_click_not_clickable(self.locators.ACTION_SELECTOR)
+        self.search_action_click_not_clickable(
+            self.locators.ACTION_SELECTOR, timeout=WaitTime.SUPER_LONG_WAIT)
         return self
 
     def select_action_list_without_wait(self):
@@ -92,7 +93,8 @@ class CompanyPage(BasePage):
         return self
 
     def select_delete_action(self):
-        self.search_action_click_not_clickable(self.locators.DELETE_ACTION)
+        self.search_action_click_not_clickable(
+            self.locators.DELETE_ACTION, timeout=WaitTime.SUPER_LONG_WAIT)
         return self
 
     def group_view(self, timeout=None):
@@ -188,7 +190,7 @@ class CompanyPage(BasePage):
         while True:
             try:
                 self.search_action_click_not_clickable(
-                    self.locators.ALL_CHECKBOX, 0
+                    self.locators.ALL_CHECKBOX, 0, WaitTime.SUPER_LONG_WAIT
                 )
 
                 self.select_action_list()

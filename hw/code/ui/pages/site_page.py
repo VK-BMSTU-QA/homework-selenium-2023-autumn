@@ -88,7 +88,8 @@ class SitePage(BasePage):
         return self
 
     def click_access(self):
-        self.search_action_click(self.locators.ACCESSABLE_REG)
+        self.search_action_click(
+            self.locators.ACCESSABLE_REG, timeout=WaitTime.SUPER_LONG_WAIT)
         return self
 
     def click_add_event(self):
