@@ -213,8 +213,6 @@ class POSITIONS_SITE:
     category_event = 0
     event_condition = 1
 
-    text_url_pos = 1
-
     delete_btn_pop_up = 1
     delete_modal_btn = 1
 
@@ -243,7 +241,7 @@ class URLS:
     vk_group_incorrect_url = "https://vk.com/sweetmarin"
 
     bad_url = "adbbbsabasb"
-    test_site = "ababababba.com"
+    test_site = "ababababsba.com"
     domen_vk_link = "vk.com"
 
     ad_plan_url = "https://ads.vk.com/hq/new_create/ad_plan"

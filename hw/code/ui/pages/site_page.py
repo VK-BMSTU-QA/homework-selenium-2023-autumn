@@ -34,7 +34,7 @@ class SitePage(BasePage):
     def create_pixel(self, site=URLS.test_site):
         self.click_add_button()
 
-        input = self.find(self.locators.INPUT_DOMEN)
+        input = self.find(self.locators.INPUT_DOMEN, WaitTime.SHORT_WAIT)
         self.send_keys_with_enter(input, site)
 
         self.search_action_click(self.locators.ADD_BUTTON_MODAL)
@@ -51,7 +51,7 @@ class SitePage(BasePage):
             return 0
 
     def wait_for_pixel(self, id: str):
-        self.is_on_site_text(id, WaitTime.MEDIUM_WAIT)
+        self.is_on_site_text(id, WaitTime.LONG_WAIT)
         return self
 
     def select_collection_checkbox(self):
@@ -127,10 +127,11 @@ class SitePage(BasePage):
         return self
 
     def input_text_url(self, text: str):
-        input = self.multiple_find(self.locators.URL_INPUT)[
-            POSITIONS_SITE.text_url_pos
-        ]
-        self.send_keys_with_enter(input, text)
+        input = self.multiple_find(
+            self.locators.URL_INPUT, WaitTime.SUPER_SHORT_WAIT)
+        self.send_keys_with_enter(input[
+            len(input) - 1
+        ], text)
 
         return self
 

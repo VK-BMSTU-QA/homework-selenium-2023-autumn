@@ -53,7 +53,7 @@ class GroupAdvPage(BasePage):
         return self
 
     def select_bottom_age(self, age: int):
-        el = self.multiple_find(self.locators.AGE_FIELD)[
+        el = self.multiple_find(self.locators.AGE_FIELD, WaitTime.SHORT_WAIT)[
             POSITIONS_GROUP.bottom_age
         ]
 
@@ -63,7 +63,7 @@ class GroupAdvPage(BasePage):
         return self
 
     def select_upper_age(self, age: int):
-        el = self.multiple_find(locator=self.locators.AGE_FIELD)[
+        el = self.multiple_find(self.locators.AGE_FIELD, WaitTime.SHORT_WAIT)[
             POSITIONS_GROUP.upper_age
         ]
         self.action_click_not_clickable(el)

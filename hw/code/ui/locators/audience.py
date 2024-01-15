@@ -17,7 +17,7 @@ class AudienceLocators(BasePageLocators):
 
     LEAD_INPUT = (
         By.XPATH,
-        '//label[contains(@class, "LeadFormEvents")]//span[contains(text(), "Выбрать")]',
+        '//*[contains(@class, "Modal")]//input[contains(@class, "vkuiCustomSelectInput")]',
     )
     LEAD_OPTIONS = (By.CLASS_NAME, "vkuiCustomSelectOption__description")
 
@@ -28,7 +28,7 @@ class AudienceLocators(BasePageLocators):
 
     LEAD_INPUT_DAYS = (
         By.XPATH,
-        '//*[contains(@class, "LeadFormSources_itemFormWrapper")]//input[@type="text"]',
+        '//*[contains(@class, "LeadFormSources_period")]//input[@type="text"]',
     )
 
     SAVE_BUTTON = (

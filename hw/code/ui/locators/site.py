@@ -48,9 +48,10 @@ class SiteLocators(BasePageLocators):
 
     EVENT_SELECTOR = (
         By.XPATH,
-        '//label[contains(@class, "vkuiCustomSelect")]',
+        '//*[contains(@class, "RightSidebar")]//div[contains(@class, "vkuiFormItem")]/div[contains(@class, "vkuiCustomSelect")]',
     )
-    CATEGORY_BUY_OPTION = (By.XPATH, '//*[contains(text(),"Покупка")]')
+    CATEGORY_BUY_OPTION = (
+        By.XPATH, '//div[contains(@class, "vkuiPopper")]//*[contains(text(),"Покупка")]')
     CONDITION_OPTION = (By.XPATH, '//*[contains(text(),"Посещена страница")]')
     URL_INPUT = (By.XPATH, '//input[@type="text"]')
 

@@ -21,17 +21,6 @@ class TestAudience(BaseCase):
 
         assert audience_page.is_on_site_text(ERR_TEXT.len_err_auditory)
 
-    def test_change_number_to_bigger(self, audience_page: AudiencePage):
-        audience_page.click_create_button().click_add_source()
-        audience_page.select_lead_region()
-        audience_page.click_lead_input().select_lead_option()
-        audience_page.click_checkbox_lead()
-
-        audience_page.write_to_from_field(INPUT_TEXT.big_value_for_days)
-        audience_page.write_to_to_field(INPUT_TEXT.small_value_for_days)
-
-        assert audience_page.wait_to_field_equal(INPUT_TEXT.big_value_for_days)
-
     @pytest.fixture
     def create_lead(self, audience_page: AudiencePage):
         driver = audience_page.driver
@@ -47,16 +36,27 @@ class TestAudience(BaseCase):
         page.open()
         page.delete_leads()
 
-    def test_change_number_to_smaller(self, audience_page: AudiencePage):
-        audience_page.click_create_button().click_add_source()
-        audience_page.select_lead_region()
-        audience_page.click_lead_input().select_lead_option()
-        audience_page.click_checkbox_lead()
+    def test_change_number_to_bigger(self, create_lead: AudiencePage):
+        create_lead.click_create_button().click_add_source()
+        create_lead.select_lead_region()
+        create_lead.click_lead_input().select_lead_option()
+        create_lead.click_checkbox_lead()
 
-        audience_page.write_to_to_field(INPUT_TEXT.small_value_for_days)
-        audience_page.write_to_from_field(INPUT_TEXT.big_value_for_days)
+        create_lead.write_to_from_field(INPUT_TEXT.big_value_for_days)
+        create_lead.write_to_to_field(INPUT_TEXT.small_value_for_days)
 
-        assert audience_page.wait_from_filed_equal(
+        assert create_lead.wait_to_field_equal(INPUT_TEXT.big_value_for_days)
+
+    def test_change_number_to_smaller(self, create_lead: AudiencePage):
+        create_lead.click_create_button().click_add_source()
+        create_lead.select_lead_region()
+        create_lead.click_lead_input().select_lead_option()
+        create_lead.click_checkbox_lead()
+
+        create_lead.write_to_to_field(INPUT_TEXT.small_value_for_days)
+        create_lead.write_to_from_field(INPUT_TEXT.big_value_for_days)
+
+        assert create_lead.wait_from_filed_equal(
             INPUT_TEXT.small_value_for_days
         )
 

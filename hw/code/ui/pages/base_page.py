@@ -343,6 +343,8 @@ class BasePage(object):
         return found
 
     def send_keys_with_enter(self, element: WebElement, keys_to_send: str):
+        self.scroll_into_view(element)
+
         element.click()
         element.clear()
         element.send_keys(keys_to_send, Keys.RETURN)

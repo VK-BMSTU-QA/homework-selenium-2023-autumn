@@ -27,7 +27,7 @@ class GroupAdvLocators(BasePageLocators):
 
     AGE_FIELD = (
         By.XPATH,
-        '//div[@id="react-collapsed-panel-2"]//*[contains(@class, "AgeTargeting_select__QcsRp")]//span[contains(@tabindex,"0")]',
+        '//div[@id="react-collapsed-panel-2"]//*[contains(@class, "AgeTargeting_select__QcsRp")]//input',
     )
 
     FOOTER_BUTTONS = (

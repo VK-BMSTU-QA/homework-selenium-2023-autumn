@@ -38,7 +38,7 @@ class LeadPage(BasePage):
     def write_to_inputs(self, text: str, from_pos=0, to_pos=-1):
         inputs = self.multiple_find(self.locators.INPUTS)
         if to_pos == -1:
-            to_pos = len(inputs) - 1
+            to_pos = len(inputs)
 
         for i in range(from_pos, to_pos):
             el = inputs[i]

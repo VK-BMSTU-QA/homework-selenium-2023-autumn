@@ -48,7 +48,7 @@ class AdvLocators(BasePageLocators):
         '//*[@id="media-library-image"]//div[contains(@class, "ImageItems_active")]',
     )
 
-    TEXT_INPUTS = (By.XPATH, '//input[@type="text"]')
+    TEXT_INPUTS = (By.XPATH, '//span//input[@type="text"]')
     AREA_INPUTS = (By.XPATH, "//textarea")
 
     COMPANY_NAME = (

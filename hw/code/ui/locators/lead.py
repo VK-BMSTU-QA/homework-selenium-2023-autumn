@@ -5,7 +5,8 @@ from ui.locators.basic import BasePageLocators
 class LeadPageLocators(BasePageLocators):
     CREATE_BUTTON = (By.XPATH, '//*[contains(text(), "Создать лид-форму")]')
     UPLOAD_LOGO = (By.XPATH, '//*[@data-testid="set-global-image"]')
-    INPUTS = (By.XPATH, '//input[@type="text"]')
+    INPUTS = (
+        By.XPATH, '//*[contains(@class, "Modal")]//input[@type="text"]')
     CONTINUE_BUTTON = (By.XPATH, '//*[contains(text(), "Продолжить")]')
     SAVE_BUTTON = (By.XPATH, '//*[contains(text(), "Сохранить")]')
     MEDIA_OPTIONS = (
@@ -25,7 +26,7 @@ class LeadPageLocators(BasePageLocators):
     SELECTORS = (By.XPATH, '//*[@data-testid="select-options"]')
     DELETE_LABELS = (
         By.XPATH,
-        '//*[contains(@class, "vkuiPopperPortal")]//*[contains(text(), "Удалить")]',
+        '//*[contains(@class, "vkuiPopper")]//*[contains(text(), "Удалить")]',
     )
 
     MODAL_BUTTONS = (

@@ -8,7 +8,11 @@ from ui.pages.consts import (
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from ui.locators.audience import AudienceLocators
-from selenium.common.exceptions import TimeoutException, JavascriptException
+from selenium.common.exceptions import (
+    TimeoutException,
+    JavascriptException,
+    MoveTargetOutOfBoundsException,
+)
 
 from ui.pages.consts import (
     BASE_POSITIONS,
@@ -130,7 +134,7 @@ class AudiencePage(BasePage):
                 pass
 
             return False
-        except TimeoutException:
+        except (TimeoutException, MoveTargetOutOfBoundsException):
             pass
 
         return True
