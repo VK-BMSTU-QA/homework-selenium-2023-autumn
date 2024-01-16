@@ -403,5 +403,6 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
             center_of_commerce_page.find_file_uploading_error(10)
 
         assert (
-            center_of_commerce_page.find_uploaded_file(file, TIMEOUT) is not None
+            center_of_commerce_page.find_uploaded_file(file, TIMEOUT)
+            is not None
         )

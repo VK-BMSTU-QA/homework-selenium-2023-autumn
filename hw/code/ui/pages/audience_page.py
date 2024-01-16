@@ -329,7 +329,7 @@ class AudiencePage(BasePage):
 
                 delete_button = self.multiple_find(
                     self.locators.MODAL_BUTTONS
-                    )[  # type: ignore
+                )[  # type: ignore
                     POSITIONS_SITE.delete_modal_btn
                 ]
                 self.action_click(delete_button)

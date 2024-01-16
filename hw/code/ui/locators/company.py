@@ -12,8 +12,7 @@ class CompanyPageLocators(BasePageLocators):
     ACTION_SELECTOR = (By.XPATH, '//*[@data-testid="select-options"]')
 
     DOWNLOAD_DROPDOWN = (By.CLASS_NAME, "Dropdown_content__53ZvI")
-    SETTINGS_DROPDOWN = (
-        By.CLASS_NAME, "PresetsMenu_wrapper__CcwQ-")
+    SETTINGS_DROPDOWN = (By.CLASS_NAME, "PresetsMenu_wrapper__CcwQ-")
 
     FILTER_FIELD = (By.XPATH, '//*[@data-testid="filter-search-input"]')
     FILTER_BUTTON = (By.XPATH, '//*[@data-testid="filter-button"]')

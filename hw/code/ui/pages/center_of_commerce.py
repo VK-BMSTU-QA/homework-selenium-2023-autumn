@@ -112,15 +112,15 @@ class CenterOfCommercePage(BasePage):
         return self.find(self.locators.COMPANY_SETTING, timeout)
 
     def find_product_widget_by_title(self, title, timeout=None) -> WebElement:
-        return self.find_element_with_text('*', title, timeout)
+        return self.find_element_with_text("*", title, timeout)
 
     def find_table_settings_title(self, timeout=None) -> WebElement:
         return self.find_with_text(
-            '*', CENTER_OF_COMMERCE_TABLE_SETTINGS, timeout
+            "*", CENTER_OF_COMMERCE_TABLE_SETTINGS, timeout
         )
 
     def find_product_by_title(self, text, timeout=None) -> WebElement:
-        return self.find_with_text('*', text, timeout)
+        return self.find_with_text("*", text, timeout)
 
     def find_product_by_id(self, product_id, timeout=None) -> WebElement:
         return self.find(self.locators.PRODUCT_ID_SVG(product_id), timeout)
@@ -165,9 +165,7 @@ class CenterOfCommercePage(BasePage):
                 raise NoSuchPeriodException()
 
     def find_by_period(self, period, timeout=None):
-        return self.find_with_text(
-            "*", self._period_selector(period), timeout
-        )
+        return self.find_with_text("*", self._period_selector(period), timeout)
 
     # fill methods
 
@@ -238,7 +236,7 @@ class CenterOfCommercePage(BasePage):
         self.click(self.locators.PRODUCTS_TABLE_SETTINGS_BUTTON, timeout)
 
     def click_on_product_by_title(self, title, timeout=None) -> WebElement:
-        return self.click_element_with_text('*', title, timeout)
+        return self.click_element_with_text("*", title, timeout)
 
     def click_on_sort_products(self, timeout=None) -> WebElement:
         self.hover_on_element(self.locators.PRODUCT_TABLE_HEADER, timeout)
@@ -301,7 +299,7 @@ class CenterOfCommercePage(BasePage):
         title = self.to_page_catalog_title(title)
         self.close_banner()
         self.search_catalog(title, timeout)
-        self.click_on_element_with_text('*', title, timeout)
+        self.click_on_element_with_text("*", title, timeout)
 
     def go_to_catalog_product(self, product_id, product_title, timeout=None):
         self.search_catalog(product_id, timeout)
@@ -318,7 +316,9 @@ class CenterOfCommercePage(BasePage):
         )
 
     def set_refresh_period(self, period: str, timeout=None):
-        el = self.find_element_with_text('*', self._period_selector(self.PERIODS.EVERYDAY), timeout)
+        el = self.find_element_with_text(
+            "*", self._period_selector(self.PERIODS.EVERYDAY), timeout
+        )
         self.action_click(el)
         match period:
             case self.PERIODS.EVERYDAY:
@@ -331,7 +331,9 @@ class CenterOfCommercePage(BasePage):
                 self.click(self.locators.CATALOG_PERIOD_EVERY8HOURS, timeout)
 
     def set_category(self, category: str, timeout=None):
-        self.action_click(self.find(self.locators.CATALOG_SELECT_CATEGORY, timeout))
+        self.action_click(
+            self.find(self.locators.CATALOG_SELECT_CATEGORY, timeout)
+        )
         if category != "Товары":
             self.click(self.locators.CATALOG_CATEGORY(category), timeout)
 
@@ -360,7 +362,9 @@ class CenterOfCommercePage(BasePage):
             title,
             timeout,
         )
-        return self.click(self.locators.CATALOG_SWITCH_IN_CATALOG(title), timeout)
+        return self.click(
+            self.locators.CATALOG_SWITCH_IN_CATALOG(title), timeout
+        )
 
     def switch_catalog_tab(self, tab, timeout=None) -> WebElement:
         elem = self.find(

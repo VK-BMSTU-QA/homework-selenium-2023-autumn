@@ -89,7 +89,8 @@ class SitePage(BasePage):
 
     def click_access(self):
         self.search_action_click(
-            self.locators.ACCESSABLE_REG, timeout=WaitTime.SUPER_LONG_WAIT)
+            self.locators.ACCESSABLE_REG, timeout=WaitTime.SUPER_LONG_WAIT
+        )
         return self
 
     def click_add_event(self):
@@ -129,10 +130,9 @@ class SitePage(BasePage):
 
     def input_text_url(self, text: str):
         input = self.multiple_find(
-            self.locators.URL_INPUT, WaitTime.SUPER_SHORT_WAIT)
-        self.send_keys_with_enter(input[
-            len(input) - 1
-        ], text)
+            self.locators.URL_INPUT, WaitTime.SUPER_SHORT_WAIT
+        )
+        self.send_keys_with_enter(input[len(input) - 1], text)
 
         return self
 

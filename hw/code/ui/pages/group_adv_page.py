@@ -115,25 +115,29 @@ class GroupAdvPage(BasePage):
         )
         try:
             self.wait(WaitTime.LONG_WAIT).until(
-                lambda _: self._is_region_load())
+                lambda _: self._is_region_load()
+            )
             return True
         except TimeoutException:
             return False
 
     def click_interest_region(self, timeout=WaitTime.LONG_WAIT):
         self.wait(timeout).until(
-            lambda _: self._click_until_regions_visible(timeout))
+            lambda _: self._click_until_regions_visible(timeout)
+        )
 
         return self
 
     def _click_until_key_region_visible(self, timeout):
         self.search_action_click(
-            locator=self.locators.KEY_PHRASES,
-            timeout=timeout
+            locator=self.locators.KEY_PHRASES, timeout=timeout
         )
         try:
             self.wait(WaitTime.SHORT_WAIT).until(
-                EC.visibility_of_all_elements_located(self.locators.KEY_PHRASE_INPUTS))
+                EC.visibility_of_all_elements_located(
+                    self.locators.KEY_PHRASE_INPUTS
+                )
+            )
             return True
         except TimeoutException:
             return False
@@ -141,7 +145,7 @@ class GroupAdvPage(BasePage):
     def click_key_phrases(self, timeout=WaitTime.SUPER_LONG_WAIT):
         self.wait(timeout).until(
             lambda _: self._click_until_key_region_visible(timeout)
-            )
+        )
 
         return self
 

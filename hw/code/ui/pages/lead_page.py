@@ -33,7 +33,8 @@ class LeadPage(BasePage):
     def select_logo(self):
         self.click(self.locators.UPLOAD_LOGO)
         self.search_action_click(
-            self.locators.MEDIA_OPTIONS, 0, WaitTime.SUPER_LONG_WAIT)
+            self.locators.MEDIA_OPTIONS, 0, WaitTime.SUPER_LONG_WAIT
+        )
         return self
 
     def write_to_inputs(self, text: str, from_pos=0, to_pos=-1):

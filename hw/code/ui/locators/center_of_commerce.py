@@ -44,7 +44,10 @@ class CenterOfCommerceLocators:
         "//input[contains(@data-testid, 'catalogUrl-input')]",
     )
 
-    CATALOG_SELECT_CATEGORY = (By.XPATH, "//*[contains(@class, 'SelectInput')]//*[text()='Товары']")
+    CATALOG_SELECT_CATEGORY = (
+        By.XPATH,
+        "//*[contains(@class, 'SelectInput')]//*[text()='Товары']",
+    )
     CATALOG_PERIOD_EVERYDAY = (By.XPATH, '//div[text()="Ежедневно"]')
     CATALOG_PERIOD_EVERYHOUR = (By.XPATH, '//div[text()="1 час"]')
     CATALOG_PERIOD_EVERY4HOURS = (By.XPATH, '//div[text()="4 часа"]')
@@ -119,7 +122,10 @@ class CenterOfCommerceLocators:
         f'//div[contains(., "{text}") and contains(@data-testid, "current-catalog")]',
     )
 
-    CATALOG_SWITCH_IN_CATALOG = lambda title: (By.XPATH, f"//*[contains(@title, '{title}')]")
+    CATALOG_SWITCH_IN_CATALOG = lambda title: (
+        By.XPATH,
+        f"//*[contains(@title, '{title}')]",
+    )
 
     SEARCH_CATALOG = (By.XPATH, "//*[@placeholder='Поиск']")
 

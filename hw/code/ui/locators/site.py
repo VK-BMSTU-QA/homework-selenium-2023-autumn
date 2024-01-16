@@ -51,7 +51,9 @@ class SiteLocators(BasePageLocators):
         '//*[contains(@class, "RightSidebar")]//div[contains(@class, "vkuiFormItem")]/div[contains(@class, "vkuiCustomSelect")]',
     )
     CATEGORY_BUY_OPTION = (
-        By.XPATH, '//div[contains(@class, "vkuiPopper")]//*[contains(text(),"Покупка")]')
+        By.XPATH,
+        '//div[contains(@class, "vkuiPopper")]//*[contains(text(),"Покупка")]',
+    )
     CONDITION_OPTION = (By.XPATH, '//*[contains(text(),"Посещена страница")]')
     URL_INPUT = (By.XPATH, '//input[@type="text"]')
 
@@ -79,4 +81,7 @@ class SiteLocators(BasePageLocators):
 
     PIXEL_ID = (By.XPATH, '//*[contains(text(),"Создан ID")]')
 
-    SETTINGS_PAGE_ELEMENT = (By.XPATH, '//*[contains(text(), "Синхронизация пользователей")]')
+    SETTINGS_PAGE_ELEMENT = (
+        By.XPATH,
+        '//*[contains(text(), "Синхронизация пользователей")]',
+    )

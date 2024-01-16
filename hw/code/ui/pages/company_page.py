@@ -80,11 +80,10 @@ class CompanyPage(BasePage):
         return "disabled" not in str(selector.get_attribute("outerHTML"))
 
     def select_action_list(self, timeout=WaitTime.SUPER_LONG_WAIT):
-        self.wait(timeout).until(
-            lambda _: self.is_action_active()
-        )
+        self.wait(timeout).until(lambda _: self.is_action_active())
         self.search_action_click_not_clickable(
-            self.locators.ACTION_SELECTOR, timeout=timeout)
+            self.locators.ACTION_SELECTOR, timeout=timeout
+        )
         return self
 
     def select_action_list_without_wait(self):
@@ -93,7 +92,8 @@ class CompanyPage(BasePage):
 
     def select_delete_action(self, timeout=WaitTime.SUPER_LONG_WAIT):
         self.search_action_click_not_clickable(
-            self.locators.DELETE_ACTION, timeout=timeout)
+            self.locators.DELETE_ACTION, timeout=timeout
+        )
         return self
 
     def group_view(self, timeout=None):
@@ -199,9 +199,7 @@ class CompanyPage(BasePage):
                 break
 
         self.wait(WaitTime.LONG_WAIT).until_not(
-            EC.presence_of_element_located(
-                self.locators.COMPANY_NUMBER_PLACE
-            )
+            EC.presence_of_element_located(self.locators.COMPANY_NUMBER_PLACE)
         )
 
         return self

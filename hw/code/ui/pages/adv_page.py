@@ -73,7 +73,8 @@ class AdvPage(BasePage):
 
     def write_to_inputs(self, text: str):
         inputs = self.multiple_find(
-            self.locators.TEXT_INPUTS, WaitTime.MEDIUM_WAIT)
+            self.locators.TEXT_INPUTS, WaitTime.MEDIUM_WAIT
+        )
 
         for i in inputs:
             self.send_keys_with_enter(i, text)
@@ -134,7 +135,9 @@ class AdvPage(BasePage):
         return self
 
     def select_media_options(self, options=BASE_POSITIONS.first_search_pos):
-        self.search_action_click(self.locators.MEDIA_OPTIONS, options, WaitTime.SUPER_LONG_WAIT)
+        self.search_action_click(
+            self.locators.MEDIA_OPTIONS, options, WaitTime.SUPER_LONG_WAIT
+        )
         return self
 
     def add_media_option(self):
