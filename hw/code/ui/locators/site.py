@@ -79,4 +79,4 @@ class SiteLocators(BasePageLocators):
 
     PIXEL_ID = (By.XPATH, '//*[contains(text(),"Создан ID")]')
 
-    SETTINGS_PAGE_ELEMENT = (By.XPATH, '//*[contains(text(), "Код пикселя")]')
+    SETTINGS_PAGE_ELEMENT = (By.XPATH, '//*[contains(text(), "Синхронизация пользователей")]')

@@ -128,12 +128,12 @@ class GroupAdvPage(BasePage):
 
     def _click_until_key_region_visible(self, timeout):
         self.search_action_click(
-            self.locators.KEY_PHRASES,
-            POSITIONS_GROUP.key_phrase_region,
-            timeout
+            locator=self.locators.KEY_PHRASES,
+            timeout=timeout
         )
         try:
-            self.find(self.locators.KEY_PHRASE_INPUTS, WaitTime.SHORT_WAIT)
+            self.wait(WaitTime.SHORT_WAIT).until(
+                EC.visibility_of_all_elements_located(self.locators.KEY_PHRASE_INPUTS))
             return True
         except TimeoutException:
             return False

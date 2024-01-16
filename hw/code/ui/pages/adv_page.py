@@ -134,7 +134,7 @@ class AdvPage(BasePage):
         return self
 
     def select_media_options(self, options=BASE_POSITIONS.first_search_pos):
-        self.search_action_click(self.locators.MEDIA_OPTIONS, options)
+        self.search_action_click(self.locators.MEDIA_OPTIONS, options, WaitTime.SUPER_LONG_WAIT)
         return self
 
     def add_media_option(self):

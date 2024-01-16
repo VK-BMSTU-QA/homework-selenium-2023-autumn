@@ -43,7 +43,7 @@ class GroupAdvLocators(BasePageLocators):
     INTEREST_REGION = (By.XPATH, '//*[@data-testid="section-interests"]')
 
     KEY_PHRASES = (
-        By.XPATH, '//*[contains(@class, "InterestsSubSection")]//div[@role="button"]')
+        By.XPATH, '//*[contains(@class, "InterestsSubSection")]//div[@role="button"]//*[contains(text(), "Ключевые фразы")]')
     KEY_PHRASES_REGION = (
         By.XPATH,
         '//*[contains(@class, "InterestsSubSection_content")]',
