@@ -12,6 +12,7 @@ from ui.pages.consts import (
     MarketPlaceApiInput,
 )
 
+LOW_TIMEOUT = 10
 TIMEOUT = 30
 
 strftime("%Y-%m-%d %H:%M:%S", gmtime())
@@ -103,7 +104,7 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
         cookies_and_local_storage,
     ):
         center_of_commerce_page.go_to_create_feed_catalog(TIMEOUT)
-        center_of_commerce_page.try_close_study_banner()
+        center_of_commerce_page.try_close_study_banner(LOW_TIMEOUT)
         center_of_commerce_page.set_refresh_period(period, TIMEOUT)
 
         assert (
@@ -399,8 +400,8 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
         file_path = os.path.join(mock_files, file)
         center_of_commerce_page.fill_file_input(file_path, TIMEOUT)
         with pytest.raises(TimeoutException):
-            center_of_commerce_page.find_file_downloading_error(10)
+            center_of_commerce_page.find_file_uploading_error(10)
 
         assert (
-            center_of_commerce_page.find_downloaded_file(TIMEOUT) is not None
+            center_of_commerce_page.find_uploaded_file(file, TIMEOUT) is not None
         )

@@ -108,7 +108,9 @@ def get_driver(browser, service, config, download_directory):
         driver = webdriver.Chrome(options=options, service=service)
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
-
+    
+    driver.set_window_size(2048, 1536)
+    
     # Setup
     return driver
 
