@@ -64,7 +64,7 @@ class NewCompanyPage(BasePage):
 
     def select_pred_cost(self):
         elements = self.find(self.locators.PRED_STRATEGY)
-        self.action_click(elements)
+        self.click(elements)
 
         return self
 

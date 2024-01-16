@@ -327,7 +327,9 @@ class AudiencePage(BasePage):
                     WaitTime.SHORT_WAIT,
                 )
 
-                delete_button = self.multiple_find(self.locators.MODAL_BUTTONS)[  # type: ignore
+                delete_button = self.multiple_find(
+                    self.locators.MODAL_BUTTONS
+                    )[  # type: ignore
                     POSITIONS_SITE.delete_modal_btn
                 ]
                 self.action_click(delete_button)

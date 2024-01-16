@@ -123,12 +123,14 @@ class GroupAdvPage(BasePage):
     def click_interest_region(self, timeout=WaitTime.LONG_WAIT):
         self.wait(timeout).until(
             lambda _: self._click_until_regions_visible(timeout))
-        
+
         return self
 
     def _click_until_key_region_visible(self, timeout):
         self.search_action_click(
-            self.locators.KEY_PHRASES, POSITIONS_GROUP.key_phrase_region, timeout
+            self.locators.KEY_PHRASES,
+            POSITIONS_GROUP.key_phrase_region,
+            timeout
         )
         try:
             self.find(self.locators.KEY_PHRASE_INPUTS, WaitTime.SHORT_WAIT)
@@ -137,8 +139,10 @@ class GroupAdvPage(BasePage):
             return False
 
     def click_key_phrases(self, timeout=WaitTime.SUPER_LONG_WAIT):
-        self.wait(timeout).until(lambda _: self._click_until_key_region_visible(timeout))
-        
+        self.wait(timeout).until(
+            lambda _: self._click_until_key_region_visible(timeout)
+            )
+
         return self
 
     def send_key_phrases(self, text: str, timeout=WaitTime.LONG_WAIT):
