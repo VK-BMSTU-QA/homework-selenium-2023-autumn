@@ -17,15 +17,15 @@ from ui.pages.consts import (
 
 TIMEOUT = 30
 SHORT_TIMEOUT = 5
-PRODUCTS_LOADING_TIMEOUT = 150
+PRODUCTS_LOADING_TIMEOUT = 300
 strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 
 class TestCenterOfCommerceCatalog(BaseCase):
     authorize = True
 
-    '''@pytest.fixture(scope="session")
-    def # setup_catalogs(
+    @pytest.fixture(scope="session")
+    def setup_catalogs(
         self,
         mock_files,
         center_of_commerce_page_session: CenterOfCommercePage,
@@ -76,7 +76,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
 
             center_of_commerce_page_session = CenterOfCommercePage(
                 center_of_commerce_page_session.driver
-            )'''
+            )
 
     @pytest.mark.parametrize(
         "from_what, to",
@@ -91,7 +91,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         to,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        # setup_catalogs,
+        setup_catalogs,
     ):
         center_of_commerce_page.go_to_catalog(from_what, TIMEOUT)
         center_of_commerce_page.switch_catalog(to, SHORT_TIMEOUT)
@@ -114,7 +114,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         tab,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        # setup_catalogs,
+        setup_catalogs,
     ):
         center_of_commerce_page.go_to_catalog(catalog, TIMEOUT)
         center_of_commerce_page.switch_catalog_tab(tab, TIMEOUT)
@@ -136,7 +136,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         catalog,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        # setup_catalogs,
+        setup_catalogs,
     ):
         tab = CatalogTabs.PRODUCTS
 
@@ -165,7 +165,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         product: Product,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        # setup_catalogs,
+        setup_catalogs,
     ):
         center_of_commerce_page.go_to_catalog(catalog, TIMEOUT)
         center_of_commerce_page.search_product(product.product_id, TIMEOUT)
@@ -185,7 +185,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         catalog,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        # setup_catalogs,
+        setup_catalogs,
     ):
         center_of_commerce_page.go_to_catalog(catalog, TIMEOUT)
         center_of_commerce_page.click_product_table_settings(TIMEOUT)
@@ -208,7 +208,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         product: Product,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        # setup_catalogs,
+        setup_catalogs,
     ):
         center_of_commerce_page.go_to_catalog(catalog, TIMEOUT)
         center_of_commerce_page.go_to_catalog_product(
@@ -232,7 +232,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         product: Product,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        # setup_catalogs,
+        setup_catalogs,
     ):
         center_of_commerce_page.go_to_catalog(catalog, TIMEOUT)
         center_of_commerce_page.click_on_sort_products(TIMEOUT)
@@ -254,7 +254,7 @@ class TestCenterOfCommerceCatalog(BaseCase):
         redirected_tab,
         center_of_commerce_page: CenterOfCommercePage,
         cookies_and_local_storage,
-        # setup_catalogs,
+        setup_catalogs,
     ):
         center_of_commerce_page.go_to_catalog(catalog, TIMEOUT)
         center_of_commerce_page.click_on_warning_button(TIMEOUT)

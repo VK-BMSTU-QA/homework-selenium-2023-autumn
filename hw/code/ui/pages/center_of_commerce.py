@@ -1,4 +1,5 @@
 import os
+from sqlite3 import Time
 import time
 from typing import List
 
@@ -75,12 +76,6 @@ class CenterOfCommercePage(BasePage):
             self.locators.CATALOG_ERROR_WITH_MINIMUM_THREE_PRODUCTS, timeout
         )
 
-    def find_clear_utm_checkbox(self, timeout=None) -> WebElement:
-        return self.find(self.locators.CATALOG_CLEAR_UTM_CHECKBOX_OFF, timeout)
-
-    def find_api_key_input(self, placeholder, timeout=None) -> WebElement:
-        return self.find_with_text(INPUT, placeholder, timeout)
-
     def find_element_with_text(self, element, text, timeout=None):
         return self.find_with_text(element, text, timeout)
 
@@ -117,24 +112,18 @@ class CenterOfCommercePage(BasePage):
         return self.find(self.locators.COMPANY_SETTING, timeout)
 
     def find_product_widget_by_title(self, title, timeout=None) -> WebElement:
-        return self.find_h2_with_text(title, timeout)
+        return self.find_element_with_text('*', title, timeout)
 
     def find_table_settings_title(self, timeout=None) -> WebElement:
         return self.find_with_text(
-            SPAN, CENTER_OF_COMMERCE_TABLE_SETTINGS, timeout
+            '*', CENTER_OF_COMMERCE_TABLE_SETTINGS, timeout
         )
 
-    def find_h2_with_text(self, text, timeout=None) -> WebElement:
-        return self.find(self.locators.H2_WITH_TEXT(text), timeout)
-
     def find_product_by_title(self, text, timeout=None) -> WebElement:
-        return self.find_with_text_and_class(SPAN, text, TITLE_CLASS, timeout)
+        return self.find_with_text('*', text, timeout)
 
     def find_product_by_id(self, product_id, timeout=None) -> WebElement:
         return self.find(self.locators.PRODUCT_ID_SVG(product_id), timeout)
-
-    def find_catalog_by_title(self, title, timeout=None):
-        return self.find_element_with_text("span", title, timeout)
 
     def redirect_to_products_and_find_checkbox_select_products(
         self, timeout, short_timeout=None
@@ -177,7 +166,7 @@ class CenterOfCommercePage(BasePage):
 
     def find_by_period(self, period, timeout=None):
         return self.find_with_text(
-            "span", self._period_selector(period), timeout
+            "*", self._period_selector(period), timeout
         )
 
     # fill methods
@@ -215,9 +204,6 @@ class CenterOfCommercePage(BasePage):
             self.locators.CATALOG_TITLE_INPUT, timeout=timeout
         )
 
-    def clear_title_input(self, timeout=None):
-        self.clear(self.locators.CATALOG_TITLE_INPUT, timeout)
-
     # click methods
 
     def click_on_tab(self, type: str, timeout=None):
@@ -252,9 +238,7 @@ class CenterOfCommercePage(BasePage):
         self.click(self.locators.PRODUCTS_TABLE_SETTINGS_BUTTON, timeout)
 
     def click_on_product_by_title(self, title, timeout=None) -> WebElement:
-        return self.click_element_with_text_and_class(
-            SPAN, title, TITLE_CLASS, timeout
-        )
+        return self.click_element_with_text('*', title, timeout)
 
     def click_on_sort_products(self, timeout=None) -> WebElement:
         self.hover_on_element(self.locators.PRODUCT_TABLE_HEADER, timeout)
@@ -328,13 +312,14 @@ class CenterOfCommercePage(BasePage):
 
     def search_product(self, product_id: int, timeout=None):
         self.search(
-            self.locators.SEARCH_CATALOG_BY_CLASS(SEARCH_PRODUCT_CLASS),
+            self.locators.SEARCH_CATALOG,
             str(product_id),
             timeout,
         )
 
     def set_refresh_period(self, period: str, timeout=None):
-        self.find_element_with_text('*', self.PERIODS.EVERYDAY, timeout).click()
+        el = self.find_element_with_text('*', self._period_selector(self.PERIODS.EVERYDAY), timeout)
+        self.action_click(el)
         match period:
             case self.PERIODS.EVERYDAY:
                 self.click(self.locators.CATALOG_PERIOD_EVERYDAY, timeout)
@@ -375,9 +360,7 @@ class CenterOfCommercePage(BasePage):
             title,
             timeout,
         )
-        return self.click_element_with_text_and_class(
-            SPAN, title, CONTENT_CLASS, timeout
-        )
+        return self.click(self.locators.CATALOG_SWITCH_IN_CATALOG(title), timeout)
 
     def switch_catalog_tab(self, tab, timeout=None) -> WebElement:
         elem = self.find(
