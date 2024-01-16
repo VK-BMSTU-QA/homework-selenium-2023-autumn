@@ -238,6 +238,7 @@ class URLS:
     redirect_url_err = "Ссылка содержит запрещённый редирект на домен"
 
     correct_url_text = "https://vk.com/"
+    url_register_pixel = "https://chat.openai.com"
     vk_group_url = "vk.com/vkeducation"
     vk_group_incorrect_url = "https://vk.com/sweetmarin"
 

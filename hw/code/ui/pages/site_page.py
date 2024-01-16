@@ -31,14 +31,14 @@ class SitePage(BasePage):
     def is_domen_input_exist(self):
         return bool(self.find(self.locators.INPUT_DOMEN))
 
-    def create_pixel(self, site=URLS.test_site):
+    def create_pixel(self, site=URLS.url_register_pixel):
         self.click_add_button()
 
         input = self.find(self.locators.INPUT_DOMEN, WaitTime.SHORT_WAIT)
         self.send_keys_with_enter(input, site)
 
         self.search_action_click(self.locators.ADD_BUTTON_MODAL)
-        if self.is_on_site_text(LABELS.pixel_found, WaitTime.SUPER_LONG_WAIT):
+        if self.is_on_site_text(LABELS.pixel_found, WaitTime.LONG_WAIT):
             self.search_action_click(self.locators.CREATE_NEW_PIXEL_REGION)
 
         value = self.find(self.locators.PIXEL_ID, WaitTime.LONG_WAIT)

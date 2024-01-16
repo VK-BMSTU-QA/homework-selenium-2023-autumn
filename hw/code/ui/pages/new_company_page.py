@@ -50,7 +50,7 @@ class NewCompanyPage(BasePage):
 
     def click_selector_strategy(self):
         selector = self.find(
-            self.locators.SELECTOR_STRATEGY, WaitTime.SHORT_WAIT
+            self.locators.SELECTOR_STRATEGY, WaitTime.MEDIUM_WAIT
         )
         self.action_click(selector)
 
@@ -63,8 +63,8 @@ class NewCompanyPage(BasePage):
         return self
 
     def select_pred_cost(self):
-        elements = self.find(self.locators.PRED_STRATEGY)
-        self.click(elements)
+        element = self.find(self.locators.PRED_STRATEGY, WaitTime.MEDIUM_WAIT)
+        self.click(element)
 
         return self
 
