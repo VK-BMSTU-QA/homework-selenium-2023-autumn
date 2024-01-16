@@ -17,7 +17,7 @@ from ui.pages.consts import (
 
 TIMEOUT = 30
 SHORT_TIMEOUT = 5
-PRODUCTS_LOADING_TIMEOUT = 300
+PRODUCTS_LOADING_TIMEOUT = 500
 strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 
