@@ -97,13 +97,13 @@ class CenterOfCommercePage(BasePage):
             self.locators.CATALOG_CATEGORY_ON_DOWNLOAD(category), timeout
         )
 
-    def find_file_downloading_error(self, timeout=None):
+    def find_file_uploading_error(self, timeout=None):
         return self.find(
             self.locators.FILE_DOWNLOADING_ERROR_NOTIFICATION, timeout
         )
 
-    def find_downloaded_file(self, timeout=None):
-        return self.find(self.locators.DOWNLOADED_FILE, timeout)
+    def find_uploaded_file(self, file: str, timeout=None):
+        return self.find_element_with_text("*", file, timeout)
 
     def find_catalog_tabs(self, timeout=None):
         return self.find(self.locators.CATALOG_TABS, timeout)
@@ -317,7 +317,7 @@ class CenterOfCommercePage(BasePage):
         title = self.to_page_catalog_title(title)
         self.close_banner()
         self.search_catalog(title, timeout)
-        self.click_on_element_with_text(SPAN, title, timeout)
+        self.click_on_element_with_text('*', title, timeout)
 
     def go_to_catalog_product(self, product_id, product_title, timeout=None):
         self.search_catalog(product_id, timeout)
@@ -334,7 +334,7 @@ class CenterOfCommercePage(BasePage):
         )
 
     def set_refresh_period(self, period: str, timeout=None):
-        self.click(self.locators.CATALOG_SELECT_TITLE, timeout)
+        self.find_element_with_text('*', self.PERIODS.EVERYDAY, timeout).click()
         match period:
             case self.PERIODS.EVERYDAY:
                 self.click(self.locators.CATALOG_PERIOD_EVERYDAY, timeout)
@@ -346,7 +346,7 @@ class CenterOfCommercePage(BasePage):
                 self.click(self.locators.CATALOG_PERIOD_EVERY8HOURS, timeout)
 
     def set_category(self, category: str, timeout=None):
-        self.click(self.locators.CATALOG_SELECT_TITLE)
+        self.action_click(self.find(self.locators.CATALOG_SELECT_CATEGORY, timeout))
         if category != "Товары":
             self.click(self.locators.CATALOG_CATEGORY(category), timeout)
 

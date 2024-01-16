@@ -47,7 +47,8 @@ class CenterOfCommerceLocators:
         By.XPATH,
         "//span[contains(@data-testid, 'catalogPeriod-select')]",
     )
-    CATALOG_SELECT_TITLE = (By.CLASS_NAME, "vkuiSelect__title")
+
+    CATALOG_SELECT_CATEGORY = (By.XPATH, "//*[contains(@class, 'SelectInput')]//*[text()='Товары']")
     CATALOG_PERIOD_EVERYDAY = (By.XPATH, '//div[text()="Ежедневно"]')
     CATALOG_PERIOD_EVERYHOUR = (By.XPATH, '//div[text()="1 час"]')
     CATALOG_PERIOD_EVERY4HOURS = (By.XPATH, '//div[text()="4 часа"]')
@@ -77,7 +78,7 @@ class CenterOfCommerceLocators:
         By.XPATH,
         f'//span[contains(., "{category}") and @class="vkuiButton__content"]',
     )
-    MANUAL_FILE_INPUT = (By.CLASS_NAME, "vkuiFile__input")
+
     FILE_DOWNLOADING_ERROR_NOTIFICATION = (
         By.CLASS_NAME,
         "Snackbar_text__pDXKB",

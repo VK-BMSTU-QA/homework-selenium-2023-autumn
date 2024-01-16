@@ -399,8 +399,8 @@ class TestCenterOfCommerceCatalogCreation(BaseCase):
         file_path = os.path.join(mock_files, file)
         center_of_commerce_page.fill_file_input(file_path, TIMEOUT)
         with pytest.raises(TimeoutException):
-            center_of_commerce_page.find_file_downloading_error(10)
+            center_of_commerce_page.find_file_uploading_error(10)
 
         assert (
-            center_of_commerce_page.find_downloaded_file(TIMEOUT) is not None
+            center_of_commerce_page.find_uploaded_file(file, TIMEOUT) is not None
         )
